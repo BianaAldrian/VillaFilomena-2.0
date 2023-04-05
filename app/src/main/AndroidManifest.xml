@@ -12,7 +12,13 @@
         android:theme="@style/Theme.VillaFilomena"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".ContinueAs"
+            android:exported="false" />
+        <activity
+            android:name=".TermsCondition"
+            android:exported="false" />
+        <activity
+            android:name=".SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background1"
+    android:gravity="center_horizontal"
+    tools:context=".ContinueAs">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp"
+        android:text="CONTINUE AS:"
+        android:textColor="#000000"
+        android:textSize="28sp"
+        android:fontFamily="@font/eb_garamond_bold"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="250dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/eb_garamond_semi_bold"
+        android:background="@drawable/btn_bg"
+        android:textSize="20sp"
+        android:textColor="#000000"
+        android:text="GUEST"/>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="250dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/eb_garamond_semi_bold"
+        android:background="@drawable/btn_bg"
+        android:textSize="20sp"
+        android:textColor="#000000"
+        android:text="FRONT DESK" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="250dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/eb_garamond_semi_bold"
+        android:background="@drawable/btn_bg"
+        android:textSize="20sp"
+        android:textColor="#000000"
+        android:text="MANAGER" />
+
+</LinearLayout>
