@@ -4,50 +4,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/background1"
     android:gravity="center_horizontal"
+    android:orientation="vertical"
     tools:context=".ContinueAs">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/eb_garamond_bold"
         android:text="CONTINUE AS:"
         android:textColor="#000000"
-        android:textSize="28sp"
-        android:fontFamily="@font/eb_garamond_bold"/>
+        android:textSize="28sp" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="250dp"
         android:layout_height="65dp"
         android:layout_marginTop="50dp"
-        android:fontFamily="@font/eb_garamond_semi_bold"
         android:background="@drawable/btn_bg"
-        android:textSize="20sp"
+        android:fontFamily="@font/eb_garamond_semi_bold"
+        android:text="GUEST"
         android:textColor="#000000"
-        android:text="GUEST"/>
+        android:textSize="20sp" />
 
 
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="250dp"
         android:layout_height="65dp"
         android:layout_marginTop="20dp"
-        android:fontFamily="@font/eb_garamond_semi_bold"
         android:background="@drawable/btn_bg"
-        android:textSize="20sp"
+        android:fontFamily="@font/eb_garamond_semi_bold"
+        android:text="FRONT DESK"
         android:textColor="#000000"
-        android:text="FRONT DESK" />
+        android:textSize="20sp" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="250dp"
         android:layout_height="65dp"
         android:layout_marginTop="20dp"
-        android:fontFamily="@font/eb_garamond_semi_bold"
         android:background="@drawable/btn_bg"
-        android:textSize="20sp"
+        android:fontFamily="@font/eb_garamond_semi_bold"
+        android:text="MANAGER"
         android:textColor="#000000"
-        android:text="MANAGER" />
+        android:textSize="20sp" />
 
 </LinearLayout>

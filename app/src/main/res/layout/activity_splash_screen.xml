@@ -4,24 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/background"
+    android:orientation="vertical"
     tools:context=".SplashScreen">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:src="@drawable/logo"
-        android:layout_marginTop="200dp"/>
+        android:layout_marginTop="200dp"
+        android:src="@drawable/logo" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Welcome"
-        android:gravity="center"
         android:layout_marginTop="50dp"
         android:fontFamily="@font/beaurivage_regular"
-        android:textSize="80sp"
-        android:textColor="#F5F5F5"/>
+        android:gravity="center"
+        android:text="Welcome"
+        android:textColor="#F5F5F5"
+        android:textSize="80sp" />
 
 </LinearLayout>
