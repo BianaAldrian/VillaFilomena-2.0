@@ -17,122 +17,152 @@
         <!--start of 1-->
         <LinearLayout
             android:id="@+id/manager_guestHomepage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="20dp">
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/cardview_bg"
+            android:gravity="center"
+            android:orientation="vertical">
 
             <ImageView
 
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:src="@drawable/logo"/>
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:src="@drawable/logo" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="GUEST HOMEPAGE"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:fontFamily="@font/eb_garamond_regular"
+                android:textColor="#131212"
+                android:textSize="24sp"
+                android:text="GUEST HOMEPAGE" />
         </LinearLayout>
         <!--end of 1-->
 
         <!--start of 2-->
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="20dp">
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/cardview_bg"
+            android:gravity="center"
+            android:orientation="vertical">
 
             <ImageView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:src="@drawable/logo"/>
+                android:layout_width="250dp"
+                android:layout_height="230dp"
+                android:src="@drawable/room"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="ROOM &amp; COTTAGE DETAILS"
+                android:fontFamily="@font/eb_garamond_regular"
+                android:textColor="#131212"
+                android:textSize="24sp"
                 android:gravity="center"/>
         </LinearLayout>
         <!--end of 2-->
 
         <!--start of 3-->
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="20dp">
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/cardview_bg"
+            android:gravity="center"
+            android:orientation="vertical">
 
             <ImageView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:src="@drawable/logo"/>
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:src="@drawable/employee"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="EMPLOYEE"
+                android:fontFamily="@font/eb_garamond_regular"
+                android:textColor="#131212"
+                android:textSize="24sp"
                 android:gravity="center"/>
         </LinearLayout>
         <!--end of 3-->
 
         <!--start of 4-->
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="20dp">
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/cardview_bg"
+            android:gravity="center"
+            android:orientation="vertical">
 
             <ImageView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:src="@drawable/logo"/>
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:src="@drawable/sales_report"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="SALES REPORT"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:fontFamily="@font/eb_garamond_regular"
+                android:textColor="#131212"
+                android:textSize="24sp"/>
         </LinearLayout>
         <!--end of 4-->
 
         <!--start of 5-->
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="20dp">
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/cardview_bg"
+            android:gravity="center"
+            android:orientation="vertical">
 
             <ImageView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:src="@drawable/logo"/>
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:src="@drawable/transaction_history"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="TRANSACTION HISTORY"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:fontFamily="@font/eb_garamond_regular"
+                android:textColor="#131212"
+                android:textSize="24sp"/>
         </LinearLayout>
         <!--end of 5-->
 
         <!--start of 6-->
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="20dp">
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/cardview_bg"
+            android:gravity="center"
+            android:orientation="vertical">>
 
             <ImageView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:src="@drawable/logo"/>
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:src="@drawable/rates"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="RATE &amp; FEEDBACK"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:fontFamily="@font/eb_garamond_regular"
+                android:textColor="#131212"
+                android:textSize="24sp"/>
         </LinearLayout>
         <!--end of 6-->
 
