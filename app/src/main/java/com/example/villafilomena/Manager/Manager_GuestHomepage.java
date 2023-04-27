@@ -2,8 +2,10 @@ package com.example.villafilomena.Manager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,6 +46,22 @@ public class Manager_GuestHomepage extends AppCompatActivity {
         });
 
         editBanner.setOnClickListener(v -> {
+            Dialog dialog = new Dialog(this);
+            dialog.setContentView(R.layout.popup_edit_banner_page);
+
+            Button upload = dialog.findViewById(R.id.manager_popupUploadBanner);
+            ImageView close = dialog.findViewById(R.id.manager_popupClose);
+
+            upload.setOnClickListener(v1 -> {
+
+            });
+
+            close.setOnClickListener(v1 -> {
+                dialog.hide();
+            });
+
+            dialog.show();
+
         });
 
         editIntro.setOnClickListener(v -> {

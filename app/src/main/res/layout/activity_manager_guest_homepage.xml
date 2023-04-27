@@ -70,9 +70,8 @@
                 android:layout_height="wrap_content"
                 android:text="Edit"
                 android:textColor="#0433D9"
+                android:visibility="gone"
                 android:textSize="18sp"/>
-                android:text="Edit"
-                android:visibility="gone"/>
         </LinearLayout>
 
         <ImageView
@@ -102,9 +101,9 @@
                 android:text="Edit"
                 android:layout_marginRight="50dp"
                 android:textColor="#0433D9"
-                android:textSize="18sp"/>
-                android:text="Edit"
+                android:textSize="18sp"
                 android:visibility="gone"/>
+
         </LinearLayout>
 
         <TextView
