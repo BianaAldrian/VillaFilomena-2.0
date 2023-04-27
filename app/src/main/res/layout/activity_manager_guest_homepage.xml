@@ -60,7 +60,7 @@
                 android:layout_marginLeft="10dp"
                 android:text="Banner"
                 android:textSize="20sp"
-                android:fontFamily="@font/balsamiq_sans_bold"
+                android:fontFamily="@font/balsamiqsans_bold"
                 android:textColor="@color/black"
                 android:layout_weight="1" />
 
@@ -90,7 +90,7 @@
                 android:layout_marginLeft="80dp"
                 android:text="Introduction"
                 android:textSize="20sp"
-                android:fontFamily="@font/balsamiq_sans_bold"
+                android:fontFamily="@font/balsamiqsans_bold"
                 android:textColor="@color/black"
                 android:layout_weight="1"/>
 
@@ -111,7 +111,7 @@
             android:layout_height="wrap_content"
             android:text="Find your own quiet haven. The Villa Filomena Resort in Cavite, Philippines is situated on the alpines of South Cavite. This Natural Spring resort is an exclusive resort placing emphasis on your comfort and solitude."
             android:textSize="18sp"
-            android:fontFamily="@font/balsamiq_sans"
+            android:fontFamily="@font/balsamiqsans_bold"
             android:textColor="@color/black"
             android:gravity="center"/>
 
