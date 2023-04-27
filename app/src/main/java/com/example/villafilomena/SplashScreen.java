@@ -24,7 +24,7 @@ public class SplashScreen extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
 
         //this token is for github account
-        //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
+        //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
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String IP = preferences.getString("IP", "").trim();

@@ -35,6 +35,13 @@
                 android:layout_height="40dp"
                 android:src="@drawable/edit"/>
 
+            <ImageView
+                android:id="@+id/guestHomepage_save"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/save"
+                android:visibility="gone"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -51,7 +58,8 @@
                 android:id="@+id/guestHomepage_editBanner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Edit"/>
+                android:text="Edit"
+                android:visibility="gone"/>
         </LinearLayout>
 
         <ImageView
@@ -73,7 +81,8 @@
                 android:id="@+id/guestHomepage_editIntro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Edit"/>
+                android:text="Edit"
+                android:visibility="gone"/>
         </LinearLayout>
 
         <TextView
@@ -97,7 +106,8 @@
                 android:id="@+id/guestHomepage_editVideo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Edit"/>
+                android:text="Edit"
+                android:visibility="gone"/>
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -118,7 +128,8 @@
                 android:id="@+id/guestHomepage_editImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Edit"/>
+                android:text="Edit"
+                android:visibility="gone"/>
 
         </LinearLayout>
 

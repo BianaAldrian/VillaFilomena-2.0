@@ -2,6 +2,7 @@ package com.example.villafilomena.Manager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -19,7 +20,7 @@ public class Manager_Dashboard extends AppCompatActivity {
         guestHomepage = findViewById(R.id.manager_guestHomepage);
 
         guestHomepage.setOnClickListener(v -> {
-
+            startActivity(new Intent(this, Manager_GuestHomepage.class));
         });
     }
 }
