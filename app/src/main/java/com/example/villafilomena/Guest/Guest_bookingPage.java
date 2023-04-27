@@ -19,6 +19,8 @@ public class Guest_bookingPage extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_guest_booking_page, container, false);
 
+        
+
         return view;
     }
 }

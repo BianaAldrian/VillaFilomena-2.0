@@ -20,6 +20,7 @@
         android:textSize="28sp" />
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnGuest"
         android:layout_width="250dp"
         android:layout_height="65dp"
         android:layout_marginTop="50dp"
@@ -31,6 +32,7 @@
 
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnFrontdesk"
         android:layout_width="250dp"
         android:layout_height="65dp"
         android:layout_marginTop="20dp"
@@ -41,6 +43,7 @@
         android:textSize="20sp" />
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnManager"
         android:layout_width="250dp"
         android:layout_height="65dp"
         android:layout_marginTop="20dp"
