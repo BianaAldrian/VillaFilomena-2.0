@@ -4,25 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background1"
-    android:gravity="center"
     android:orientation="vertical"
+    android:gravity="center"
+    android:background="@drawable/background1"
     tools:context=".Manager.Manager_Dashboard">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="@drawable/header"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@drawable/header">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/beaurivage_regular"
             android:gravity="center"
-            android:text="Villa Filomena Natural Spring Resort"
+            android:fontFamily="@font/beaurivage_regular"
             android:textColor="#FFFFFF"
-            android:textSize="55sp" />
+            android:textSize="55sp"
+            android:text="Villa Filomena Natural Spring Resort" />
 
     </LinearLayout>
 
@@ -34,8 +34,8 @@
         <!--start of 1-->
         <LinearLayout
             android:id="@+id/manager_guestHomepage"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
             android:layout_margin="20dp"
             android:background="@drawable/cardview_bg"
             android:gravity="center"
@@ -43,27 +43,25 @@
 
             <ImageView
 
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
                 android:src="@drawable/logo" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/eb_garamond_regular"
                 android:gravity="center"
-                android:text="GUEST HOMEPAGE"
+                android:fontFamily="@font/eb_garamond_regular"
                 android:textColor="#131212"
-                android:textSize="20sp"
+                android:textSize="24sp"
                 android:text="GUEST HOMEPAGE" />
-                android:textSize="24sp" />
         </LinearLayout>
         <!--end of 1-->
 
         <!--start of 2-->
         <LinearLayout
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
             android:layout_margin="20dp"
             android:background="@drawable/cardview_bg"
             android:gravity="center"
@@ -72,28 +70,23 @@
             <ImageView
                 android:layout_width="250dp"
                 android:layout_height="230dp"
-                android:src="@drawable/room" />
-                android:layout_width="150dp"
-                android:layout_height="150dp"
                 android:src="@drawable/room"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/eb_garamond_regular"
-                android:gravity="center"
                 android:text="ROOM &amp; COTTAGE DETAILS"
+                android:fontFamily="@font/eb_garamond_regular"
                 android:textColor="#131212"
-                android:textSize="24sp" />
-                android:textSize="20sp"
+                android:textSize="24sp"
                 android:gravity="center"/>
         </LinearLayout>
         <!--end of 2-->
 
         <!--start of 3-->
         <LinearLayout
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
             android:layout_margin="20dp"
             android:background="@drawable/cardview_bg"
             android:gravity="center"
@@ -102,20 +95,15 @@
             <ImageView
                 android:layout_width="250dp"
                 android:layout_height="250dp"
-                android:src="@drawable/employee" />
-                android:layout_width="150dp"
-                android:layout_height="150dp"
                 android:src="@drawable/employee"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/eb_garamond_regular"
-                android:gravity="center"
                 android:text="EMPLOYEE"
+                android:fontFamily="@font/eb_garamond_regular"
                 android:textColor="#131212"
-                android:textSize="24sp" />
-                android:textSize="20sp"
+                android:textSize="24sp"
                 android:gravity="center"/>
         </LinearLayout>
         <!--end of 3-->
@@ -132,39 +120,32 @@
             <ImageView
                 android:layout_width="250dp"
                 android:layout_height="250dp"
-                android:src="@drawable/sales_report" />
-                android:layout_width="150dp"
-                android:layout_height="150dp"
                 android:src="@drawable/sales_report"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/eb_garamond_regular"
-                android:gravity="center"
                 android:text="SALES REPORT"
+                android:gravity="center"
+                android:fontFamily="@font/eb_garamond_regular"
                 android:textColor="#131212"
-                android:textSize="24sp" />
-                android:textSize="20sp"/>
+                android:textSize="24sp"/>
         </LinearLayout>
         <!--end of 4-->
 
         <!--start of 5-->
         <LinearLayout
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
             android:layout_margin="20dp"
             android:background="@drawable/cardview_bg"
             android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:src="@drawable/transaction_history"/>
                 android:layout_width="250dp"
                 android:layout_height="250dp"
-                android:src="@drawable/transaction_history" />
+                android:src="@drawable/transaction_history"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -189,20 +170,16 @@
             <ImageView
                 android:layout_width="250dp"
                 android:layout_height="250dp"
-                android:src="@drawable/rates" />
-                android:layout_width="150dp"
-                android:layout_height="150dp"
                 android:src="@drawable/rates"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/eb_garamond_regular"
-                android:gravity="center"
                 android:text="RATE &amp; FEEDBACK"
+                android:gravity="center"
+                android:fontFamily="@font/eb_garamond_regular"
                 android:textColor="#131212"
-                android:textSize="24sp" />
-                android:textSize="20sp"/>
+                android:textSize="24sp"/>
         </LinearLayout>
         <!--end of 6-->
 
@@ -215,14 +192,10 @@
         android:layout_marginEnd="50dp"
         android:layout_marginBottom="5dp"
         android:orientation="horizontal">
-
+        
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@drawable/signout" />
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="5dp"
             android:background="@drawable/signout"/>
 
         <TextView

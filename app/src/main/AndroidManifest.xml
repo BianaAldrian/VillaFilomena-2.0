@@ -18,6 +18,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Manager.manager_room_cottage_details1"
+            android:exported="false" />
+        <activity
             android:name=".Manager.Manager_GuestHomepage"
             android:exported="false" />
         <activity
