@@ -75,6 +75,7 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/guestHomepage_bannerImage"
             android:layout_width="400dp"
             android:layout_height="250dp"
             android:src="@drawable/banner"/>
@@ -124,7 +125,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Videos"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:textSize="18sp"
+                android:fontFamily="@font/balsamiqsans_bold"
+                android:textColor="@color/black"/>
 
             <TextView
                 android:id="@+id/guestHomepage_editVideo"
@@ -146,7 +150,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Images"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:textSize="18sp"
+                android:fontFamily="@font/balsamiqsans_bold"
+                android:textColor="@color/black"/>
 
             <TextView
                 android:id="@+id/guestHomepage_editImage"

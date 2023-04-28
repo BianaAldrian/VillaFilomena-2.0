@@ -7,6 +7,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.villafilomena.Guest.Guest_fragmentsContainer;
+import com.example.villafilomena.Manager.Manager_Dashboard;
 
 public class ContinueAs extends AppCompatActivity {
     Button guest, frontdesk, manager;
@@ -29,7 +30,7 @@ public class ContinueAs extends AppCompatActivity {
         });
 
         manager.setOnClickListener(view -> {
-
+            startActivity(new Intent(ContinueAs.this, Manager_Dashboard.class));
         });
 
     }

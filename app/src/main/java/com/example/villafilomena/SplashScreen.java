@@ -23,17 +23,14 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        //this token is for github account
-        //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
-
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String IP = preferences.getString("IP", "").trim();
 
         Handler handler = new Handler();
         handler.postDelayed(() -> {
             //startActivity(new Intent(SplashScreen.this, ContinueAs.class));
-            /*if(!IP.equalsIgnoreCase("")){
-                String url = "http://"+IP+":8080"+"/VillaFilomena/check_connection.php";
+            if(!IP.equalsIgnoreCase("")){
+                String url = "http://"+IP+"/VillaFilomena/check_connection.php";
 
                 RequestQueue myRequest = Volley.newRequestQueue(getApplicationContext());
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
@@ -52,7 +49,7 @@ public class SplashScreen extends AppCompatActivity {
                 myRequest.add(stringRequest);
             }else{
                 startActivity(new Intent(SplashScreen.this, IP_Connect.class));
-            }*/
+            }
             finish();
         },3000);
     }
