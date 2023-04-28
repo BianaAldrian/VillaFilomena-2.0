@@ -11,7 +11,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
         android:background="@drawable/header"
         android:orientation="vertical">
 
@@ -22,14 +22,15 @@
             android:gravity="center"
             android:text="Villa Filomena Natural Spring Resort"
             android:textColor="#FFFFFF"
-            android:textSize="55sp" />
+            android:textSize="40sp" />
 
     </LinearLayout>
 
     <GridLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:columnCount="3">
+        android:columnCount="3"
+        android:rowCount="2">
 
         <!--start of 1-->
         <LinearLayout
@@ -42,7 +43,6 @@
             android:orientation="vertical">
 
             <ImageView
-
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:src="@drawable/logo" />
@@ -54,9 +54,7 @@
                 android:gravity="center"
                 android:text="GUEST HOMEPAGE"
                 android:textColor="#131212"
-                android:textSize="20sp"
-                android:text="GUEST HOMEPAGE" />
-                android:textSize="24sp" />
+                android:textSize="20sp"/>
         </LinearLayout>
         <!--end of 1-->
 
@@ -70,9 +68,6 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="250dp"
-                android:layout_height="230dp"
-                android:src="@drawable/room" />
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:src="@drawable/room"/>
@@ -81,10 +76,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/eb_garamond_regular"
-                android:gravity="center"
                 android:text="ROOM &amp; COTTAGE DETAILS"
                 android:textColor="#131212"
-                android:textSize="24sp" />
                 android:textSize="20sp"
                 android:gravity="center"/>
         </LinearLayout>
@@ -100,9 +93,6 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="250dp"
-                android:layout_height="250dp"
-                android:src="@drawable/employee" />
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:src="@drawable/employee"/>
@@ -114,25 +104,20 @@
                 android:gravity="center"
                 android:text="EMPLOYEE"
                 android:textColor="#131212"
-                android:textSize="24sp" />
-                android:textSize="20sp"
-                android:gravity="center"/>
+                android:textSize="20sp" />
         </LinearLayout>
         <!--end of 3-->
 
         <!--start of 4-->
         <LinearLayout
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:layout_margin="20dp"
             android:background="@drawable/cardview_bg"
             android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="250dp"
-                android:layout_height="250dp"
-                android:src="@drawable/sales_report" />
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:src="@drawable/sales_report"/>
@@ -144,7 +129,6 @@
                 android:gravity="center"
                 android:text="SALES REPORT"
                 android:textColor="#131212"
-                android:textSize="24sp" />
                 android:textSize="20sp"/>
         </LinearLayout>
         <!--end of 4-->
@@ -161,9 +145,6 @@
             <ImageView
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:src="@drawable/transaction_history"/>
-                android:layout_width="250dp"
-                android:layout_height="250dp"
                 android:src="@drawable/transaction_history" />
 
             <TextView
@@ -173,23 +154,20 @@
                 android:gravity="center"
                 android:fontFamily="@font/eb_garamond_regular"
                 android:textColor="#131212"
-                android:textSize="24sp"/>
+                android:textSize="20sp"/>
         </LinearLayout>
         <!--end of 5-->
 
         <!--start of 6-->
         <LinearLayout
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:layout_margin="20dp"
             android:background="@drawable/cardview_bg"
             android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="250dp"
-                android:layout_height="250dp"
-                android:src="@drawable/rates" />
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:src="@drawable/rates"/>
@@ -201,7 +179,6 @@
                 android:gravity="center"
                 android:text="RATE &amp; FEEDBACK"
                 android:textColor="#131212"
-                android:textSize="24sp" />
                 android:textSize="20sp"/>
         </LinearLayout>
         <!--end of 6-->
@@ -217,9 +194,6 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/signout" />
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginTop="5dp"
