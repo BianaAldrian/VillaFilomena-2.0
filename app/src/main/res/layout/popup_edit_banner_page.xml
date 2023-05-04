@@ -38,6 +38,7 @@
         android:text="Uploads"/>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/manager_bannerImageList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

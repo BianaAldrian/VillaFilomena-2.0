@@ -16,20 +16,30 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.villafilomena.Adapters.Manager.Manager_bannerAdapter;
+import com.example.villafilomena.Models.Manager.Manager_bannerModel;
 import com.example.villafilomena.R;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -42,6 +52,7 @@ public class Manager_GuestHomepage extends AppCompatActivity {
     Uri imageUri;
     String ipAddress;
     StorageReference BannerImageReference;
+    String currentBanner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +71,8 @@ public class Manager_GuestHomepage extends AppCompatActivity {
         editIntro = findViewById(R.id.guestHomepage_editIntro);
         editVideo = findViewById(R.id.guestHomepage_editVideo);
         editImage = findViewById(R.id.guestHomepage_editImage);
+
+        setBanner();
 
         edit.setOnClickListener(v -> {
             edit.setVisibility(View.GONE);
@@ -82,12 +95,14 @@ public class Manager_GuestHomepage extends AppCompatActivity {
         editBanner.setOnClickListener(v -> {
             edit_banner = new Dialog(this);
             edit_banner.setContentView(R.layout.popup_edit_banner_page);
-
             Window window = edit_banner.getWindow();
             window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
             Button upload = edit_banner.findViewById(R.id.manager_popupUploadBanner);
             ImageView close = edit_banner.findViewById(R.id.manager_popupClose);
+            RecyclerView bannerList = edit_banner.findViewById(R.id.manager_bannerImageList);
+
+            bannerList(bannerList);
 
             upload.setOnClickListener(v1 -> {
                 chooseImage();
@@ -111,8 +126,36 @@ public class Manager_GuestHomepage extends AppCompatActivity {
         });
     }
 
-    public void setBanner(){
+    public void setBanner() {
+        String url = "http://"+ipAddress+"/VillaFilomena/manager_dir/retrieve/manager_getBanner.php";
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
+            try {
+                JSONArray jsonArray = new JSONArray(response);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
 
+                    currentBanner = jsonObject.getString("id");
+                    String banner_name = jsonObject.getString("banner_name");
+                    String banner_url = jsonObject.getString("banner_url");
+
+                    Picasso.get().load(banner_url).into(image_banner);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        },
+                error -> Toast.makeText(Manager_GuestHomepage.this,error.getMessage().toString(), Toast.LENGTH_LONG).show())
+        {
+            @Override
+            protected HashMap<String,String> getParams() throws AuthFailureError {
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("bannerStat","set");
+                return map;
+            }
+        };
+        requestQueue.add(stringRequest);
     }
 
     private void chooseImage(){
@@ -168,10 +211,11 @@ public class Manager_GuestHomepage extends AppCompatActivity {
                         reference.getDownloadUrl().addOnSuccessListener(uri -> {
                             String bannerUrl = uri.toString();
                             String url = "http://"+ipAddress+"/VillaFilomena/manager_dir/insert/manager_uploadBanner.php";
-                            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+                            RequestQueue requestQueue = Volley.newRequestQueue(this);
                             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
                                 if (response.equals("success")){
                                     Toast.makeText(getApplicationContext(), "Upload Successful", Toast.LENGTH_SHORT).show();
+                                    updateBannerStat();
                                 }
                                 else if(response.equals("failed")){
                                     Toast.makeText(getApplicationContext(), "Upload Failed", Toast.LENGTH_SHORT).show();
@@ -196,5 +240,66 @@ public class Manager_GuestHomepage extends AppCompatActivity {
         }else {
             Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void updateBannerStat(){
+        String url = "http://"+ipAddress+"/VillaFilomena/manager_dir/update/manager_updateBannerStat.php";
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
+            if (response.equals("success")){
+                Toast.makeText(getApplicationContext(), "Update Successful", Toast.LENGTH_SHORT).show();
+            }
+            else if(response.equals("failed")){
+                Toast.makeText(getApplicationContext(), "Update Failed", Toast.LENGTH_SHORT).show();
+            }
+        },
+                error -> Toast.makeText(getApplicationContext(), error.getMessage().toString(), Toast.LENGTH_LONG).show())
+        {
+            @Override
+            protected HashMap<String,String> getParams() {
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("id",currentBanner);
+                map.put("set_banner","unset");
+                return map;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
+    public void bannerList(RecyclerView bannerList){
+        ArrayList<Manager_bannerModel> bannerHolder = new ArrayList<>();
+
+        String url = "http://"+ipAddress+"/VillaFilomena/manager_dir/retrieve/manager_getBanner.php";
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
+            try {
+                JSONArray jsonArray = new JSONArray(response);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject object = jsonArray.getJSONObject(i);
+
+                    Manager_bannerModel model = new Manager_bannerModel(object.getString("id"), object.getString("banner_name"), object.getString("banner_url"));
+                    bannerHolder.add(model);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            Manager_bannerAdapter adapter = new Manager_bannerAdapter(bannerHolder);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+            bannerList.setLayoutManager(layoutManager);
+            bannerList.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        },
+                error -> Toast.makeText(Manager_GuestHomepage.this,error.getMessage().toString(), Toast.LENGTH_LONG).show())
+        {
+            @Override
+            protected HashMap<String,String> getParams() throws AuthFailureError {
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("bannerStat","unset");
+                return map;
+            }
+        };
+        requestQueue.add(stringRequest);
     }
 }
