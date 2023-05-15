@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,15 +9,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_marginTop="30dp"
         android:gravity="center"
-        android:layout_marginTop="30dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:orientation="horizontal"
-            android:background="@drawable/cardview_bg">
+            android:background="@drawable/cardview_bg"
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="40dp"
@@ -28,12 +27,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Guest Home Page"
                 android:layout_weight="1"
-                android:gravity="center"
                 android:fontFamily="@font/eb_garamond_regular"
-                android:textSize="32sp"
-                android:textColor="#060606"/>
+                android:gravity="center"
+                android:text="Guest Home Page"
+                android:textColor="#060606"
+                android:textSize="32sp"/>
 
             <ImageView
                 android:id="@+id/guestHomepage_edit"
@@ -57,13 +56,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_marginLeft="10dp"
-                android:text="Banner"
-                android:textSize="20sp"
+                android:layout_weight="1"
                 android:fontFamily="@font/balsamiqsans_bold"
+                android:gravity="center"
+                android:text="Banner"
                 android:textColor="@color/black"
-                android:layout_weight="1" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/guestHomepage_editBanner"
@@ -71,8 +70,8 @@
                 android:layout_height="wrap_content"
                 android:text="Edit"
                 android:textColor="#0433D9"
-                android:visibility="gone"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                android:visibility="gone"/>
         </LinearLayout>
 
         <ImageView
@@ -88,20 +87,20 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_marginLeft="50dp"
-                android:text="Introduction"
-                android:textSize="20sp"
+                android:layout_weight="1"
                 android:fontFamily="@font/balsamiqsans_bold"
+                android:gravity="center"
+                android:text="Introduction"
                 android:textColor="@color/black"
-                android:layout_weight="1"/>
+                android:textSize="20sp"/>
 
             <TextView
                 android:id="@+id/guestHomepage_editIntro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Edit"
                 android:layout_marginRight="50dp"
+                android:text="Edit"
                 android:textColor="#0433D9"
                 android:textSize="18sp"
                 android:visibility="gone"/>
@@ -109,13 +108,14 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/guestHomepage_introduction"
             android:layout_width="400dp"
             android:layout_height="wrap_content"
-            android:text="Find your own quiet haven. The Villa Filomena Resort in Cavite, Philippines is situated on the alpines of South Cavite. This Natural Spring resort is an exclusive resort placing emphasis on your comfort and solitude."
-            android:textSize="18sp"
             android:fontFamily="@font/balsamiqsans_bold"
+            android:gravity="center"
+            android:text="Find your own quiet haven. The Villa Filomena Resort in Cavite, Philippines is situated on the alpines of South Cavite. This Natural Spring resort is an exclusive resort placing emphasis on your comfort and solitude."
             android:textColor="@color/black"
-            android:gravity="center"/>
+            android:textSize="18sp"/>
 
 
         <LinearLayout
@@ -125,17 +125,19 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Videos"
                 android:layout_weight="1"
-                android:textSize="18sp"
                 android:fontFamily="@font/balsamiqsans_bold"
-                android:textColor="@color/black"/>
+                android:text="Videos"
+                android:textColor="@color/black"
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/guestHomepage_editVideo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Edit"
+                android:textColor="#0433D9"
+                android:textSize="18sp"
                 android:visibility="gone"/>
         </LinearLayout>
 
@@ -150,17 +152,19 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Images"
                 android:layout_weight="1"
-                android:textSize="18sp"
                 android:fontFamily="@font/balsamiqsans_bold"
-                android:textColor="@color/black"/>
+                android:text="Images"
+                android:textColor="@color/black"
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/guestHomepage_editImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Edit"
+                android:textColor="#0433D9"
+                android:textSize="18sp"
                 android:visibility="gone"/>
 
         </LinearLayout>

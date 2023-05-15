@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
     android:background="@drawable/background1"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".Manager.Manager_Dashboard">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:orientation="vertical"
-        android:background="@drawable/header">
+        android:background="@drawable/header"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:fontFamily="@font/beaurivage_regular"
+            android:gravity="center"
+            android:text="Villa Filomena Natural Spring Resort"
             android:textColor="#FFFFFF"
-            android:textSize="55sp"
-            android:text="Villa Filomena Natural Spring Resort" />
+            android:textSize="55sp" />
 
     </LinearLayout>
 
@@ -50,16 +49,17 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:fontFamily="@font/eb_garamond_regular"
+                android:gravity="center"
+                android:text="GUEST HOMEPAGE"
                 android:textColor="#131212"
-                android:textSize="24sp"
-                android:text="GUEST HOMEPAGE" />
+                android:textSize="24sp" />
         </LinearLayout>
         <!--end of 1-->
 
         <!--start of 2-->
         <LinearLayout
+            android:id="@+id/manager_RoomCottage_details"
             android:layout_width="300dp"
             android:layout_height="300dp"
             android:layout_margin="20dp"
@@ -75,11 +75,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ROOM &amp; COTTAGE DETAILS"
                 android:fontFamily="@font/eb_garamond_regular"
+                android:gravity="center"
+                android:text="ROOM &amp; COTTAGE DETAILS"
                 android:textColor="#131212"
-                android:textSize="24sp"
-                android:gravity="center"/>
+                android:textSize="24sp"/>
         </LinearLayout>
         <!--end of 2-->
 
@@ -100,11 +100,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="EMPLOYEE"
                 android:fontFamily="@font/eb_garamond_regular"
+                android:gravity="center"
+                android:text="EMPLOYEE"
                 android:textColor="#131212"
-                android:textSize="24sp"
-                android:gravity="center"/>
+                android:textSize="24sp"/>
         </LinearLayout>
         <!--end of 3-->
 
@@ -125,9 +125,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="SALES REPORT"
-                android:gravity="center"
                 android:fontFamily="@font/eb_garamond_regular"
+                android:gravity="center"
+                android:text="SALES REPORT"
                 android:textColor="#131212"
                 android:textSize="24sp"/>
         </LinearLayout>
@@ -150,9 +150,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TRANSACTION HISTORY"
-                android:gravity="center"
                 android:fontFamily="@font/eb_garamond_regular"
+                android:gravity="center"
+                android:text="TRANSACTION HISTORY"
                 android:textColor="#131212"
                 android:textSize="24sp"/>
         </LinearLayout>
@@ -175,9 +175,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="RATE &amp; FEEDBACK"
-                android:gravity="center"
                 android:fontFamily="@font/eb_garamond_regular"
+                android:gravity="center"
+                android:text="RATE &amp; FEEDBACK"
                 android:textColor="#131212"
                 android:textSize="24sp"/>
         </LinearLayout>

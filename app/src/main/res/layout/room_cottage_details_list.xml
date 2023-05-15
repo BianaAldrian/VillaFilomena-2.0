@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/RoomCottageDetail_image"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/RoomCottageDetail_infos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/balsamiqsans_regular"
+        android:gravity="center"
+        android:text="ROOM TYPE \nROOM CAPACITY\nROOM RATE"
+        android:textColor="@color/black"
+        android:textSize="16sp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/RoomCottageDetail_seeMore_Btn"
+        android:layout_width="130dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:background="@drawable/btn_bg"
+        android:fontFamily="@font/eb_garamond_regular"
+        android:text="See More"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="20sp"/>
+
+</LinearLayout>

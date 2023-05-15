@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="Add Front Desk User"
+        android:textColor="@color/black"
+        android:textSize="24sp"/>
+
+    <ImageView
+        android:id="@+id/popup_clerksImage"
+        android:layout_width="250dp"
+        android:layout_height="200dp"
+        tools:src="@tools:sample/avatars" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/popup_chooseClerkImage"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Choose Image"/>
+
+    <EditText
+        android:id="@+id/popup_clerksName"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="Name"
+        android:minHeight="48dp" />
+
+    <EditText
+        android:id="@+id/popup_clerksContact"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="Contact Number"
+        android:minHeight="48dp" />
+
+    <EditText
+        android:id="@+id/popup_clerksUsername"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="Username"
+        android:minHeight="48dp" />
+
+    <EditText
+        android:id="@+id/popup_clerksPassword"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:minHeight="48dp" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/popup_addClerks_doneBtn"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Done"/>
+
+</LinearLayout>

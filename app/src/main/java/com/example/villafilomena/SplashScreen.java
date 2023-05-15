@@ -40,7 +40,11 @@ public class SplashScreen extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"Can't Connect to Server", Toast.LENGTH_LONG).show();
                 }
             },
-                    error -> Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show());
+                    error -> {
+                        sharedPreferences.edit().clear().apply();
+                        Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(SplashScreen.this, IP_Connect.class));
+                    });
             myRequest.add(stringRequest);
             finish();
         },3000);
