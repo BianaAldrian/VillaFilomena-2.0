@@ -11,7 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.villafilomena.Manager.Manager_FrontdeskUser;
 import com.example.villafilomena.Models.Manager.Manager_frondeskClerk_Model;
 import com.example.villafilomena.R;
 import com.squareup.picasso.Picasso;
@@ -44,21 +43,8 @@ public class Manager_frontdeskClerk_Adapter extends RecyclerView.Adapter<Manager
         holder.clerkUsername.setText(""+model.getClerkUsername());
         holder.clerkContact.setText(""+model.getClerkContact());
 
-        Manager_FrontdeskUser.deleteFrontdesk.setOnClickListener(v -> {
-            holder.delete.setVisibility(View.VISIBLE);
-            Manager_FrontdeskUser.deletingDone.setVisibility(View.VISIBLE);
-            Manager_FrontdeskUser.addFrontdesk.setVisibility(View.GONE);
-            Manager_FrontdeskUser.deleteFrontdesk.setVisibility(View.GONE);
-        });
-
         holder.delete.setOnClickListener(v -> {
 
-        });
-        Manager_FrontdeskUser.deletingDone.setOnClickListener(v -> {
-            holder.delete.setVisibility(View.GONE);
-            Manager_FrontdeskUser.addFrontdesk.setVisibility(View.VISIBLE);
-            Manager_FrontdeskUser.deletingDone.setVisibility(View.GONE);
-            Manager_FrontdeskUser.deleteFrontdesk.setVisibility(View.VISIBLE);
         });
 
     }

@@ -18,6 +18,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Manager.LoginRegister.Manager_Login"
+            android:exported="false" />
+        <activity
+            android:name=".Manager.LoginRegister.Manager_Register"
+            android:exported="false" />
+        <activity
             android:name=".Manager.Manager_FrontdeskUser"
             android:exported="false" />
         <activity

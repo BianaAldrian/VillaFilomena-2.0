@@ -94,9 +94,24 @@ public class Manager_FrontdeskUser extends AppCompatActivity {
 
             int childCount = clerkContainer.getChildCount();
             for (int i=0; i<childCount; i++){
-
+                View childView =clerkContainer.getLayoutManager().findViewByPosition(i);
+                ImageView delete = (ImageView)childView.findViewById(R.id.manager_clerkList_delete);
+                delete.setVisibility(View.VISIBLE);
             }
 
+        });
+
+        deletingDone.setOnClickListener(v -> {
+            Manager_FrontdeskUser.addFrontdesk.setVisibility(View.VISIBLE);
+            Manager_FrontdeskUser.deletingDone.setVisibility(View.GONE);
+            Manager_FrontdeskUser.deleteFrontdesk.setVisibility(View.VISIBLE);
+
+            int childCount = clerkContainer.getChildCount();
+            for (int i=0; i<childCount; i++){
+                View childView =clerkContainer.getLayoutManager().findViewByPosition(i);
+                ImageView delete = (ImageView)childView.findViewById(R.id.manager_clerkList_delete);
+                delete.setVisibility(View.GONE);
+            }
         });
 
     }
