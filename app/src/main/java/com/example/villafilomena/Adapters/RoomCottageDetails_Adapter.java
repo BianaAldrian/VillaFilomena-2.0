@@ -14,8 +14,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.villafilomena.Guest.Guest_bookingPage1;
 import com.example.villafilomena.Models.RoomCottageDetails_Model;
 import com.example.villafilomena.R;
+import com.google.android.material.card.MaterialCardView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -38,13 +40,17 @@ public class RoomCottageDetails_Adapter extends RecyclerView.Adapter<RoomCottage
 
     @Override
     public void onBindViewHolder(@NonNull RoomCottageDetails_Adapter.ViewHolder holder, int position) {
+
+        if (Guest_bookingPage1.showBox) {
+            holder.box.setVisibility(View.VISIBLE);
+        }
+
         RoomCottageDetails_Model model = detailsHolder.get(position);
         Picasso.get().load(model.getImageUrl()).into(holder.image);
         holder.infos.setText(
                 ""+model.getName()+"\n"+
                 model.getCapacity()+"\n"+
-                model.getRate()+"\n"+
-                model.getDescription());
+                model.getRate());
 
         holder.seeMore.setOnClickListener(v -> {
             Dialog DetailedInfo = new Dialog(activity);
@@ -59,6 +65,14 @@ public class RoomCottageDetails_Adapter extends RecyclerView.Adapter<RoomCottage
 
             DetailedInfo.show();
         });
+
+        holder.box.setOnClickListener(v -> {
+            if (holder.check.getVisibility() == View.VISIBLE){
+                holder.check.setVisibility(View.GONE);
+            } else if (holder.check.getVisibility() == View.GONE) {
+                holder.check.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
@@ -67,12 +81,15 @@ public class RoomCottageDetails_Adapter extends RecyclerView.Adapter<RoomCottage
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView image;
+        MaterialCardView box;
+        ImageView check, image;
         TextView infos;
         Button seeMore;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            box = itemView.findViewById(R.id.RoomCottageDetail_box);
+            check = itemView.findViewById(R.id.RoomCottageDetail_check);
             image = itemView.findViewById(R.id.RoomCottageDetail_image);
             infos = itemView.findViewById(R.id.RoomCottageDetail_infos);
             seeMore = itemView.findViewById(R.id.RoomCottageDetail_seeMore_Btn);

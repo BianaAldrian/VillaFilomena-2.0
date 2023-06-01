@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background1"
+    tools:context=".FrontDesk.FrontDesk_Booking">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/frontdesk_booking_pickSched"
+                    android:layout_width="400dp"
+                    android:layout_height="75dp"
+                    android:backgroundTint="#B1D6D9">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="20dp"
+                        android:src="@drawable/calendar_icon"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/eb_garamond_medium"
+                        android:gravity="center"
+                        android:text="Date of Stay"
+                        android:textColor="@color/black"
+                        android:textSize="32sp"/>
+
+                </androidx.cardview.widget.CardView>
+
+                <Space
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"/>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/frontdesk_booking_pickGuestQty"
+                    android:layout_width="400dp"
+                    android:layout_height="75dp"
+                    android:backgroundTint="#B1D6D9">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="5dp"
+                        android:src="@drawable/people_icon"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/eb_garamond_medium"
+                        android:gravity="center"
+                        android:text="Adult and Children"
+                        android:textColor="@color/black"
+                        android:textSize="32sp"/>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/eb_garamond_medium"
+                android:text="Room"
+                android:textColor="@color/black"
+                android:textSize="28sp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/frontDesk_roomList_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="30dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/eb_garamond_medium"
+                android:text="Cottage"
+                android:textColor="@color/black"
+                android:textSize="28sp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</FrameLayout>

@@ -1,4 +1,4 @@
-package com.example.villafilomena.Manager.LoginRegister;
+package com.example.villafilomena.Guest;
 
 import static android.content.ContentValues.TAG;
 
@@ -17,26 +17,26 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.villafilomena.Manager.Manager_Dashboard;
 import com.example.villafilomena.R;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 
-public class Manager_Login extends AppCompatActivity {
+public class Guest_Login extends AppCompatActivity {
     String token;
     String ipAddress;
-    TextView signUp;
     EditText email, password;
     Button login;
+    TextView register;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manager_login);
+        setContentView(R.layout.activity_guest_login);
 
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         ipAddress = sharedPreferences.getString("IP", "");
+
 
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(task -> {
@@ -49,35 +49,42 @@ public class Manager_Login extends AppCompatActivity {
                     token = task.getResult();
                 });
 
-        signUp = findViewById(R.id.manager_login_signUp);
-        email = findViewById(R.id.manager_login_Email);
-        password = findViewById(R.id.manager_login_Password);
-        login = findViewById(R.id.manager_login_Login);
-
-        signUp.setOnClickListener(v -> {
-            startActivity(new Intent(this, Manager_Register.class));
-            finish();
-        });
+        email = findViewById(R.id.Guest_login_email);
+        password = findViewById(R.id.Guest_login_password);
+        login = findViewById(R.id.Guest_login_loginBtn);
+        register = findViewById(R.id.Guest_login_register);
 
         login.setOnClickListener(v -> {
             login();
         });
+
+        register.setOnClickListener(v -> {
+            startActivity(new Intent(this, Guest_Register.class));
+            finish();
+        });
     }
 
-    private void login(){
-        String url = "http://"+ipAddress+"/VillaFilomena/manager_dir/retrieve/manager_login.php";
+    private void login() {
+        String url = "http://"+ipAddress+"/VillaFilomena/guest_dir/retrieve/guest_login.php";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
-            if (response.equals("false")){
-                Toast.makeText(this, "Email doesn't exist", Toast.LENGTH_SHORT).show();
-            }
-            else if(response.equals("not match")){
-                Toast.makeText(this, "Incorrect password", Toast.LENGTH_SHORT).show();
-            }
-            else if(response.equals("match")){
+            if (response.equals("not_exist")){
+                Toast.makeText(this, "Email doesn't exist", Toast.LENGTH_LONG).show();
+
+            } else if(response.equals("true")){
                 updateToken();
-                startActivity(new Intent(this, Manager_Dashboard.class));
+                startActivity(new Intent(this, Guest_fragmentsContainer.class));
+                //Guest_fragmentsContainer.email = email.getText().toString();
+
+                SharedPreferences sharedPreferences = getSharedPreferences("guestEmail_Pref", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("guestEmail",email.getText().toString());
+                editor.apply();
+
                 finish();
+
+            } else if (response.equals("false")) {
+                Toast.makeText(this, "Password Incorrect", Toast.LENGTH_LONG).show();
             }
         },
                 error -> Toast.makeText(this, error.getMessage().toString(), Toast.LENGTH_LONG).show())
@@ -85,8 +92,9 @@ public class Manager_Login extends AppCompatActivity {
             @Override
             protected HashMap<String,String> getParams() {
                 HashMap<String,String> map = new HashMap<>();
-                map.put("email",email.getText().toString());
-                map.put("password",password.getText().toString());
+                map.put("email",email.getText().toString().trim());
+                map.put("password",password.getText().toString().trim());
+
                 return map;
             }
         };
@@ -94,7 +102,7 @@ public class Manager_Login extends AppCompatActivity {
     }
 
     private void updateToken() {
-        String url = "http://"+ipAddress+"/VillaFilomena/manager_dir/update/manager_updateToken.php";
+        String url = "http://"+ipAddress+"/VillaFilomena/guest_dir/update/guest_updatetoken.php";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
             if (response.equals("success")){

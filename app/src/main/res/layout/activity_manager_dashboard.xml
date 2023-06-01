@@ -1,214 +1,272 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background1"
     android:gravity="center"
-    android:orientation="vertical"
     tools:context=".Manager.Manager_Dashboard">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@drawable/header"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/beaurivage_regular"
-            android:gravity="center"
-            android:text="Villa Filomena Natural Spring Resort"
-            android:textColor="#FFFFFF"
-            android:textSize="40sp" />
-
-    </LinearLayout>
-
-    <GridLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:columnCount="3"
-        android:rowCount="2">
-
-        <!--start of 1-->
-        <LinearLayout
-            android:id="@+id/manager_guestHomepage"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_margin="20dp"
-            android:background="@drawable/cardview_bg"
             android:gravity="center"
             android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:src="@drawable/logo" />
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/header"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/beaurivage_regular"
+                    android:gravity="center"
+                    android:text="Villa Filomena Natural Spring Resort"
+                    android:textColor="#FFFFFF"
+                    android:textSize="40sp" />
+
+            </LinearLayout>
+
+            <GridLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/eb_garamond_regular"
-                android:gravity="center"
-                android:text="GUEST HOMEPAGE"
-                android:textColor="#131212"
-                android:textSize="20sp"/>
-        </LinearLayout>
-        <!--end of 1-->
+                android:columnCount="3">
 
-        <!--start of 2-->
-        <LinearLayout
-            android:id="@+id/manager_RoomCottage_details"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_margin="20dp"
-            android:background="@drawable/cardview_bg"
-            android:gravity="center"
-            android:orientation="vertical">
+                <LinearLayout
+                    android:id="@+id/manager_onlineBooking"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/cardview_bg"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:src="@drawable/room"/>
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:src="@drawable/logo" />
 
-            <TextView
-                android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/eb_garamond_regular"
+                        android:gravity="center"
+                        android:text="ONLINE BOOKING"
+                        android:textColor="#131212"
+                        android:textSize="20sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/manager_calendar"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/cardview_bg"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:src="@drawable/logo" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/eb_garamond_regular"
+                        android:gravity="center"
+                        android:text="CALENDAR"
+                        android:textColor="#131212"
+                        android:textSize="20sp"/>
+                </LinearLayout>
+
+                <!--start of 1-->
+                <LinearLayout
+                    android:id="@+id/manager_guestHomepage"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/cardview_bg"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:src="@drawable/logo" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/eb_garamond_regular"
+                        android:gravity="center"
+                        android:text="GUEST HOMEPAGE"
+                        android:textColor="#131212"
+                        android:textSize="20sp"/>
+                </LinearLayout>
+                <!--end of 1-->
+
+                <!--start of 2-->
+                <LinearLayout
+                    android:id="@+id/manager_RoomCottage_details"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/cardview_bg"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:src="@drawable/room"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/eb_garamond_regular"
+                        android:gravity="center"
+                        android:text="ROOM &amp; COTTAGE DETAILS"
+                        android:textColor="#131212"
+                        android:textSize="20sp"/>
+                </LinearLayout>
+                <!--end of 2-->
+
+                <!--start of 3-->
+                <LinearLayout
+                    android:id="@+id/manager_Employee"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/cardview_bg"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:src="@drawable/employee"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/eb_garamond_regular"
+                        android:gravity="center"
+                        android:text="EMPLOYEE"
+                        android:textColor="#131212"
+                        android:textSize="20sp" />
+                </LinearLayout>
+                <!--end of 3-->
+
+                <!--start of 4-->
+                <LinearLayout
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/cardview_bg"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:src="@drawable/sales_report"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/eb_garamond_regular"
+                        android:gravity="center"
+                        android:text="SALES REPORT"
+                        android:textColor="#131212"
+                        android:textSize="20sp"/>
+                </LinearLayout>
+                <!--end of 4-->
+
+                <!--start of 5-->
+                <LinearLayout
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/cardview_bg"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:src="@drawable/transaction_history" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/eb_garamond_regular"
+                        android:gravity="center"
+                        android:text="TRANSACTION HISTORY"
+                        android:textColor="#131212"
+                        android:textSize="20sp"/>
+                </LinearLayout>
+                <!--end of 5-->
+
+                <!--start of 6-->
+                <LinearLayout
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/cardview_bg"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:src="@drawable/rates"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/eb_garamond_regular"
+                        android:gravity="center"
+                        android:text="RATE &amp; FEEDBACK"
+                        android:textColor="#131212"
+                        android:textSize="20sp"/>
+                </LinearLayout>
+                <!--end of 6-->
+
+            </GridLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/eb_garamond_regular"
-                android:gravity="center"
-                android:text="ROOM &amp; COTTAGE DETAILS"
-                android:textColor="#131212"
-                android:textSize="20sp"/>
+                android:layout_gravity="right"
+                android:layout_marginEnd="50dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/signout"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/eb_garamond_regular"
+                    android:text="Sign out"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
         </LinearLayout>
-        <!--end of 2-->
+    </ScrollView>
 
-        <!--start of 3-->
-        <LinearLayout
-            android:id="@+id/manager_Employee"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_margin="20dp"
-            android:background="@drawable/cardview_bg"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:src="@drawable/employee"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/eb_garamond_regular"
-                android:gravity="center"
-                android:text="EMPLOYEE"
-                android:textColor="#131212"
-                android:textSize="20sp" />
-        </LinearLayout>
-        <!--end of 3-->
-
-        <!--start of 4-->
-        <LinearLayout
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_margin="20dp"
-            android:background="@drawable/cardview_bg"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:src="@drawable/sales_report"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/eb_garamond_regular"
-                android:gravity="center"
-                android:text="SALES REPORT"
-                android:textColor="#131212"
-                android:textSize="20sp"/>
-        </LinearLayout>
-        <!--end of 4-->
-
-        <!--start of 5-->
-        <LinearLayout
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_margin="20dp"
-            android:background="@drawable/cardview_bg"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:src="@drawable/transaction_history" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/eb_garamond_regular"
-                android:gravity="center"
-                android:text="TRANSACTION HISTORY"
-                android:textColor="#131212"
-                android:textSize="20sp"/>
-        </LinearLayout>
-        <!--end of 5-->
-
-        <!--start of 6-->
-        <LinearLayout
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_margin="20dp"
-            android:background="@drawable/cardview_bg"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:src="@drawable/rates"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/eb_garamond_regular"
-                android:gravity="center"
-                android:text="RATE &amp; FEEDBACK"
-                android:textColor="#131212"
-                android:textSize="20sp"/>
-        </LinearLayout>
-        <!--end of 6-->
-
-    </GridLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="5dp"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_gravity="center"
-            android:background="@drawable/signout"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/eb_garamond_regular"
-            android:text="Sign out"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</FrameLayout>

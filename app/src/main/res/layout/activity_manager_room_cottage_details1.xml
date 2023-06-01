@@ -74,7 +74,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="200dp"
             android:fontFamily="@font/balsamiqsans_regular"
             android:text="Details:"
             android:textColor="@color/black"
@@ -83,7 +82,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="200dp"
             android:fontFamily="@font/balsamiqsans_regular"
             android:text="Living room with 2 sofa chair and 1 dining table \n1 bedroom with 2 double deck \n1 bathroom \n1 sink"
             android:textColor="@color/black"

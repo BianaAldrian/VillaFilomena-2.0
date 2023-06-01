@@ -1,9 +1,12 @@
 package com.example.villafilomena.Manager.LoginRegister;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,11 +23,13 @@ import com.android.volley.toolbox.Volley;
 import com.example.villafilomena.Manager.Manager_Dashboard;
 import com.example.villafilomena.R;
 import com.example.villafilomena.subclass.JavaMailAPI;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 import java.util.Random;
 
 public class Manager_Register extends AppCompatActivity {
+    String token;
     String ipAddress;
     TextView login;
     EditText email, password, reEnterPass, firstname, lastname, contact;
@@ -55,6 +60,17 @@ public class Manager_Register extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         ipAddress = sharedPreferences.getString("IP", "");
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                        return;
+                    }
+
+                    // Get new FCM registration token
+                    token = task.getResult();
+                });
 
         login = findViewById(R.id.manager_register_Login);
         email = findViewById(R.id.manager_register_Email);
@@ -98,6 +114,7 @@ public class Manager_Register extends AppCompatActivity {
                 map.put("firstname",firstname.getText().toString());
                 map.put("lastname",lastname.getText().toString());
                 map.put("contactNum",contact.getText().toString());
+                map.put("token",token);
                 return map;
             }
         };

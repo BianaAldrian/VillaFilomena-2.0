@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background1"
+    android:orientation="vertical"
+    tools:context=".Guest.Guest_Login">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/eb_garamond_bold"
+        android:text="Login"
+        android:textColor="@color/black"
+        android:textSize="26sp"
+        tools:ignore="HardcodedText" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/people_icon"
+            tools:ignore="ContentDescription" />
+
+        <EditText
+            android:id="@+id/Guest_login_email"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/edttxt_bg"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            tools:ignore="Autofill,HardcodedText"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/people_icon"
+            tools:ignore="ContentDescription" />
+
+        <EditText
+            android:id="@+id/Guest_login_password"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/edttxt_bg"
+            android:hint="Password"
+            tools:ignore="Autofill,HardcodedText" />
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/Guest_login_loginBtn"
+        android:layout_width="300dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:background="@drawable/btn_bg"
+        android:text="Login"
+        tools:ignore="HardcodedText,DuplicateSpeakableTextCheck" />
+
+    <TextView
+        android:id="@+id/Guest_login_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/eb_garamond_bold"
+        android:text="Register"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        tools:ignore="HardcodedText" />
+
+</LinearLayout>
