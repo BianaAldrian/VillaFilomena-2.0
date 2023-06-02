@@ -1,5 +1,6 @@
 package com.example.villafilomena.Adapters;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.villafilomena.FrontDesk.FrontDesk_Booking1;
 import com.example.villafilomena.Guest.Guest_bookingPage1;
 import com.example.villafilomena.Models.RoomCottageDetails_Model;
 import com.example.villafilomena.R;
@@ -31,17 +33,24 @@ public class RoomCottageDetails_Adapter extends RecyclerView.Adapter<RoomCottage
         this.detailsHolder = detailsHolder;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    public void setAvailability(ArrayList<RoomCottageDetails_Model> detailsHolder){
+        this.detailsHolder = detailsHolder;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public RoomCottageDetails_Adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.room_cottage_details_list, parent, false);
-        return new RoomCottageDetails_Adapter.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull RoomCottageDetails_Adapter.ViewHolder holder, int position) {
 
-        if (Guest_bookingPage1.showBox) {
+        if (Guest_bookingPage1.showBox || FrontDesk_Booking1.showBox) {
             holder.box.setVisibility(View.VISIBLE);
         }
 
@@ -80,11 +89,12 @@ public class RoomCottageDetails_Adapter extends RecyclerView.Adapter<RoomCottage
         return detailsHolder.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         MaterialCardView box;
         ImageView check, image;
         TextView infos;
         Button seeMore;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 

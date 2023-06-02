@@ -68,7 +68,7 @@ public class Guest_bookingPage1 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_guest_booking_page, container, false);
+        View view = inflater.inflate(R.layout.fragment_guest_booking_page1, container, false);
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefs", MODE_PRIVATE);
         ipAddress = sharedPreferences.getString("IP", "");
@@ -135,7 +135,6 @@ public class Guest_bookingPage1 extends Fragment {
                 JSONArray jsonArray = new JSONArray(response);
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject object = jsonArray.getJSONObject(i);
-
 
                     dayTour_kidFee = Double.parseDouble(object.getString("dayTour_kidFee"));
                     dayTour_adultFee = Double.parseDouble(object.getString("dayTour_adultFee"));
@@ -363,7 +362,6 @@ public class Guest_bookingPage1 extends Fragment {
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
             roomList.setLayoutManager(layoutManager);
             roomList.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
 
         }, error -> Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show());
         requestQueue.add(stringRequest);

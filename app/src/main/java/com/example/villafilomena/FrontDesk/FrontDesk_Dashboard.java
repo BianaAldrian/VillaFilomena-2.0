@@ -19,7 +19,7 @@ public class FrontDesk_Dashboard extends AppCompatActivity {
         booking = findViewById(R.id.frontdesk_booking);
 
         booking.setOnClickListener(v -> {
-            startActivity(new Intent(this, FrontDesk_Booking.class));
+            startActivity(new Intent(this, FrontDesk_Booking1.class));
 
         });
     }

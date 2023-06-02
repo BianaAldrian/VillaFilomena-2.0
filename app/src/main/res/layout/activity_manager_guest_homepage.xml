@@ -8,128 +8,147 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="30dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
         android:gravity="center"
         android:orientation="vertical">
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp"/>
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:background="@drawable/cardview_bg"
-            android:orientation="horizontal">
+            android:gravity="center"
+            android:orientation="horizontal"
+            tools:ignore="TextSizeCheck">
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/btn_back"/>
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/btn_back"
+                tools:ignore="ContentDescription" />
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:fontFamily="@font/eb_garamond_regular"
                 android:gravity="center"
                 android:text="Guest Home Page"
                 android:textColor="#060606"
-                android:textSize="32sp"/>
+                android:textSize="32sp"
+                tools:ignore="HardcodedText" />
 
             <ImageView
                 android:id="@+id/guestHomepage_edit"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/edit"/>
+                android:src="@drawable/edit"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/guestHomepage_save"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:src="@drawable/save"
-                android:visibility="gone"/>
+                tools:ignore="ContentDescription" />
 
         </LinearLayout>
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="500dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1"
+                android:layout_gravity="center"
                 android:fontFamily="@font/balsamiqsans_bold"
                 android:gravity="center"
                 android:text="Banner"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                tools:ignore="HardcodedText" />
 
             <TextView
                 android:id="@+id/guestHomepage_editBanner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end|center"
                 android:text="Edit"
                 android:textColor="#0433D9"
                 android:textSize="18sp"
-                android:visibility="gone"/>
-        </LinearLayout>
+                tools:ignore="HardcodedText" />
+        </FrameLayout>
 
         <ImageView
             android:id="@+id/guestHomepage_bannerImage"
             android:layout_width="400dp"
             android:layout_height="250dp"
-            android:src="@drawable/banner"/>
+            android:layout_marginTop="5dp"
+            android:src="@drawable/banner"
+            tools:ignore="ContentDescription" />
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="500dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_weight="1"
+                android:layout_gravity="center"
                 android:fontFamily="@font/balsamiqsans_bold"
                 android:gravity="center"
                 android:text="Introduction"
                 android:textColor="@color/black"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                tools:ignore="HardcodedText" />
 
             <TextView
                 android:id="@+id/guestHomepage_editIntro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="50dp"
+                android:layout_gravity="end|center"
                 android:text="Edit"
                 android:textColor="#0433D9"
                 android:textSize="18sp"
-                android:visibility="gone"/>
+                tools:ignore="HardcodedText" />
 
-        </LinearLayout>
+        </FrameLayout>
 
         <TextView
             android:id="@+id/guestHomepage_introduction"
             android:layout_width="400dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:fontFamily="@font/balsamiqsans_bold"
             android:gravity="center"
             android:text="Find your own quiet haven. The Villa Filomena Resort in Cavite, Philippines is situated on the alpines of South Cavite. This Natural Spring resort is an exclusive resort placing emphasis on your comfort and solitude."
             android:textColor="@color/black"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            tools:ignore="HardcodedText,TextSizeCheck,TextSizeCheck" />
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/balsamiqsans_bold"
-                android:text="Videos"
+                android:text="Images"
                 android:textColor="@color/black"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                tools:ignore="HardcodedText" />
 
             <TextView
                 android:id="@+id/guestHomepage_editVideo"
@@ -138,25 +157,29 @@
                 android:text="Edit"
                 android:textColor="#0433D9"
                 android:textSize="18sp"
-                android:visibility="gone"/>
+                tools:ignore="HardcodedText" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/manager_guestHomepage_imageContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/balsamiqsans_bold"
-                android:text="Images"
+                android:text="Videos"
                 android:textColor="@color/black"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                tools:ignore="HardcodedText" />
 
             <TextView
                 android:id="@+id/guestHomepage_editImage"
@@ -165,11 +188,12 @@
                 android:text="Edit"
                 android:textColor="#0433D9"
                 android:textSize="18sp"
-                android:visibility="gone"/>
+                tools:ignore="HardcodedText" />
 
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/manager_guestHomepage_videoContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

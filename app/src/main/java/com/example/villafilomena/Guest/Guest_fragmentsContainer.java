@@ -99,7 +99,6 @@ public class Guest_fragmentsContainer extends AppCompatActivity {
 
                 replace_home(new Guest_homePage());
 
-
             }
         });
 
@@ -118,7 +117,15 @@ public class Guest_fragmentsContainer extends AppCompatActivity {
 
                 replace_book(new Guest_bookingPage1());
             }
+
+            //replace(new Guest_bookingPage1());
         });
+    }
+
+    private void replace(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.guestFragmentContainer,fragment).commit();
     }
 
     private void replace_home(Fragment fragment){
@@ -140,8 +147,4 @@ public class Guest_fragmentsContainer extends AppCompatActivity {
         appbar.setExpanded(show);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
 }

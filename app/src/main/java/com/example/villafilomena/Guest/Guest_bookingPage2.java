@@ -22,7 +22,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -79,13 +78,9 @@ public class Guest_bookingPage2 extends Fragment {
             str.add(roomId);
         }
 
-        backBtn.setOnClickListener(v -> {
-            back(new Guest_bookingPage1());
-        });
+        backBtn.setOnClickListener(v -> back(new Guest_bookingPage1()));
 
-        continueBtn.setOnClickListener(v -> {
-            termsConditionDialog();
-        });
+        continueBtn.setOnClickListener(v -> termsConditionDialog());
 
         return view;
     }
@@ -121,17 +116,16 @@ public class Guest_bookingPage2 extends Fragment {
                 LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
                 roomList.setLayoutManager(layoutManager);
                 roomList.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
         },
-                error -> Toast.makeText(getContext(),error.getMessage().toString(), Toast.LENGTH_LONG).show())
+                error -> Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show())
         {
             @Override
-            protected HashMap<String,String> getParams() throws AuthFailureError {
+            protected HashMap<String,String> getParams() {
                 HashMap<String,String> map = new HashMap<>();
                 map.put("id",roomId);
                 return map;
@@ -168,8 +162,10 @@ public class Guest_bookingPage2 extends Fragment {
 
         confirm.setOnClickListener(v -> {
             requestBooking();
-            for (String roomId : Guest_bookingPage1.selectedRoom_id) {
-                reserveRoom(roomId);
+            if (!Guest_bookingPage1.selectedRoom_id.isEmpty()){
+                for (String roomId : Guest_bookingPage1.selectedRoom_id) {
+                    reserveRoom(roomId);
+                }
             }
             gcash.hide();
         });
@@ -190,7 +186,7 @@ public class Guest_bookingPage2 extends Fragment {
                 Toast.makeText(getContext(), "Upload Failed", Toast.LENGTH_SHORT).show();
             }
         },
-                error -> Toast.makeText(getContext(), error.getMessage().toString(), Toast.LENGTH_LONG).show())
+                error -> Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show())
         {
             @Override
             protected HashMap<String,String> getParams() {
@@ -226,7 +222,7 @@ public class Guest_bookingPage2 extends Fragment {
                 Toast.makeText(getContext(), "Upload Failed", Toast.LENGTH_SHORT).show();
             }
         },
-                error -> Toast.makeText(getContext(), error.getMessage().toString(), Toast.LENGTH_LONG).show())
+                error -> Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show())
         {
             @Override
             protected HashMap<String,String> getParams() {

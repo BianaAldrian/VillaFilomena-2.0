@@ -1,5 +1,6 @@
 package com.example.villafilomena.Manager;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -21,7 +22,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
@@ -59,7 +59,7 @@ public class Manager_GuestHomepage extends AppCompatActivity {
 
     ArrayList<Uri> imageUriList = new ArrayList<>();
 
-    boolean isUploaded = true;
+    //boolean isUploaded = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +86,12 @@ public class Manager_GuestHomepage extends AppCompatActivity {
         //calling the setGuestHomePageView method for setting the view in guest homepage
         setBanner();
         setIntro();
+        edit.setVisibility(View.VISIBLE);
+        save.setVisibility(View.GONE);
+        editBanner.setVisibility(View.GONE);
+        editIntro.setVisibility(View.GONE);
+        editVideo.setVisibility(View.GONE);
+        editImage.setVisibility(View.GONE);
 
         //function when the edit icon is tap
         edit.setOnClickListener(v -> {
@@ -120,13 +126,9 @@ public class Manager_GuestHomepage extends AppCompatActivity {
 
             bannerList(bannerList);
 
-            upload.setOnClickListener(v1 -> {
-                chooseImage();
-            });
+            upload.setOnClickListener(v1 -> chooseImage());
 
-            close.setOnClickListener(v1 -> {
-                edit_banner.hide();
-            });
+            close.setOnClickListener(v1 -> edit_banner.hide());
 
             edit_banner.show();
 
@@ -146,13 +148,9 @@ public class Manager_GuestHomepage extends AppCompatActivity {
 
             introList(introList);
 
-            upload.setOnClickListener(v1 -> {
-                uploadIntroduction(introduction);
-            });
+            upload.setOnClickListener(v1 -> uploadIntroduction(introduction));
 
-            close.setOnClickListener(v1 -> {
-                edit_Intro.hide();
-            });
+            close.setOnClickListener(v1 -> edit_Intro.hide());
 
             edit_Intro.show();
         });
@@ -186,21 +184,14 @@ public class Manager_GuestHomepage extends AppCompatActivity {
                 Manager_addedImageModel model = new Manager_addedImageModel(uri);
                 imageHolder.add(model);
             }
-            adapter.notifyDataSetChanged();
 
             imageList(imageList);
 
-            addImage.setOnClickListener(v1 -> {
-                chooseMultiImage();
-            });
+            addImage.setOnClickListener(v1 -> chooseMultiImage());
 
-            upload.setOnClickListener(v1 -> {
-                uploadImages();
-            });
+            upload.setOnClickListener(v1 -> uploadImages());
 
-            close.setOnClickListener(v1 -> {
-                edit_Image.hide();
-            });
+            close.setOnClickListener(v1 -> edit_Image.hide());
 
             edit_Image.show();
         });
@@ -226,11 +217,11 @@ public class Manager_GuestHomepage extends AppCompatActivity {
                 e.printStackTrace();
             }
         },
-                error -> Toast.makeText(Manager_GuestHomepage.this,error.getMessage().toString(), Toast.LENGTH_LONG).show())
+                error -> Toast.makeText(Manager_GuestHomepage.this, error.getMessage(), Toast.LENGTH_LONG).show())
         {
             @Override
-            protected HashMap<String,String> getParams() throws AuthFailureError {
-                HashMap<String,String> map = new HashMap<String,String>();
+            protected HashMap<String,String> getParams() {
+                HashMap<String,String> map = new HashMap<>();
                 map.put("bannerStat","set");
                 return map;
             }
@@ -239,6 +230,7 @@ public class Manager_GuestHomepage extends AppCompatActivity {
     }
 
     //method for retrieving the introduction in database and set it to the introduction view
+    @SuppressLint("SetTextI18n")
     public void setIntro(){
         String url = "http://"+ipAddress+"/VillaFilomena/manager_dir/retrieve/manager_getIntro.php";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -259,11 +251,11 @@ public class Manager_GuestHomepage extends AppCompatActivity {
                 e.printStackTrace();
             }
         },
-                error -> Toast.makeText(Manager_GuestHomepage.this,error.getMessage().toString(), Toast.LENGTH_LONG).show())
+                error -> Toast.makeText(Manager_GuestHomepage.this, error.getMessage(), Toast.LENGTH_LONG).show())
         {
             @Override
-            protected HashMap<String,String> getParams() throws AuthFailureError {
-                HashMap<String,String> map = new HashMap<String,String>();
+            protected HashMap<String,String> getParams() {
+                HashMap<String,String> map = new HashMap<>();
                 map.put("intro_status","set");
                 return map;
             }
@@ -302,9 +294,7 @@ public class Manager_GuestHomepage extends AppCompatActivity {
 
             imageBanner.setImageURI(imageUri);
 
-            cancel.setOnClickListener(v -> {
-                upload_banner.hide();
-            });
+            cancel.setOnClickListener(v -> upload_banner.hide());
 
             confirm.setOnClickListener(v -> {
                 image_banner.setImageURI(imageUri);
@@ -338,7 +328,7 @@ public class Manager_GuestHomepage extends AppCompatActivity {
     }
 
     //method for getting the file extension type of the image or video
-    private String getfileExt(Uri MyUri){
+    private String getFileExt(Uri MyUri){
         ContentResolver contentResolver = getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(MyUri));
@@ -348,38 +338,36 @@ public class Manager_GuestHomepage extends AppCompatActivity {
     public void uploadBannerImage(){
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         if(imageUri != null){
-            String fileName = timestamp+"."+getfileExt(imageUri);
+            String fileName = timestamp+"."+getFileExt(imageUri);
             StorageReference reference = BannerImageReference.child(fileName);
             reference.putFile(imageUri)
-                    .addOnSuccessListener(taskSnapshot -> {
-                        reference.getDownloadUrl().addOnSuccessListener(uri -> {
-                            String bannerUrl = uri.toString();
-                            String url = "http://"+ipAddress+"/VillaFilomena/manager_dir/insert/manager_uploadBanner.php";
-                            RequestQueue requestQueue = Volley.newRequestQueue(this);
-                            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
-                                if (response.equals("success")){
-                                    Toast.makeText(getApplicationContext(), "Upload Successful", Toast.LENGTH_SHORT).show();
-                                    updateBannerStat();
-                                }
-                                else if(response.equals("failed")){
-                                    Toast.makeText(getApplicationContext(), "Upload Failed", Toast.LENGTH_SHORT).show();
-                                }
-                            },
-                                    error -> Toast.makeText(getApplicationContext(), error.getMessage().toString(), Toast.LENGTH_LONG).show())
-                            {
-                                @Override
-                                protected HashMap<String,String> getParams() {
-                                    HashMap<String,String> map = new HashMap<String,String>();
-                                    map.put("banner_url",bannerUrl);
-                                    return map;
-                                }
-                            };
-                            requestQueue.add(stringRequest);
-                        });
-                    })
+                    .addOnSuccessListener(taskSnapshot ->
+                            reference.getDownloadUrl().addOnSuccessListener(uri -> {
+                                String bannerUrl = uri.toString();
+                                String url = "http://"+ipAddress+"/VillaFilomena/manager_dir/insert/manager_uploadBanner.php";
+                                RequestQueue requestQueue = Volley.newRequestQueue(this);
+                                StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
+                                    if (response.equals("success")){
+                                        Toast.makeText(getApplicationContext(), "Upload Successful", Toast.LENGTH_SHORT).show();
+                                        updateBannerStat();
+                                    }
+                                    else if(response.equals("failed")){
+                                        Toast.makeText(getApplicationContext(), "Upload Failed", Toast.LENGTH_SHORT).show();
+                                    }
+                                },
+                                        error -> Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show())
+                                {
+                                    @Override
+                                    protected HashMap<String,String> getParams() {
+                                        HashMap<String,String> map = new HashMap<>();
+                                        map.put("banner_url",bannerUrl);
+                                        return map;
+                                    }
+                                };
+                                requestQueue.add(stringRequest);
+                            }))
                     .addOnFailureListener(e ->
-                            Toast.makeText(Manager_GuestHomepage.this, "Failed", Toast.LENGTH_SHORT).show()
-                    );
+                            Toast.makeText(Manager_GuestHomepage.this, "Failed", Toast.LENGTH_SHORT).show());
         }else {
             Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
         }
@@ -399,11 +387,11 @@ public class Manager_GuestHomepage extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Upload Failed", Toast.LENGTH_SHORT).show();
                 }
             },
-                    error -> Toast.makeText(getApplicationContext(), error.getMessage().toString(), Toast.LENGTH_LONG).show())
+                    error -> Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show())
             {
                 @Override
                 protected HashMap<String,String> getParams() {
-                    HashMap<String,String> map = new HashMap<String,String>();
+                    HashMap<String,String> map = new HashMap<>();
                     map.put("introText",introduction.getText().toString());
                     return map;
                 }
@@ -424,34 +412,33 @@ public class Manager_GuestHomepage extends AppCompatActivity {
         for (Uri imageUri : imageUriList) {
             String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
             if(imageUri != null){
-                String fileName = timestamp+"."+getfileExt(imageUri);
+                String fileName = timestamp+"."+getFileExt(imageUri);
                 StorageReference reference = ImagesReference.child(fileName);
                 reference.putFile(imageUri)
-                        .addOnSuccessListener(taskSnapshot -> {
-                            reference.getDownloadUrl().addOnSuccessListener(uri -> {
-                                String imageUrl = uri.toString();
-                                String url = "http://"+ipAddress+"/VillaFilomena/manager_dir/insert/manager_uploadImage.php";
-                                RequestQueue requestQueue = Volley.newRequestQueue(this);
-                                StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
-                                    if (response.equals("success")){
-                                        Toast.makeText(getApplicationContext(), "Upload Successful", Toast.LENGTH_SHORT).show();
-                                    }
-                                    else if(response.equals("failed")){
-                                        Toast.makeText(getApplicationContext(), "Upload Failed", Toast.LENGTH_SHORT).show();
-                                    }
-                                },
-                                        error -> Toast.makeText(getApplicationContext(), error.getMessage().toString(), Toast.LENGTH_LONG).show())
-                                {
-                                    @Override
-                                    protected HashMap<String,String> getParams() {
-                                        HashMap<String,String> map = new HashMap<String,String>();
-                                        map.put("image_url",imageUrl);
-                                        return map;
-                                    }
-                                };
-                                requestQueue.add(stringRequest);
-                            });
-                        })
+                        .addOnSuccessListener(taskSnapshot ->
+                                reference.getDownloadUrl().addOnSuccessListener(uri -> {
+                                    String imageUrl = uri.toString();
+                                    String url = "http://"+ipAddress+"/VillaFilomena/manager_dir/insert/manager_uploadImage.php";
+                                    RequestQueue requestQueue = Volley.newRequestQueue(this);
+                                    StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
+                                        if (response.equals("success")){
+                                            Toast.makeText(getApplicationContext(), "Upload Successful", Toast.LENGTH_SHORT).show();
+                                        }
+                                        else if(response.equals("failed")){
+                                            Toast.makeText(getApplicationContext(), "Upload Failed", Toast.LENGTH_SHORT).show();
+                                        }
+                                    },
+                                            error -> Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show())
+                                    {
+                                        @Override
+                                        protected HashMap<String,String> getParams() {
+                                            HashMap<String,String> map = new HashMap<>();
+                                            map.put("image_url",imageUrl);
+                                            return map;
+                                        }
+                                    };
+                                    requestQueue.add(stringRequest);
+                                }))
                         .addOnFailureListener(e ->
                                 Toast.makeText(Manager_GuestHomepage.this, "Failed", Toast.LENGTH_SHORT).show()
                         );
@@ -474,11 +461,11 @@ public class Manager_GuestHomepage extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Update Failed", Toast.LENGTH_SHORT).show();
             }
         },
-                error -> Toast.makeText(getApplicationContext(), error.getMessage().toString(), Toast.LENGTH_LONG).show())
+                error -> Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show())
         {
             @Override
             protected HashMap<String,String> getParams() {
-                HashMap<String,String> map = new HashMap<String,String>();
+                HashMap<String,String> map = new HashMap<>();
                 map.put("id",currentBanner);
                 map.put("set_banner","unset");
                 return map;
@@ -499,11 +486,11 @@ public class Manager_GuestHomepage extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Update Failed", Toast.LENGTH_SHORT).show();
             }
         },
-                error -> Toast.makeText(getApplicationContext(), error.getMessage().toString(), Toast.LENGTH_LONG).show())
+                error -> Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show())
         {
             @Override
             protected HashMap<String,String> getParams() {
-                HashMap<String,String> map = new HashMap<String,String>();
+                HashMap<String,String> map = new HashMap<>();
                 map.put("id",currentIntro);
                 map.put("intro_status","unset");
                 return map;
@@ -536,13 +523,12 @@ public class Manager_GuestHomepage extends AppCompatActivity {
             LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
             bannerList.setLayoutManager(layoutManager);
             bannerList.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
         },
-                error -> Toast.makeText(Manager_GuestHomepage.this,error.getMessage().toString(), Toast.LENGTH_LONG).show())
+                error -> Toast.makeText(Manager_GuestHomepage.this, error.getMessage(), Toast.LENGTH_LONG).show())
         {
             @Override
-            protected HashMap<String,String> getParams() throws AuthFailureError {
-                HashMap<String,String> map = new HashMap<String,String>();
+            protected HashMap<String,String> getParams() {
+                HashMap<String,String> map = new HashMap<>();
                 map.put("bannerStat","unset");
                 return map;
             }
@@ -574,13 +560,12 @@ public class Manager_GuestHomepage extends AppCompatActivity {
             LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
             introList.setLayoutManager(layoutManager);
             introList.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
         },
-                error -> Toast.makeText(Manager_GuestHomepage.this,error.getMessage().toString(), Toast.LENGTH_LONG).show())
+                error -> Toast.makeText(Manager_GuestHomepage.this, error.getMessage(), Toast.LENGTH_LONG).show())
         {
             @Override
-            protected HashMap<String,String> getParams() throws AuthFailureError {
-                HashMap<String,String> map = new HashMap<String,String>();
+            protected HashMap<String,String> getParams() {
+                HashMap<String,String> map = new HashMap<>();
                 map.put("intro_status","unset");
                 return map;
             }
@@ -612,9 +597,8 @@ public class Manager_GuestHomepage extends AppCompatActivity {
             LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
             imageList.setLayoutManager(layoutManager);
             imageList.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
         },
-                error -> Toast.makeText(Manager_GuestHomepage.this,error.getMessage().toString(), Toast.LENGTH_LONG).show())
+                error -> Toast.makeText(Manager_GuestHomepage.this, error.getMessage(), Toast.LENGTH_LONG).show())
        /* {
             @Override
             protected HashMap<String,String> getParams() throws AuthFailureError {

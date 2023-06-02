@@ -17,6 +17,7 @@
             android:id="@+id/RoomCottageDetail_image"
             android:layout_width="250dp"
             android:layout_height="250dp"
+            tools:ignore="ContentDescription,ImageContrastCheck"
             tools:srcCompat="@tools:sample/avatars" />
 
         <com.google.android.material.card.MaterialCardView
@@ -28,14 +29,16 @@
             android:visibility="gone"
             app:cardBackgroundColor="@android:color/transparent"
             app:strokeColor="@color/black"
-            app:strokeWidth="1dp">
+            app:strokeWidth="1dp"
+            tools:ignore="RtlHardcoded">
 
             <ImageView
                 android:id="@+id/RoomCottageDetail_check"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/check"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                tools:ignore="ContentDescription" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -49,7 +52,8 @@
         android:gravity="center"
         android:text="ROOM TYPE \nROOM CAPACITY\nROOM RATE"
         android:textColor="@color/black"
-        android:textSize="16sp"/>
+        android:textSize="16sp"
+        tools:ignore="HardcodedText" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/RoomCottageDetail_seeMore_Btn"
@@ -61,6 +65,7 @@
         android:text="See More"
         android:textAllCaps="false"
         android:textColor="@color/black"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        tools:ignore="HardcodedText" />
 
 </LinearLayout>
