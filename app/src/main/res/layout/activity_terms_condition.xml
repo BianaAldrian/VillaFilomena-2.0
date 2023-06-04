@@ -7,27 +7,30 @@
     android:orientation="vertical"
     tools:context=".TermsCondition">
 
-    <LinearLayout
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:fontFamily="@font/eb_garamond_bold"
+        android:text="Terms and Condition"
+        android:textColor="@color/black"
+        android:textSize="32sp"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="10dp"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/eb_garamond_regular"
-            android:text="Terms and Conditions"
-            android:textColor="#000000"
-            android:textSize="35sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/eb_garamond_regular"
             android:text="The following terms and conditions are strictly implemented for check-in guests: \n\n
@@ -39,25 +42,26 @@
             android:textColor="@color/black"
             android:textSize="18sp" />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:fontFamily="@font/eb_garamond_regular"
-            android:text="I have read and agree to the Terms and Conditions"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+        </LinearLayout>
 
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="20dp"
-            android:fontFamily="@font/eb_garamond_regular"
-            android:text="Cancel"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+    </ScrollView>
 
-    </LinearLayout>
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:textSize="18sp"
+        android:text="I have read the Terms and Conditions"
+        android:fontFamily="@font/eb_garamond_semi_bold"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/popup_termsCondition_continue"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/btn_bg"
+        android:fontFamily="@font/eb_garamond_semi_bold"
+        android:text="Continue"/>
 
 </LinearLayout>

@@ -49,7 +49,7 @@ public class Manager_Login extends AppCompatActivity {
                     token = task.getResult();
                 });
 
-        signUp = findViewById(R.id.manager_login_signUp);
+        /*signUp = findViewById(R.id.manager_login_signUp);*/
         email = findViewById(R.id.manager_login_Email);
         password = findViewById(R.id.manager_login_Password);
         login = findViewById(R.id.manager_login_Login);

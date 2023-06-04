@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background1">
+    android:background="#B8C2C0">
 
  <LinearLayout
      android:layout_width="match_parent"
@@ -11,6 +11,15 @@
      android:layout_margin="20dp"
      android:gravity="center"
      android:orientation="vertical">
+
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:fontFamily="@font/eb_garamond_bold"
+      android:gravity="center"
+      android:text="Mode of Payment"
+      android:textColor="@color/black"
+      android:textSize="35sp"/>
 
   <ImageView
       android:layout_width="wrap_content"
@@ -33,9 +42,9 @@
   <TextView
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:fontFamily="@font/balsamiqsans_regular"
+      android:fontFamily="@font/eb_garamond_bold"
       android:gravity="center"
-      android:text="Your GCash number that use to pay the transaction:"
+      android:text="GCash Number:"
       android:textColor="@color/black"
       android:textSize="24sp"/>
 
@@ -55,7 +64,8 @@
   <TextView
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:fontFamily="@font/balsamiqsans_regular"
+      android:fontFamily="@font/eb_garamond_bold"
+      android:gravity="center"
       android:text="Reference number:"
       android:textColor="@color/black"
       android:textSize="24sp"/>
@@ -70,10 +80,14 @@
 
   <androidx.appcompat.widget.AppCompatButton
       android:id="@+id/popup_GCash_confirm"
-      android:layout_width="200dp"
-      android:layout_height="wrap_content"
+      android:layout_width="120dp"
+      android:layout_height="50dp"
+      android:layout_marginTop="10dp"
+      android:background="@drawable/btn_bg"
+      android:textAllCaps="false"
       android:text="Confirm"
-      android:textSize="24sp"/>
+      android:textSize="22sp"
+      android:fontFamily="@font/eb_garamond_medium"/>
  </LinearLayout>
 
 </FrameLayout>
