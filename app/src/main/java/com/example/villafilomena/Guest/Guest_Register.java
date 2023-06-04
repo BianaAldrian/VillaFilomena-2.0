@@ -62,6 +62,7 @@ public class Guest_Register extends AppCompatActivity {
         });
 
         login.setOnClickListener(v -> {
+            Guest_Login.originateFrom = "registration";
             startActivity(new Intent(this, Guest_Login.class));
             finish();
         });

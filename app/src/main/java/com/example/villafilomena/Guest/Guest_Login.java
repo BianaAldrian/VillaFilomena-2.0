@@ -23,6 +23,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import java.util.HashMap;
 
 public class Guest_Login extends AppCompatActivity {
+    public static String originateFrom = "";
     String token;
     String ipAddress;
     EditText email, password;
@@ -123,5 +124,21 @@ public class Guest_Login extends AppCompatActivity {
             }
         };
         requestQueue.add(stringRequest);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (originateFrom.equals("fragmentContainer")){
+            startActivity(new Intent(this, Guest_fragmentsContainer.class));
+            finish();
+        } else if (originateFrom.equals("registration")){
+            startActivity(new Intent(this, Guest_Register.class));
+            finish();
+        }
+        // Add your desired behavior here
+        // For example, you can go back to the previous activity or perform some other action
+
+        // Call super.onBackPressed() to allow the default back button behavior (finishing the current activity)
+        super.onBackPressed();
     }
 }

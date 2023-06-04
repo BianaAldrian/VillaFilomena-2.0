@@ -126,7 +126,6 @@ public class Manager_OnlineBooking extends AppCompatActivity implements Manager_
             bookingList_container.setLayoutManager(layoutManager);
             bookingList_container.setAdapter(adapter);
             adapter.addItemClickListener(this);
-            adapter.notifyDataSetChanged();
 
         }, Throwable::printStackTrace);
         requestQueue.add(stringRequest);

@@ -28,9 +28,11 @@ public class RoomCottageDetails_Adapter extends RecyclerView.Adapter<RoomCottage
     Activity activity;
     ArrayList<RoomCottageDetails_Model> detailsHolder;
 
-    public RoomCottageDetails_Adapter(Activity activity,ArrayList<RoomCottageDetails_Model> detailsHolder) {
+    @SuppressLint("NotifyDataSetChanged")
+    public RoomCottageDetails_Adapter(Activity activity, ArrayList<RoomCottageDetails_Model> detailsHolder) {
         this.activity = activity;
         this.detailsHolder = detailsHolder;
+        notifyDataSetChanged();
     }
 
     @SuppressLint("NotifyDataSetChanged")

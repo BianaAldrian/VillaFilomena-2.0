@@ -29,12 +29,12 @@ public class Guest_fragmentsContainer extends AppCompatActivity {
     NavigationView navigationView;
     ImageView toolbar;
     ImageView banner;
-    Button home, book, signOut;
+    Button home, book, logIn, logOut;
     AppBarLayout appbar;
     NestedScrollView nestedScrllView;
 
     //Navigation View Layout
-    CardView navView_account, navView_booking;
+    CardView navView_account, navView_booking, navView_ratings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +47,13 @@ public class Guest_fragmentsContainer extends AppCompatActivity {
         //Navigation View Layout
         navView_account = findViewById(R.id.guest_navView_account);
         navView_booking = findViewById(R.id.guest_navView_bookings);
+        navView_ratings = findViewById(R.id.guest_navView_ratings);
 
         drawerLayout = findViewById(R.id.guest_drawerLayout);
         navigationView = findViewById(R.id.guest_navView);
         toolbar = findViewById(R.id.guest_menuToolbar);
-        signOut = findViewById(R.id.guest_navView_signOutBtn);
+        logIn = findViewById(R.id.guest_navView_logInBtn);
+        logOut = findViewById(R.id.guest_navView_logOutBtn);
 
         banner = findViewById(R.id.imgviewBanner);
         home = findViewById(R.id.btnHome);
@@ -65,19 +67,31 @@ public class Guest_fragmentsContainer extends AppCompatActivity {
         navView_booking.setOnClickListener(v -> {
             startActivity(new Intent(this, Guest_bookedListPage.class));
         });
-
-        toolbar.setOnClickListener(v -> {
-            email = sharedPreferences.getString("guestEmail", "");
-            if (TextUtils.isEmpty(email)){
-                startActivity(new Intent(this, Guest_Login.class));
-            } else {
-                drawerLayout.openDrawer(GravityCompat.START);
-            }
+        navView_ratings.setOnClickListener(v -> {
+            startActivity(new Intent(this, Guest_rates_feedbacksPage.class));
         });
 
-        signOut.setOnClickListener(v -> {
+        toolbar.setOnClickListener(v -> {
+            if (TextUtils.isEmpty(email)){
+                logIn.setVisibility(View.VISIBLE);
+                logOut.setVisibility(View.GONE);
+            } else {
+                logIn.setVisibility(View.GONE);
+                logOut.setVisibility(View.VISIBLE);
+            }
+            drawerLayout.openDrawer(GravityCompat.START);
+        });
+
+        logIn.setOnClickListener(v -> {
+            Guest_Login.originateFrom = "fragmentContainer";
+            startActivity(new Intent(this, Guest_Login.class));
+            finish();
+        });
+        logOut.setOnClickListener(v -> {
+            Guest_Login.originateFrom = "fragmentContainer";
             sharedPreferences.edit().clear().apply();
             startActivity(new Intent(this, Guest_Login.class));
+            finish();
         });
 
         home.setPaintFlags(home.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -147,4 +161,15 @@ public class Guest_fragmentsContainer extends AppCompatActivity {
         appbar.setExpanded(show);
     }
 
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        if (TextUtils.isEmpty(email)){
+            logIn.setVisibility(View.VISIBLE);
+            logOut.setVisibility(View.GONE);
+        } else {
+            logIn.setVisibility(View.GONE);
+            logOut.setVisibility(View.VISIBLE);
+        }
+    }
 }

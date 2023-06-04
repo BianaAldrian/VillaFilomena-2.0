@@ -85,7 +85,6 @@ public class Guest_bookedListPage extends AppCompatActivity {
             LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             bookedListContainer.setLayoutManager(layoutManager);
             bookedListContainer.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
 
         }, error -> Toast.makeText(this, error.getMessage(), Toast.LENGTH_LONG).show())
 
@@ -94,7 +93,6 @@ public class Guest_bookedListPage extends AppCompatActivity {
             protected HashMap<String,String> getParams() {
                 HashMap<String,String> map = new HashMap<>();
                 map.put("guest_email", email);
-
                 return map;
             }
         };

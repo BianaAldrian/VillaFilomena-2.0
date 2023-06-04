@@ -25,6 +25,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Guest.Guest_rates_feedbacksPage"
+            android:exported="false" />
+        <activity
             android:name=".FrontDesk.FrontDesk_Booking2"
             android:exported="false" />
         <activity

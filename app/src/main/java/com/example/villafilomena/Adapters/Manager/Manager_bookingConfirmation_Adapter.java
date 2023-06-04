@@ -30,7 +30,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormatSymbols;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringJoiner;
@@ -74,7 +79,41 @@ public class Manager_bookingConfirmation_Adapter extends RecyclerView.Adapter<Ma
 
         getGuestInfo(model.getGuest_email(), holder.name, holder.email, holder.contact);
 
-        holder.checkIn_checkOut.setText(model.getCheckIn_date() + " - " + model.getCheckIn_time() + "\n" + model.getCheckOut_date() + " - " + model.getCheckOut_time());
+        try {
+            SimpleDateFormat inputFormat = new SimpleDateFormat("d/M/yyyy");
+
+            //check-in date
+            String inputCheckIn_Date = model.getCheckIn_date();
+            Date setCheckIn = inputFormat.parse(inputCheckIn_Date);
+            Calendar setCheckIn_Date = Calendar.getInstance();
+            setCheckIn_Date.setTime(setCheckIn);
+            int checkIn_year = setCheckIn_Date.get(Calendar.YEAR);
+            int checkIn_month = setCheckIn_Date.get(Calendar.MONTH);
+            int checkIn_dayOfMonth = setCheckIn_Date.get(Calendar.DAY_OF_MONTH);
+            // Convert the numeric month to its corresponding word representation
+            String[] checkIn_months = new DateFormatSymbols().getMonths();
+            String checkIn_monthName = checkIn_months[checkIn_month];
+            String checkIn_formattedDate = checkIn_monthName + " " + checkIn_dayOfMonth + ", " + checkIn_year;
+
+            //check-out date
+            String inputCheckOut_Date = model.getCheckOut_date();
+            Date setCheckOut = inputFormat.parse(inputCheckOut_Date);
+            Calendar setCheckOut_Date = Calendar.getInstance();
+            setCheckOut_Date.setTime(setCheckOut);
+            int checkOut_year = setCheckOut_Date.get(Calendar.YEAR);
+            int checkOut_month = setCheckOut_Date.get(Calendar.MONTH);
+            int checkOut_dayOfMonth = setCheckOut_Date.get(Calendar.DAY_OF_MONTH);
+            // Convert the numeric month to its corresponding word representation
+            String[] checkOut_months = new DateFormatSymbols().getMonths();
+            String checkOut_monthName = checkOut_months[checkOut_month];
+            String checkOut_formattedDate = checkOut_monthName + " " + checkOut_dayOfMonth + ", " + checkOut_year;
+
+            holder.checkIn_checkOut.setText(checkIn_formattedDate + " - " + model.getCheckIn_time() + "\n" + checkOut_formattedDate + " - " + model.getCheckOut_time());
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            // Handle parsing exception if required
+        }
 
         getRoomInfo(holder.room, model.getRoom_id());
 

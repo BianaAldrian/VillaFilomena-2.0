@@ -33,16 +33,17 @@ import com.android.volley.toolbox.Volley;
 import com.example.villafilomena.Adapters.RoomCottageDetails_Adapter;
 import com.example.villafilomena.Models.RoomCottageDetails_Model;
 import com.example.villafilomena.R;
-import com.google.android.material.card.MaterialCardView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -57,7 +58,7 @@ public class Guest_bookingPage1 extends Fragment {
     public static double total;
     String ipAddress;
     CardView sched, qty;
-    TextView dayTourInfo, nightTourInfo;
+    TextView dayTourInfo, nightTourInfo, displaySched, displayQty;
     RecyclerView roomList, cottageList;
     Button continueBtn;
     ArrayList<RoomCottageDetails_Model> detailsHolder;
@@ -77,6 +78,8 @@ public class Guest_bookingPage1 extends Fragment {
         nightTourInfo = view.findViewById(R.id.guest_nightTourInfo);
         sched = view.findViewById(R.id.guest_pickSched);
         qty = view.findViewById(R.id.guest_pickQty);
+        displaySched = view.findViewById(R.id.guest_sched);
+        displayQty = view.findViewById(R.id.guest_qty);
         roomList = view.findViewById(R.id.Guest_roomList);
         cottageList = view.findViewById(R.id.Guest_cottageList);
         continueBtn = view.findViewById(R.id.Guest_booking_continue);
@@ -90,34 +93,40 @@ public class Guest_bookingPage1 extends Fragment {
 
         continueBtn.setOnClickListener(v -> {
 
-            double roomTotalPrice = 0;
+            if (finalCheckIn_date == null){
+                Toast.makeText(getContext(), "Check-In and Check-Out not set", Toast.LENGTH_SHORT).show();
+            } else if (finalKidQty == 0 || finalAdultQty == 0) {
+                Toast.makeText(getContext(), "Guest Quantity not set", Toast.LENGTH_SHORT).show();
+            } else {
+                double roomTotalPrice = 0;
 
-            int childCount = roomList.getChildCount();
-            for (int i=0; i<childCount; i++){
-                View childView = roomList.getLayoutManager().findViewByPosition(i);
-                ImageView check = childView.findViewById(R.id.RoomCottageDetail_check);
-                if (check.getVisibility() == View.VISIBLE){
-                    final RoomCottageDetails_Model model = detailsHolder.get(i);
-                    selectedRoom_id.add(model.getId());
+                int childCount = roomList.getChildCount();
+                for (int i=0; i<childCount; i++){
+                    View childView = roomList.getLayoutManager().findViewByPosition(i);
+                    ImageView check = childView.findViewById(R.id.RoomCottageDetail_check);
+                    if (check.getVisibility() == View.VISIBLE){
+                        final RoomCottageDetails_Model model = detailsHolder.get(i);
+                        selectedRoom_id.add(model.getId());
 
-                    roomTotalPrice += Double.parseDouble(model.getRate());
+                        roomTotalPrice += Double.parseDouble(model.getRate());
+                    }
                 }
+
+                double dayTour_roomRate, nightTour_roomRate;
+
+                dayTour_roomRate = roomTotalPrice * dayDiff;
+                nightTour_roomRate = roomTotalPrice * nightDiff;
+
+                dayTour_kidFee = (finalKidQty * dayDiff) * dayTour_kidFee;
+                dayTour_adultFee = (finalAdultQty * dayDiff) * dayTour_adultFee;
+                nightTour_kidFee = (finalKidQty * nightDiff) * nightTour_kidFee;
+                nightTour_adultFee = (finalAdultQty * nightDiff) * nightTour_adultFee;
+
+                total = dayTour_kidFee + dayTour_adultFee + nightTour_kidFee + nightTour_adultFee + dayTour_roomRate + nightTour_roomRate;
+
+                Toast.makeText(getContext(), dayDiff + "\n" + nightDiff, Toast.LENGTH_SHORT).show();
+                replace_bookingPage1(new Guest_bookingPage2());
             }
-
-            double dayTour_roomRate, nightTour_roomRate;
-
-            dayTour_roomRate = roomTotalPrice * dayDiff;
-            nightTour_roomRate = roomTotalPrice * nightDiff;
-
-            dayTour_kidFee = (finalKidQty * dayDiff) * dayTour_kidFee;
-            dayTour_adultFee = (finalAdultQty * dayDiff) * dayTour_adultFee;
-            nightTour_kidFee = (finalKidQty * nightDiff) * nightTour_kidFee;
-            nightTour_adultFee = (finalAdultQty * nightDiff) * nightTour_adultFee;
-
-            total = dayTour_kidFee + dayTour_adultFee + nightTour_kidFee + nightTour_adultFee + dayTour_roomRate + nightTour_roomRate;
-
-            Toast.makeText(getContext(), dayDiff + "\n" + nightDiff, Toast.LENGTH_SHORT).show();
-            replace_bookingPage1(new Guest_bookingPage2());
         });
 
         displayRooms();
@@ -165,6 +174,7 @@ public class Guest_bookingPage1 extends Fragment {
         transaction.replace(R.id.guestFragmentContainer,fragment).commit();
     }
 
+    @SuppressLint({"SimpleDateFormat", "SetTextI18n"})
     private void pickSched() {
         Dialog calendar = new Dialog(getContext());
         calendar.setContentView(R.layout.popup_booking_calendar_dialog);
@@ -196,8 +206,6 @@ public class Guest_bookingPage1 extends Fragment {
         checkOut.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
             checkOut_date[0] = dayOfMonth + "/" + (month + 1) + "/" + year;
         });
-
-
 
         CompoundButton.OnCheckedChangeListener listener = (buttonView, isChecked) -> {
             if (isChecked) {
@@ -246,6 +254,44 @@ public class Guest_bookingPage1 extends Fragment {
             } else {
                 getDateDifference();
                 displayAvailableRooms();
+
+                try {
+                    SimpleDateFormat inputFormat = new SimpleDateFormat("d/M/yyyy");
+
+                    //check-in date
+                    String inputCheckIn_Date = finalCheckIn_date;
+                    Date setCheckIn = inputFormat.parse(inputCheckIn_Date);
+                    Calendar setCheckIn_Date = Calendar.getInstance();
+                    setCheckIn_Date.setTime(setCheckIn);
+                    int checkIn_year = setCheckIn_Date.get(Calendar.YEAR);
+                    int checkIn_month = setCheckIn_Date.get(Calendar.MONTH);
+                    int checkIn_dayOfMonth = setCheckIn_Date.get(Calendar.DAY_OF_MONTH);
+                    // Convert the numeric month to its corresponding word representation
+                    String[] checkIn_months = new DateFormatSymbols().getMonths();
+                    String checkIn_monthName = checkIn_months[checkIn_month];
+                    String checkIn_formattedDate = checkIn_monthName + " " + checkIn_dayOfMonth + ", " + checkIn_year;
+
+                    //check-out date
+                    String inputCheckOut_Date = finalCheckOut_date;
+                    Date setCheckOut = inputFormat.parse(inputCheckOut_Date);
+                    Calendar setCheckOut_Date = Calendar.getInstance();
+                    setCheckOut_Date.setTime(setCheckOut);
+                    int checkOut_year = setCheckOut_Date.get(Calendar.YEAR);
+                    int checkOut_month = setCheckOut_Date.get(Calendar.MONTH);
+                    int checkOut_dayOfMonth = setCheckOut_Date.get(Calendar.DAY_OF_MONTH);
+                    // Convert the numeric month to its corresponding word representation
+                    String[] checkOut_months = new DateFormatSymbols().getMonths();
+                    String checkOut_monthName = checkOut_months[checkOut_month];
+                    String checkOut_formattedDate = checkOut_monthName + " " + checkOut_dayOfMonth + ", " + checkOut_year;
+
+                    //Toast.makeText(getContext(), formattedDate, Toast.LENGTH_SHORT).show();
+                    displaySched.setText("Check-In\n"+checkIn_formattedDate+" - "+finalCheckIn_time+"\nCheck-Out\n"+checkOut_formattedDate+" - "+finalCheckOut_time);
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    // Handle parsing exception if required
+                }
+
                 calendar.hide();
             }
 
@@ -327,6 +373,8 @@ public class Guest_bookingPage1 extends Fragment {
             finalAdultQty = adultQty[0];
             finalKidQty = kidQty[0];
 
+            displayQty.setText(finalAdultQty+" Adult/s\n"+finalKidQty+" Kid/s");
+
             qty.hide();
         });
 
@@ -402,7 +450,6 @@ public class Guest_bookingPage1 extends Fragment {
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
             roomList.setLayoutManager(layoutManager);
             roomList.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
 
         },
                 error -> Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show())
@@ -410,7 +457,7 @@ public class Guest_bookingPage1 extends Fragment {
             @Override
             protected HashMap<String,String> getParams() {
                 HashMap<String,String> map = new HashMap<>();
-                map.put("checkIn_date", finalCheckIn_date);
+                map.put("checkIn_date",finalCheckIn_date);
                 map.put("checkIn_time",finalCheckIn_time);
                 map.put("checkOut_date",finalCheckOut_date);
                 map.put("checkOut_time",finalCheckOut_time);
@@ -422,12 +469,12 @@ public class Guest_bookingPage1 extends Fragment {
         //showCheckbox();
     }
 
-    private void showCheckbox(){
+    /*private void showCheckbox(){
         int childCount = roomList.getChildCount();
         for (int i=0; i<childCount; i++){
             View childView = roomList.getLayoutManager().findViewByPosition(i);
             MaterialCardView box = childView.findViewById(R.id.RoomCottageDetail_box);
             box.setVisibility(View.VISIBLE);
         }
-    }
+    }*/
 }
