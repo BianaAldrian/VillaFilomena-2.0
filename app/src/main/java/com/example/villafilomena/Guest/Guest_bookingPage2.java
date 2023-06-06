@@ -4,15 +4,19 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +52,8 @@ public class Guest_bookingPage2 extends Fragment {
     ArrayList<RoomCottageDetails_Model> detailsHolder;
     String postUrl = "https://fcm.googleapis.com/fcm/send";
     String fcmServerKey = "AAAAN__YSUs:APA91bGogQWxZZ5Y-10ZD4FEWfJ0j8kBRPZ06oDn5zDSw5Fc_lmzWZgFbyW50Rw0k9hWOz7ZOoeACOaiBNX3nbJJGCpj8KSRDMQBiFo5MAE0AFJqgHGNE7tzW83E1nY8l6zBIgAaiQa_";
+
+    Dialog loading_dialog;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -157,10 +163,38 @@ public class Guest_bookingPage2 extends Fragment {
         window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
         EditText gcashNum = gcash.findViewById(R.id.popup_GCash_guestNumber);
+        Spinner paymentOptionSpn = gcash.findViewById(R.id.popup_GCash_paymentOptionSpn);
         EditText refNum = gcash.findViewById(R.id.popup_GCash_referenceNum);
         Button confirm = gcash.findViewById(R.id.popup_GCash_confirm);
 
+        String[] paymentOptions = new String[] {"Partial", "Full"};
+
+        ArrayAdapter<String> paymentSpinnerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, paymentOptions);
+        paymentOptionSpn.setAdapter(paymentSpinnerAdapter);
+
+        paymentOptionSpn.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //Toast.makeText(getContext(), position, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         confirm.setOnClickListener(v -> {
+            loading_dialog = new Dialog(getContext());
+            loading_dialog.setContentView(R.layout.loading_dialog);
+            loading_dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            Window loadingWidow = loading_dialog.getWindow();
+            loadingWidow.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+
+            //ProgressBar progressBar = loading_dialog.findViewById(R.id.loading_dialog);
+
+            loading_dialog.show();
+
             requestBooking();
             if (!Guest_bookingPage1.selectedRoom_id.isEmpty()){
                 for (String roomId : Guest_bookingPage1.selectedRoom_id) {
@@ -179,7 +213,13 @@ public class Guest_bookingPage2 extends Fragment {
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
             if (response.equals("success")){
+
                 getManagerToken();
+                loading_dialog.hide();
+                Guest_bookedListPage.fromBooking = true;
+                startActivity(new Intent(getContext(), Guest_bookedListPage.class));
+                Guest_fragmentsContainer guest = new Guest_fragmentsContainer();
+                guest.closeActivity();
                 Toast.makeText(getContext(), "Booking Successful", Toast.LENGTH_SHORT).show();
             }
             else if(response.equals("failed")){

@@ -85,9 +85,6 @@ public class Guest_rates_feedbacksPage extends AppCompatActivity {
         feedbacksHolder = new ArrayList<>();
 
         String url = "http://"+ipAddress+"/VillaFilomena/guest_dir/retrieve/guest_getFeedbacks.php";
-
-        // Create a StringRequest for the HTTP GET request
-        // Handle error
         StringRequest request = new StringRequest(Request.Method.POST, url,
                 response -> {
                     try {
@@ -105,7 +102,6 @@ public class Guest_rates_feedbacksPage extends AppCompatActivity {
                                     jsonObject.getString("date"));
                             feedbacksHolder.add(model);
                         }
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -312,7 +308,7 @@ public class Guest_rates_feedbacksPage extends AppCompatActivity {
                 response -> {
                     if (response.equals("success")){
                         Toast.makeText(this, "Feedback insert successfully", Toast.LENGTH_LONG).show();
-
+                        displayFeedbacks();
                     } else if(response.equals("failed")){
                         Toast.makeText(this, "Feedback insert failed", Toast.LENGTH_SHORT).show();
                     }
@@ -329,6 +325,7 @@ public class Guest_rates_feedbacksPage extends AppCompatActivity {
                 params.put("ratings", String.valueOf(Rating));
                 params.put("feedback", FeedBack);
                 params.put("date", formattedDate);
+
                 if (downloadUrls == null){
                     params.put("image_urls","");
                 } else {

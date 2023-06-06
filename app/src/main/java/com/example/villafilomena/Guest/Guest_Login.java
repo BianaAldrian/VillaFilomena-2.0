@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +17,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.villafilomena.R;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
@@ -26,7 +26,7 @@ public class Guest_Login extends AppCompatActivity {
     public static String originateFrom = "";
     String token;
     String ipAddress;
-    EditText email, password;
+    TextInputEditText email, password;
     Button login;
     TextView register;
 

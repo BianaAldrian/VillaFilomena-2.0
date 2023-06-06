@@ -57,9 +57,9 @@
       tools:ignore="SpeakableTextPresentCheck" />
 
   <Spinner
+      android:id="@+id/popup_GCash_paymentOptionSpn"
       android:layout_width="300dp"
       android:layout_height="48dp"/>
-
 
   <TextView
       android:layout_width="match_parent"
@@ -84,10 +84,10 @@
       android:layout_height="50dp"
       android:layout_marginTop="10dp"
       android:background="@drawable/btn_bg"
-      android:textAllCaps="false"
+      android:fontFamily="@font/eb_garamond_medium"
       android:text="Confirm"
-      android:textSize="22sp"
-      android:fontFamily="@font/eb_garamond_medium"/>
+      android:textAllCaps="false"
+      android:textSize="22sp"/>
  </LinearLayout>
 
 </FrameLayout>

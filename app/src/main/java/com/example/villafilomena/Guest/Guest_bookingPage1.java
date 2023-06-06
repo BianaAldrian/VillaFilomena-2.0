@@ -115,7 +115,7 @@ public class Guest_bookingPage1 extends Fragment {
             } else {
                 if (finalCheckIn_date == null){
                     Toast.makeText(getContext(), "Check-In and Check-Out not set", Toast.LENGTH_SHORT).show();
-                } else if (finalKidQty == 0) {
+                } else if (finalAdultQty == 0) {
                     Toast.makeText(getContext(), "Adult Quantity not set", Toast.LENGTH_SHORT).show();
                 } else {
                     double roomTotalPrice = 0;
@@ -404,6 +404,7 @@ public class Guest_bookingPage1 extends Fragment {
     }
 
     private void displayRooms() {
+        showBox = false;
         detailsHolder = new ArrayList<>();
 
         String url = "http://"+ipAddress+"/VillaFilomena/guest_dir/retrieve/guest_getRoomDetails.php";
@@ -439,6 +440,37 @@ public class Guest_bookingPage1 extends Fragment {
     }
 
     private void displayCottages() {
+        detailsHolder = new ArrayList<>();
+
+        String url = "http://"+ipAddress+"/VillaFilomena/guest_dir/retrieve/guest_getRoomDetails.php";
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
+            try {
+                JSONArray jsonArray = new JSONArray(response);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject object = jsonArray.getJSONObject(i);
+
+                    RoomCottageDetails_Model model = new RoomCottageDetails_Model(
+                            object.getString("id"),
+                            object.getString("imageUrl"),
+                            object.getString("roomName"),
+                            object.getString("roomCapacity"),
+                            object.getString("roomRate"),
+                            object.getString("roomDescription"));
+
+                    detailsHolder.add(model);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            RoomCottageDetails_Adapter adapter = new RoomCottageDetails_Adapter(getActivity(),detailsHolder);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+            cottageList.setLayoutManager(layoutManager);
+            cottageList.setAdapter(adapter);
+
+        }, error -> Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show());
+        requestQueue.add(stringRequest);
     }
 
     private void displayAvailableRooms() {

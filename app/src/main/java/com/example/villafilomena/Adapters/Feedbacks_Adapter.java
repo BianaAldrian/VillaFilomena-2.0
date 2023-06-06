@@ -68,11 +68,12 @@ public class Feedbacks_Adapter extends RecyclerView.Adapter<Feedbacks_Adapter.Vi
             separatedUrlList.add(model1);
         }
 
-        holder.imageContainer.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-        Feedback_Image_Adapter adapter = new Feedback_Image_Adapter(context, separatedUrlList);
-        holder.imageContainer.setAdapter(adapter);
-        holder.imageContainer.setHasFixedSize(true);
-
+        if (!imageUrl.equals("")){
+            holder.imageContainer.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+            Feedback_Image_Adapter adapter = new Feedback_Image_Adapter(context, separatedUrlList);
+            holder.imageContainer.setAdapter(adapter);
+            holder.imageContainer.setHasFixedSize(true);
+        }
     }
 
     @Override

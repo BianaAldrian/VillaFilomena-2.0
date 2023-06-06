@@ -26,6 +26,7 @@ import com.google.android.material.navigation.NavigationView;
 public class  Guest_fragmentsContainer extends AppCompatActivity {
     public static String fromBooking = "";
     public static String email;
+    SharedPreferences sharedPreferences;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     ImageView toolbar;
@@ -42,7 +43,7 @@ public class  Guest_fragmentsContainer extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guest_fragments_container);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("guestEmail_Pref", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("guestEmail_Pref", MODE_PRIVATE);
         email = sharedPreferences.getString("guestEmail", "");
 
         //Navigation View Layout
@@ -61,57 +62,6 @@ public class  Guest_fragmentsContainer extends AppCompatActivity {
         book = findViewById(R.id.btnBook);
         appbar = findViewById(R.id.appbar);
         nestedScrllView = findViewById(R.id.nestedScrllView);
-
-        if (fromBooking.equals("booking")){
-            nestedScrllView.fullScroll(View.FOCUS_UP);
-            toggle(false);
-            nestedScrllView.setNestedScrollingEnabled(false);
-
-            book.setPaintFlags(book.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-            book.setPaintFlags(book.getPaintFlags() | Paint.FAKE_BOLD_TEXT_FLAG);
-            replace_book(new Guest_bookingPage1());
-
-           /* if((home.getPaintFlags() & Paint.UNDERLINE_TEXT_FLAG) == Paint.UNDERLINE_TEXT_FLAG &&
-                    (home.getPaintFlags() & Paint.FAKE_BOLD_TEXT_FLAG) == Paint.FAKE_BOLD_TEXT_FLAG){
-                home.setPaintFlags(home.getPaintFlags() ^ Paint.UNDERLINE_TEXT_FLAG);
-                home.setPaintFlags(home.getPaintFlags() ^ Paint.FAKE_BOLD_TEXT_FLAG);
-
-                replace_book(new Guest_bookingPage1());
-            }*/
-        }
-
-        navView_account.setOnClickListener(v -> {
-            startActivity(new Intent(this, Guest_accountPage.class));
-        });
-        navView_booking.setOnClickListener(v -> {
-            startActivity(new Intent(this, Guest_bookedListPage.class));
-        });
-        navView_ratings.setOnClickListener(v -> {
-            startActivity(new Intent(this, Guest_rates_feedbacksPage.class));
-        });
-
-        toolbar.setOnClickListener(v -> {
-            if (TextUtils.isEmpty(email)){
-                logIn.setVisibility(View.VISIBLE);
-                logOut.setVisibility(View.GONE);
-            } else {
-                logIn.setVisibility(View.GONE);
-                logOut.setVisibility(View.VISIBLE);
-            }
-            drawerLayout.openDrawer(GravityCompat.START);
-        });
-
-        logIn.setOnClickListener(v -> {
-            Guest_Login.originateFrom = "fragmentContainer";
-            startActivity(new Intent(this, Guest_Login.class));
-            finish();
-        });
-        logOut.setOnClickListener(v -> {
-            Guest_Login.originateFrom = "fragmentContainer";
-            sharedPreferences.edit().clear().apply();
-            startActivity(new Intent(this, Guest_Login.class));
-            finish();
-        });
 
         home.setPaintFlags(home.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         home.setPaintFlags(home.getPaintFlags() | Paint.FAKE_BOLD_TEXT_FLAG);
@@ -152,6 +102,56 @@ public class  Guest_fragmentsContainer extends AppCompatActivity {
             }
 
             //replace(new Guest_bookingPage1());
+        });
+
+        fromBookingFunctions();
+        toolbarFunctions();
+    }
+
+    private void fromBookingFunctions() {
+        if (fromBooking.equals("booking")){
+            /*nestedScrllView.fullScroll(View.FOCUS_UP);
+            toggle(true);
+            nestedScrllView.setNestedScrollingEnabled(true);
+*/
+            home.setPaintFlags(home.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            home.setPaintFlags(home.getPaintFlags() | Paint.FAKE_BOLD_TEXT_FLAG);
+            replace_book(new Guest_bookingPage1());
+        }
+    }
+
+    private void toolbarFunctions(){
+        toolbar.setOnClickListener(v -> {
+            if (TextUtils.isEmpty(email)){
+                logIn.setVisibility(View.VISIBLE);
+                logOut.setVisibility(View.GONE);
+            } else {
+                logIn.setVisibility(View.GONE);
+                logOut.setVisibility(View.VISIBLE);
+            }
+            drawerLayout.openDrawer(GravityCompat.START);
+        });
+
+        navView_account.setOnClickListener(v -> {
+            startActivity(new Intent(this, Guest_accountPage.class));
+        });
+        navView_booking.setOnClickListener(v -> {
+            startActivity(new Intent(this, Guest_bookedListPage.class));
+        });
+        navView_ratings.setOnClickListener(v -> {
+            startActivity(new Intent(this, Guest_rates_feedbacksPage.class));
+        });
+
+        logIn.setOnClickListener(v -> {
+            Guest_Login.originateFrom = "fragmentContainer";
+            startActivity(new Intent(this, Guest_Login.class));
+            finish();
+        });
+        logOut.setOnClickListener(v -> {
+            Guest_Login.originateFrom = "fragmentContainer";
+            sharedPreferences.edit().clear().apply();
+            startActivity(new Intent(this, Guest_Login.class));
+            finish();
         });
     }
 

@@ -1,5 +1,6 @@
 package com.example.villafilomena.Guest;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Guest_bookedListPage extends AppCompatActivity {
+    public static boolean fromBooking = false;
     String ipAddress;
     String email;
     RecyclerView bookedListContainer;
@@ -41,6 +43,11 @@ public class Guest_bookedListPage extends AppCompatActivity {
         email = email_pref.getString("guestEmail", "");
 
         bookedListContainer = findViewById(R.id.guest_bookedList_container);
+
+        if (fromBooking){
+            Guest_fragmentsContainer guest = new Guest_fragmentsContainer();
+            guest.closeActivity();
+        }
 
         getBookingInfo();
     }
@@ -97,5 +104,14 @@ public class Guest_bookedListPage extends AppCompatActivity {
             }
         };
         requestQueue.add(stringRequest);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (fromBooking){
+            Guest_fragmentsContainer.fromBooking = "booking";
+            startActivity(new Intent(this, Guest_fragmentsContainer.class));
+        }
     }
 }

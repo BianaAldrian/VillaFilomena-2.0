@@ -115,7 +115,7 @@
             android:id="@+id/nestedScrllView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="70dp"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
             tools:ignore="SpeakableTextPresentCheck">
 
