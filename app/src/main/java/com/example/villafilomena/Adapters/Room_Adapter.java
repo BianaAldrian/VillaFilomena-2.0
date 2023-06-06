@@ -75,7 +75,7 @@ public class Room_Adapter extends RecyclerView.Adapter<Room_Adapter.ViewHolder> 
         holder.infos.setText(
                 ""+model.getName()+"\n"+
                 model.getCapacity()+"\n"+
-                model.getRate());
+                "₱"+model.getRate());
 
         holder.seeMore.setOnClickListener(v -> {
             Dialog DetailedInfo = new Dialog(context);

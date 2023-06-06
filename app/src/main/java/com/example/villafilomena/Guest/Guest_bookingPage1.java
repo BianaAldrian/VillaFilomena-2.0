@@ -442,6 +442,7 @@ public class Guest_bookingPage1 extends Fragment {
     }
 
     private void displayCottages() {
+        showBox = false;
         cottageHolder = new ArrayList<>();
 
         String url = "http://"+ipAddress+"/VillaFilomena/guest_dir/retrieve/guest_getRoomDetails.php";
