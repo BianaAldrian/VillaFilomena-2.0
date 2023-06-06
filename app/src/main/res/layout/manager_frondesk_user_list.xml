@@ -3,11 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="@drawable/background1">
 
     <ImageView
         android:id="@+id/manager_clerkList_image"
+        android:layout_margin="10dp"
         android:layout_width="150dp"
         android:layout_height="150dp"
         tools:src="@tools:sample/avatars"/>
@@ -15,6 +16,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
@@ -22,7 +24,7 @@
             android:id="@+id/manager_clerkList_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="status: online/offline"
+            android:text="Status: Online/Offline"
             android:textColor="@color/black"
             android:textSize="24sp"/>
 
