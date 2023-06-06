@@ -180,10 +180,10 @@ public class Guest_bookingPage2 extends Fragment {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
             if (response.equals("success")){
                 getManagerToken();
-                Toast.makeText(getContext(), "Upload Successful", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Booking Successful", Toast.LENGTH_SHORT).show();
             }
             else if(response.equals("failed")){
-                Toast.makeText(getContext(), "Upload Failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Booking Failed", Toast.LENGTH_SHORT).show();
             }
         },
                 error -> Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show())
@@ -216,10 +216,10 @@ public class Guest_bookingPage2 extends Fragment {
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
             if (response.equals("success")){
-                Toast.makeText(getContext(), "Upload Successful", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Room Reservation Successful", Toast.LENGTH_SHORT).show();
             }
             else if(response.equals("failed")){
-                Toast.makeText(getContext(), "Upload Failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Room Reservation Failed", Toast.LENGTH_SHORT).show();
             }
         },
                 error -> Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show())
@@ -229,7 +229,6 @@ public class Guest_bookingPage2 extends Fragment {
                 HashMap<String,String> map = new HashMap<>();
                 map.put("room_id",roomId);
                 map.put("bookBy_guest_email", Guest_fragmentsContainer.email);
-                //map.put("bookBy_guest_email", "aldrian.scarlan@gmail.com");
                 map.put("checkIn_date",Guest_bookingPage1.finalCheckIn_date);
                 map.put("checkIn_time",Guest_bookingPage1.finalCheckIn_time);
                 map.put("checkOut_date",Guest_bookingPage1.finalCheckOut_date);

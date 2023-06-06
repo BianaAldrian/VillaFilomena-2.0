@@ -27,12 +27,13 @@ import com.example.villafilomena.Models.Image_Model;
 import com.example.villafilomena.R;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -100,8 +101,8 @@ public class Guest_rates_feedbacksPage extends AppCompatActivity {
                                     jsonObject.getString("guest_email"),
                                     jsonObject.getString("ratings"),
                                     jsonObject.getString("feedback"),
-                                    jsonObject.getString("image_urls")
-                            );
+                                    jsonObject.getString("image_urls"),
+                                    jsonObject.getString("date"));
                             feedbacksHolder.add(model);
                         }
 
@@ -217,6 +218,7 @@ public class Guest_rates_feedbacksPage extends AppCompatActivity {
             rateValue.setText(wordValue);
         });
 
+        newImageList = new ArrayList<>();
         imageContainer.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         addImage.setOnClickListener(v -> selectImage());
 
@@ -231,7 +233,6 @@ public class Guest_rates_feedbacksPage extends AppCompatActivity {
                 insertFeedbacks(null);
             }
 
-            feedback.dismiss();
             feedback.hide();
         });
 
@@ -250,8 +251,6 @@ public class Guest_rates_feedbacksPage extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGES_REQUEST_CODE && resultCode == RESULT_OK) {
             if (data != null) {
-                newImageList = new ArrayList<>();
-
                 if (data.getClipData() != null) {
                     // Multiple images were selected
                     int count = data.getClipData().getItemCount();
@@ -266,7 +265,7 @@ public class Guest_rates_feedbacksPage extends AppCompatActivity {
                 }
 
                 // Update the image container adapter
-                Image_Adapter adapter = new Image_Adapter(newImageList);
+                Image_Adapter adapter = new Image_Adapter(this, newImageList, true);
                 imageContainer.setAdapter(adapter);
             }
         }
@@ -298,16 +297,26 @@ public class Guest_rates_feedbacksPage extends AppCompatActivity {
     }
 
     private void insertFeedbacks(List<String> downloadUrls){
+        // Get the current date
+        LocalDate currentDate = LocalDate.now();
+
+        // Create a DateTimeFormatter for the desired date format
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+
+        // Format the current date using the formatter
+        String formattedDate = currentDate.format(formatter);
+
         String url = "http://"+ipAddress+"/VillaFilomena/guest_dir/insert/guest_insertFeedbacks.php";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
-            if (response.equals("success")){
-                Toast.makeText(this, "Feedback insert successfully", Toast.LENGTH_LONG).show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                response -> {
+                    if (response.equals("success")){
+                        Toast.makeText(this, "Feedback insert successfully", Toast.LENGTH_LONG).show();
 
-            } else if(response.equals("failed")){
-                Toast.makeText(this, "Feedback insert failed", Toast.LENGTH_SHORT).show();
-            }
-        },
+                    } else if(response.equals("failed")){
+                        Toast.makeText(this, "Feedback insert failed", Toast.LENGTH_SHORT).show();
+                    }
+                },
                 error -> {
                     Toast.makeText(this, "Failed to insert feedback", Toast.LENGTH_SHORT).show();
                     error.printStackTrace();
@@ -319,10 +328,11 @@ public class Guest_rates_feedbacksPage extends AppCompatActivity {
                 params.put("email", email);
                 params.put("ratings", String.valueOf(Rating));
                 params.put("feedback", FeedBack);
-
-                if (downloadUrls != null) {
-                    String jsonString = new Gson().toJson(downloadUrls);
-                    params.put("image_urls", jsonString);
+                params.put("date", formattedDate);
+                if (downloadUrls == null){
+                    params.put("image_urls","");
+                } else {
+                    params.put("image_urls", String.join(",",downloadUrls));
                 }
 
                 return params;

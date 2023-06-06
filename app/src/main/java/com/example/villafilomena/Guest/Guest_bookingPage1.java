@@ -3,7 +3,9 @@ package com.example.villafilomena.Guest;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -92,40 +94,59 @@ public class Guest_bookingPage1 extends Fragment {
         selectedRoom_id = new ArrayList<>();
 
         continueBtn.setOnClickListener(v -> {
+            if (Guest_fragmentsContainer.email.equals("")){
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Log In?");
+                builder.setMessage("Please Log In first");
+                builder.setPositiveButton("OK", (dialog, which) -> {
+                    // Handle the OK button click
+                    startActivity(new Intent(getContext(), Guest_Login.class));
+                    Guest_Login.originateFrom = "booking";
+                    Guest_fragmentsContainer guest = new Guest_fragmentsContainer();
+                    guest.closeActivity();
 
-            if (finalCheckIn_date == null){
-                Toast.makeText(getContext(), "Check-In and Check-Out not set", Toast.LENGTH_SHORT).show();
-            } else if (finalKidQty == 0 || finalAdultQty == 0) {
-                Toast.makeText(getContext(), "Guest Quantity not set", Toast.LENGTH_SHORT).show();
+                });
+                builder.setNegativeButton("Cancel", (dialog, which) -> {
+                    // Handle the Cancel button click
+                    dialog.dismiss(); // Close the dialog
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             } else {
-                double roomTotalPrice = 0;
+                if (finalCheckIn_date == null){
+                    Toast.makeText(getContext(), "Check-In and Check-Out not set", Toast.LENGTH_SHORT).show();
+                } else if (finalKidQty == 0) {
+                    Toast.makeText(getContext(), "Adult Quantity not set", Toast.LENGTH_SHORT).show();
+                } else {
+                    double roomTotalPrice = 0;
 
-                int childCount = roomList.getChildCount();
-                for (int i=0; i<childCount; i++){
-                    View childView = roomList.getLayoutManager().findViewByPosition(i);
-                    ImageView check = childView.findViewById(R.id.RoomCottageDetail_check);
-                    if (check.getVisibility() == View.VISIBLE){
-                        final RoomCottageDetails_Model model = detailsHolder.get(i);
-                        selectedRoom_id.add(model.getId());
+                    int childCount = roomList.getChildCount();
+                    for (int i=0; i<childCount; i++){
+                        View childView = roomList.getLayoutManager().findViewByPosition(i);
+                        ImageView check = childView.findViewById(R.id.RoomCottageDetail_check);
+                        if (check.getVisibility() == View.VISIBLE){
+                            final RoomCottageDetails_Model model = detailsHolder.get(i);
+                            selectedRoom_id.add(model.getId());
 
-                        roomTotalPrice += Double.parseDouble(model.getRate());
+                            roomTotalPrice += Double.parseDouble(model.getRate());
+                        }
                     }
+
+                    double dayTour_roomRate, nightTour_roomRate;
+
+                    dayTour_roomRate = roomTotalPrice * dayDiff;
+                    nightTour_roomRate = roomTotalPrice * nightDiff;
+
+                    dayTour_kidFee = (finalKidQty * dayDiff) * dayTour_kidFee;
+                    dayTour_adultFee = (finalAdultQty * dayDiff) * dayTour_adultFee;
+                    nightTour_kidFee = (finalKidQty * nightDiff) * nightTour_kidFee;
+                    nightTour_adultFee = (finalAdultQty * nightDiff) * nightTour_adultFee;
+
+                    total = dayTour_kidFee + dayTour_adultFee + nightTour_kidFee + nightTour_adultFee + dayTour_roomRate + nightTour_roomRate;
+
+                    Toast.makeText(getContext(), dayDiff + "\n" + nightDiff, Toast.LENGTH_SHORT).show();
+                    replace_bookingPage1(new Guest_bookingPage2());
                 }
-
-                double dayTour_roomRate, nightTour_roomRate;
-
-                dayTour_roomRate = roomTotalPrice * dayDiff;
-                nightTour_roomRate = roomTotalPrice * nightDiff;
-
-                dayTour_kidFee = (finalKidQty * dayDiff) * dayTour_kidFee;
-                dayTour_adultFee = (finalAdultQty * dayDiff) * dayTour_adultFee;
-                nightTour_kidFee = (finalKidQty * nightDiff) * nightTour_kidFee;
-                nightTour_adultFee = (finalAdultQty * nightDiff) * nightTour_adultFee;
-
-                total = dayTour_kidFee + dayTour_adultFee + nightTour_kidFee + nightTour_adultFee + dayTour_roomRate + nightTour_roomRate;
-
-                Toast.makeText(getContext(), dayDiff + "\n" + nightDiff, Toast.LENGTH_SHORT).show();
-                replace_bookingPage1(new Guest_bookingPage2());
             }
         });
 
@@ -151,12 +172,12 @@ public class Guest_bookingPage1 extends Fragment {
                     nightTour_adultFee = Double.parseDouble(object.getString("nightTour_adultFee"));
 
                     dayTourInfo.setText(""+object.getString("dayTour_time") +"\n\n" +
-                            "KID "+ object.getString("dayTour_kidAge") + " - " + object.getString("dayTour_kidFee") +"\n"+
-                            "ADULT "+  object.getString("dayTour_adultAge") + " - " + object.getString("dayTour_adultFee"));
+                            "KID "+ object.getString("dayTour_kidAge") + " - ₱" + object.getString("dayTour_kidFee") +"\n"+
+                            "ADULT "+  object.getString("dayTour_adultAge") + " - ₱" + object.getString("dayTour_adultFee"));
 
                     nightTourInfo.setText(""+object.getString("nightTour_time") +"\n\n" +
-                            "KID "+ object.getString("nightTour_kidAge") + " - " + object.getString("nightTour_kidFee") +"\n"+
-                            "ADULT "+  object.getString("nightTour_adultAge") + " - " + object.getString("nightTour_adultFee"));
+                            "KID "+ object.getString("nightTour_kidAge") + " - ₱" + object.getString("nightTour_kidFee") +"\n"+
+                            "ADULT "+  object.getString("nightTour_adultAge") + " - ₱" + object.getString("nightTour_adultFee"));
 
                 }
             } catch (JSONException e) {
@@ -333,6 +354,7 @@ public class Guest_bookingPage1 extends Fragment {
     private void pickQty() {
         Dialog qty = new Dialog(getContext());
         qty.setContentView(R.layout.popup_pick_adult_childrent_qty);
+        qty.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         Window window = qty.getWindow();
         window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
@@ -468,13 +490,4 @@ public class Guest_bookingPage1 extends Fragment {
 
         //showCheckbox();
     }
-
-    /*private void showCheckbox(){
-        int childCount = roomList.getChildCount();
-        for (int i=0; i<childCount; i++){
-            View childView = roomList.getLayoutManager().findViewByPosition(i);
-            MaterialCardView box = childView.findViewById(R.id.RoomCottageDetail_box);
-            box.setVisibility(View.VISIBLE);
-        }
-    }*/
 }

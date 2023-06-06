@@ -146,7 +146,6 @@ public class Manager_FrontdeskUser extends AppCompatActivity {
             LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             clerkContainer.setLayoutManager(layoutManager);
             clerkContainer.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
 
         }, error -> Toast.makeText(this,error.getMessage().toString(), Toast.LENGTH_LONG).show());
         requestQueue.add(stringRequest);

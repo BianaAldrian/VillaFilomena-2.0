@@ -3,7 +3,6 @@ package com.example.villafilomena.Adapters;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -113,14 +112,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
             holder.day.setText("");
             holder.schedule.setText("");
         }
-    }
-
-    private void showScheduleDialog(String date) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Selected Date")
-                .setMessage("You have selected: " + date)
-                .setPositiveButton("OK", null)
-                .show();
     }
 
     @Override

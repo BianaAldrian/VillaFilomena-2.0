@@ -1,6 +1,5 @@
 package com.example.villafilomena.Manager;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -145,7 +144,7 @@ public class Manager_room_cottage_details extends AppCompatActivity {
 
         String url = "http://"+ipAddress+"/VillaFilomena/manager_dir/retrieve/manager_getRoomDetails.php";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        @SuppressLint("NotifyDataSetChanged") StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
             try {
                 JSONArray jsonArray = new JSONArray(response);
                 for (int i = 0; i < jsonArray.length(); i++) {
@@ -170,9 +169,8 @@ public class Manager_room_cottage_details extends AppCompatActivity {
             LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
             roomDetails_Container.setLayoutManager(layoutManager);
             roomDetails_Container.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
 
-        }, error -> Toast.makeText(this,error.getMessage().toString(), Toast.LENGTH_LONG).show());
+        }, error -> Toast.makeText(this, error.getMessage(), Toast.LENGTH_LONG).show());
         requestQueue.add(stringRequest);
     }
 

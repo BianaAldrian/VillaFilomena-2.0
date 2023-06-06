@@ -7,8 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +17,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.villafilomena.Manager.Manager_Dashboard;
 import com.example.villafilomena.R;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
@@ -26,8 +25,7 @@ import java.util.HashMap;
 public class Manager_Login extends AppCompatActivity {
     String token;
     String ipAddress;
-    TextView signUp;
-    EditText email, password;
+    TextInputEditText email, password;
     Button login;
 
     @Override
@@ -53,11 +51,6 @@ public class Manager_Login extends AppCompatActivity {
         email = findViewById(R.id.manager_login_Email);
         password = findViewById(R.id.manager_login_Password);
         login = findViewById(R.id.manager_login_Login);
-
-        signUp.setOnClickListener(v -> {
-            startActivity(new Intent(this, Manager_Register.class));
-            finish();
-        });
 
         login.setOnClickListener(v -> {
             login();

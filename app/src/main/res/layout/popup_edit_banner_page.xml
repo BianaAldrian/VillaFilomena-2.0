@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="top|center"
@@ -12,30 +13,36 @@
 
         <!--TextView for uploading a banner-->
         <TextView
+            android:id="@+id/manager_popup_updateBannerTxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Update Banner"/>
+            android:text="Update Banner"
+            tools:ignore="HardcodedText" />
 
         <!--TextView for uploading a introduction-->
         <TextView
+            android:id="@+id/manager_popup_updateIntroTxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Update Introduction"/>
+            android:text="Update Introduction"
+            tools:ignore="HardcodedText" />
 
         <!--TextView for uploading a images-->
         <TextView
+            android:id="@+id/manager_popup_updateImageTxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Update Images"/>
+            android:text="Update Images"
+            tools:ignore="HardcodedText" />
         
         <ImageView
             android:id="@+id/manager_popupClose"

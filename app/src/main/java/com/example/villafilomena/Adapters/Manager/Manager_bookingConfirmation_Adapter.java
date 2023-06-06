@@ -53,18 +53,17 @@ public class Manager_bookingConfirmation_Adapter extends RecyclerView.Adapter<Ma
     public Manager_bookingConfirmation_Adapter(Activity activity, ArrayList<BookingInfo_Model> bookingHolder) {
         this.activity = activity;
         this.bookingHolder = bookingHolder;
+
+        SharedPreferences sharedPreferences = activity.getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        ipAddress = sharedPreferences.getString("IP", "");
+
+        InvoiceReference = FirebaseStorage.getInstance().getReference("Receipts");
     }
 
     @NonNull
     @Override
     public Manager_bookingConfirmation_Adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.manager_pending_booking_list, parent, false);
-
-        SharedPreferences sharedPreferences = activity.getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        ipAddress = sharedPreferences.getString("IP", "");
-
-        InvoiceReference = FirebaseStorage.getInstance().getReference("Receipts");
-
         return new ViewHolder(view);
     }
 

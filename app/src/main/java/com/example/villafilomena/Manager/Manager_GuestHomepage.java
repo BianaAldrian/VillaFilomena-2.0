@@ -26,10 +26,10 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.villafilomena.Adapters.Image_Adapter;
 import com.example.villafilomena.Adapters.Manager.Manager_GuestHomepageViews_Adapter;
-import com.example.villafilomena.Adapters.Manager.Manager_addedImageAdapter;
+import com.example.villafilomena.Models.Image_Model;
 import com.example.villafilomena.Models.Manager.Manager_GuestHomepageViews_Model;
-import com.example.villafilomena.Models.Manager.Manager_addedImageModel;
 import com.example.villafilomena.R;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -43,12 +43,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.UUID;
 
 public class Manager_GuestHomepage extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int PICK_MULTI_IMAGE_REQUEST = 2;
-    ImageView edit, save, image_banner;
+    public static ImageView edit, save, image_banner;
     TextView introView;
     TextView editBanner, editIntro, editVideo, editImage;
     Dialog edit_banner, edit_Intro, edit_Image, upload_banner;
@@ -56,10 +59,17 @@ public class Manager_GuestHomepage extends AppCompatActivity {
     String ipAddress;
     StorageReference BannerImageReference, ImagesReference;
     String currentBanner, currentIntro;
-
     ArrayList<Uri> imageUriList = new ArrayList<>();
+    RecyclerView imageContainer;
+    ArrayList<Image_Model> imageHolder;
+    Image_Adapter adapter;
+    ArrayList<Image_Model> newImageList;
+    RecyclerView addedImageList;
+    List<String> downloadUrls = new ArrayList<>();
+    int uploadedCount = 0;
 
     //boolean isUploaded = true;
+    int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,10 +92,14 @@ public class Manager_GuestHomepage extends AppCompatActivity {
         editIntro = findViewById(R.id.guestHomepage_editIntro);
         editVideo = findViewById(R.id.guestHomepage_editVideo);
         editImage = findViewById(R.id.guestHomepage_editImage);
+        imageContainer = findViewById(R.id.manager_guestHomepage_imageContainer);
 
-        //calling the setGuestHomePageView method for setting the view in guest homepage
+        //calling the setGuestHomePageView method for setting the view in guest homepage2
         setBanner();
         setIntro();
+        displayImages();
+
+
         edit.setVisibility(View.VISIBLE);
         save.setVisibility(View.GONE);
         editBanner.setVisibility(View.GONE);
@@ -101,6 +115,8 @@ public class Manager_GuestHomepage extends AppCompatActivity {
             editIntro.setVisibility(View.VISIBLE);
             editVideo.setVisibility(View.VISIBLE);
             editImage.setVisibility(View.VISIBLE);
+
+            adapter.setNewData(true, imageHolder);
         });
 
         //function when the save icon is tap
@@ -111,18 +127,29 @@ public class Manager_GuestHomepage extends AppCompatActivity {
             editIntro.setVisibility(View.GONE);
             editVideo.setVisibility(View.GONE);
             editImage.setVisibility(View.GONE);
+
+            adapter.setNewData(false, imageHolder);
         });
 
         //function when the edit text in banner is tap
         editBanner.setOnClickListener(v -> {
-            edit_banner = new Dialog(this);
+            /*edit_banner = new Dialog(this);
             edit_banner.setContentView(R.layout.popup_edit_banner_page);
             Window window = edit_banner.getWindow();
             window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
+            TextView updateImageTxt = edit_banner.findViewById(R.id.manager_popup_updateImageTxt);
+            TextView updateIntroTxt = edit_banner.findViewById(R.id.manager_popup_updateIntroTxt);
+            EditText introduction = edit_banner.findViewById(R.id.manager_popupIntroduction);
+            Button addImage = edit_banner.findViewById(R.id.manager_popupAddImage);
             Button upload = edit_banner.findViewById(R.id.manager_popupUpload);
             ImageView close = edit_banner.findViewById(R.id.manager_popupClose);
             RecyclerView bannerList = edit_banner.findViewById(R.id.manager_contentViewList);
+
+            updateImageTxt.setVisibility(View.GONE);
+            updateIntroTxt.setVisibility(View.GONE);
+            introduction.setVisibility(View.GONE);
+            addImage.setVisibility(View.GONE);
 
             bannerList(bannerList);
 
@@ -130,7 +157,9 @@ public class Manager_GuestHomepage extends AppCompatActivity {
 
             close.setOnClickListener(v1 -> edit_banner.hide());
 
-            edit_banner.show();
+            edit_banner.show();*/
+
+            chooseImage();
 
         });
 
@@ -166,28 +195,27 @@ public class Manager_GuestHomepage extends AppCompatActivity {
             Window window = edit_Image.getWindow();
             window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
+            TextView updateBannerTxt = edit_Image.findViewById(R.id.manager_popup_updateBannerTxt);
+            TextView updateIntroTxt = edit_Image.findViewById(R.id.manager_popup_updateIntroTxt);
             ImageView close = edit_Image.findViewById(R.id.manager_popupClose);
             EditText introduction = edit_Image.findViewById(R.id.manager_popupIntroduction);
             Button addImage = edit_Image.findViewById(R.id.manager_popupAddImage);
             Button upload = edit_Image.findViewById(R.id.manager_popupUpload);
-            RecyclerView addedImageList = edit_Image.findViewById(R.id.manager_popupAddedImageList);
+            addedImageList = edit_Image.findViewById(R.id.manager_popupAddedImageList);
             RecyclerView imageList = edit_Image.findViewById(R.id.manager_contentViewList);
 
-            ArrayList<Manager_addedImageModel> imageHolder = new ArrayList<>();
-
-            Manager_addedImageAdapter adapter = new Manager_addedImageAdapter(imageHolder);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-            addedImageList.setLayoutManager(layoutManager);
-            addedImageList.setAdapter(adapter);
-
-            for (Uri uri : imageUriList){
-                Manager_addedImageModel model = new Manager_addedImageModel(uri);
-                imageHolder.add(model);
-            }
+            //hide un-needed view for updating the images
+            introduction.setVisibility(View.GONE);
+            updateBannerTxt.setVisibility(View.GONE);
+            updateIntroTxt.setVisibility(View.GONE);
 
             imageList(imageList);
 
-            addImage.setOnClickListener(v1 -> chooseMultiImage());
+            newImageList = new ArrayList<>();
+            addImage.setOnClickListener(v1 -> {
+                addedImageList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+                chooseMultiImage();
+            });
 
             upload.setOnClickListener(v1 -> uploadImages());
 
@@ -263,6 +291,36 @@ public class Manager_GuestHomepage extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
+    private void displayImages() {
+        imageHolder = new ArrayList<>();
+
+        String url = "http://"+ipAddress+"/VillaFilomena/manager_dir/retrieve/manager_getImages.php";
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
+            try {
+                JSONArray jsonArray = new JSONArray(response);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject object = jsonArray.getJSONObject(i);
+
+                    Image_Model model = new Image_Model(
+                            object.getString("id"),
+                            object.getString("image_url"));
+
+                    imageHolder.add(model);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            imageContainer.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+            adapter = new Image_Adapter(this, imageHolder, false);
+            imageContainer.setAdapter(adapter);
+            imageContainer.setHasFixedSize(true);
+
+        }, Throwable::printStackTrace);
+        requestQueue.add(stringRequest);
+    }
+
     //method for picking the image
     private void chooseImage(){
         Intent intent = new Intent();
@@ -300,29 +358,29 @@ public class Manager_GuestHomepage extends AppCompatActivity {
                 image_banner.setImageURI(imageUri);
                 uploadBannerImage();
                 upload_banner.hide();
-                edit_banner.hide();
+                //edit_banner.hide();
             });
 
             upload_banner.show();
         }
-
         else if (requestCode == PICK_MULTI_IMAGE_REQUEST && resultCode == RESULT_OK) {
-            if (data.getClipData() != null) {
-                // Multiple images selected
-                int numSelectedImages = data.getClipData().getItemCount();
-                Toast.makeText(this, "Selected " + numSelectedImages + " images", Toast.LENGTH_SHORT).show();
-
-                for (int i = 0; i < numSelectedImages; i++) {
-                    imageUri = data.getClipData().getItemAt(i).getUri();
-                    // Call a method to insert this image into a table
-                    imageUriList.add(imageUri);
+            if (data != null) {
+                if (data.getClipData() != null) {
+                    // Multiple images were selected
+                    int count = data.getClipData().getItemCount();
+                    for (int i = 0; i < count; i++) {
+                        Uri imageUri = data.getClipData().getItemAt(i).getUri();
+                        newImageList.add(new Image_Model("", imageUri.toString()));
+                    }
+                } else if (data.getData() != null) {
+                    // Single image was selected
+                    Uri imageUri = data.getData();
+                    newImageList.add(new Image_Model("", imageUri.toString()));
                 }
-            } else if (data.getData() != null) {
-                // Single image selected
-                Toast.makeText(this, "Selected 1 image", Toast.LENGTH_SHORT).show();
-                Uri imageUri = data.getData();
-                // Add the image URI to the list
-                imageUriList.add(imageUri);
+
+                // Update the image container adapter
+                Image_Adapter adapter = new Image_Adapter(this, newImageList, true);
+                addedImageList.setAdapter(adapter);
             }
         }
     }
@@ -402,13 +460,69 @@ public class Manager_GuestHomepage extends AppCompatActivity {
         }
     }
 
+    private void uploadImages() {
+        for (Image_Model image : newImageList) {
+            uploadImageToFirebaseStorage(image);
+        }
+    }
+
+    private void uploadImageToFirebaseStorage(Image_Model image) {
+        String filename = UUID.randomUUID().toString();
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+        StorageReference imageRef = storageRef.child("Images/" + filename);
+        Uri imageUri = Uri.parse(image.getImage_url());
+
+        imageRef.putFile(imageUri)
+                .addOnSuccessListener(taskSnapshot ->
+                        imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                            downloadUrls.add(uri.toString());
+                            uploadedCount++;
+
+                            if (uploadedCount == newImageList.size()) {
+                                insertImages(downloadUrls);
+                            }
+                        }).addOnFailureListener(Throwable::printStackTrace))
+                .addOnFailureListener(Throwable::printStackTrace);
+    }
+
+    private void insertImages(List<String> downloadUrls) {
+        String url = "http://" + ipAddress + "/VillaFilomena/manager_dir/insert/manager_uploadImage.php";
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+
+
+        for (String imageUrl : downloadUrls) {
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
+                if (response.equals("success")) {
+                    count++;
+                    if (count == downloadUrls.size()){
+                        displayImages();
+                        Toast.makeText(getApplicationContext(), "Upload Successful", Toast.LENGTH_SHORT).show();
+                    }
+                } else if (response.equals("failed")) {
+                    Toast.makeText(getApplicationContext(), "Upload Failed", Toast.LENGTH_SHORT).show();
+                }
+            }, error -> Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show()) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("image_url", imageUrl);
+                    return params;
+                }
+            };
+
+            requestQueue.add(stringRequest);
+        }
+    }
+
+
     //method for inserting videos in database
     public void uploadVideos(){
 
     }
 
     //method for inserting the images in database
-    public void uploadImages(){
+    /*public void uploadImages(){
         for (Uri imageUri : imageUriList) {
             String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
             if(imageUri != null){
@@ -447,7 +561,7 @@ public class Manager_GuestHomepage extends AppCompatActivity {
             }
         }
         imageUriList.clear();
-    }
+    }*/
 
     //method for updating the status of banner when a new banner is inserted
     public void updateBannerStat(){

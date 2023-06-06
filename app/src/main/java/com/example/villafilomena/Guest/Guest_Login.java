@@ -38,14 +38,12 @@ public class Guest_Login extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         ipAddress = sharedPreferences.getString("IP", "");
 
-
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(task -> {
                     if (!task.isSuccessful()) {
                         Log.w(TAG, "Fetching FCM registration token failed", task.getException());
                         return;
                     }
-
                     // Get new FCM registration token
                     token = task.getResult();
                 });
@@ -133,6 +131,9 @@ public class Guest_Login extends AppCompatActivity {
             finish();
         } else if (originateFrom.equals("registration")){
             startActivity(new Intent(this, Guest_Register.class));
+            finish();
+        } else if (originateFrom.equals("booking")){
+            startActivity(new Intent(this, Guest_fragmentsContainer.class));
             finish();
         }
         // Add your desired behavior here

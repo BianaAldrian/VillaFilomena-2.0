@@ -25,7 +25,7 @@ public class Manager_addedImageAdapter extends RecyclerView.Adapter<Manager_adde
     @Override
     public Manager_addedImageAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.manager_banner_image_list, parent, false);
-        return new Manager_addedImageAdapter.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class Manager_addedImageAdapter extends RecyclerView.Adapter<Manager_adde
         return imageHolder.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView bannerImage;
         TextView intro;
 

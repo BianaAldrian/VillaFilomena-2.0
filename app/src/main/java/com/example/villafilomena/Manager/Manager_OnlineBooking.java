@@ -33,8 +33,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class Manager_OnlineBooking extends AppCompatActivity implements Manager_bookingConfirmation_Adapter.ItemClickListener{
-    public static ArrayList<BookingInfo_Model> bookingHolder;
-    public static Manager_bookingConfirmation_Adapter adapter;
+    //public static ArrayList<BookingInfo_Model> bookingHolder;
+    Manager_bookingConfirmation_Adapter adapter;
     LinearLayoutManager layoutManager;
     String ipAddress;
     RecyclerView bookingList_container;
@@ -85,7 +85,7 @@ public class Manager_OnlineBooking extends AppCompatActivity implements Manager_
     }
 
     public void listBookingRequest() {
-        bookingHolder = new ArrayList<>();
+        ArrayList<BookingInfo_Model> bookingHolder = new ArrayList<>();
 
         String url = "http://"+ipAddress+"/VillaFilomena/manager_dir/retrieve/manager_getPendingBookings.php";
         RequestQueue requestQueue = Volley.newRequestQueue(this);

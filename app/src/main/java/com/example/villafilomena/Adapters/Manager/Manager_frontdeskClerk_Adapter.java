@@ -30,7 +30,7 @@ public class Manager_frontdeskClerk_Adapter extends RecyclerView.Adapter<Manager
     @Override
     public Manager_frontdeskClerk_Adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.manager_frondesk_user_list, parent, false);
-        return new Manager_frontdeskClerk_Adapter.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @SuppressLint("SetTextI18n")
@@ -54,7 +54,7 @@ public class Manager_frontdeskClerk_Adapter extends RecyclerView.Adapter<Manager
         return clerkHolder.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView clerkImage, delete;
         TextView clerkStatus, clerkName, clerkUsername, clerkContact;
 

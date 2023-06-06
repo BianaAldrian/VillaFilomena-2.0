@@ -23,7 +23,8 @@ import com.example.villafilomena.R;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.navigation.NavigationView;
 
-public class Guest_fragmentsContainer extends AppCompatActivity {
+public class  Guest_fragmentsContainer extends AppCompatActivity {
+    public static String fromBooking = "";
     public static String email;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -60,6 +61,24 @@ public class Guest_fragmentsContainer extends AppCompatActivity {
         book = findViewById(R.id.btnBook);
         appbar = findViewById(R.id.appbar);
         nestedScrllView = findViewById(R.id.nestedScrllView);
+
+        if (fromBooking.equals("booking")){
+            nestedScrllView.fullScroll(View.FOCUS_UP);
+            toggle(false);
+            nestedScrllView.setNestedScrollingEnabled(false);
+
+            book.setPaintFlags(book.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            book.setPaintFlags(book.getPaintFlags() | Paint.FAKE_BOLD_TEXT_FLAG);
+            replace_book(new Guest_bookingPage1());
+
+           /* if((home.getPaintFlags() & Paint.UNDERLINE_TEXT_FLAG) == Paint.UNDERLINE_TEXT_FLAG &&
+                    (home.getPaintFlags() & Paint.FAKE_BOLD_TEXT_FLAG) == Paint.FAKE_BOLD_TEXT_FLAG){
+                home.setPaintFlags(home.getPaintFlags() ^ Paint.UNDERLINE_TEXT_FLAG);
+                home.setPaintFlags(home.getPaintFlags() ^ Paint.FAKE_BOLD_TEXT_FLAG);
+
+                replace_book(new Guest_bookingPage1());
+            }*/
+        }
 
         navView_account.setOnClickListener(v -> {
             startActivity(new Intent(this, Guest_accountPage.class));
@@ -171,5 +190,9 @@ public class Guest_fragmentsContainer extends AppCompatActivity {
             logIn.setVisibility(View.GONE);
             logOut.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void closeActivity(){
+         finish();
     }
 }
