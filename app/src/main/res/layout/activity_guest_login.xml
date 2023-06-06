@@ -48,6 +48,7 @@
                     android:layout_height="60dp"
                     android:background="@drawable/edttxt_bg"
                     android:hint="Email"
+                    android:fontFamily="@font/eb_garamond_regular"
                     android:inputType="textEmailAddress"
                     android:textColor="@color/black" />
 
@@ -85,6 +86,7 @@
                         android:layout_height="60dp"
                         android:background="@drawable/edttxt_bg"
                         android:hint="Password"
+                        android:fontFamily="@font/eb_garamond_regular"
                         android:password="true"
                         android:textColor="@color/black" />
 

@@ -12,7 +12,8 @@
         android:layout_marginBottom="20dp"
         android:text="Add Front Desk User"
         android:textColor="@color/black"
-        android:textSize="24sp"/>
+        android:textSize="24sp"
+        android:fontFamily="@font/eb_garamond_semi_bold"/>
 
     <ImageView
         android:id="@+id/popup_clerksImage"
@@ -20,10 +21,17 @@
         android:layout_height="200dp"
         tools:src="@tools:sample/avatars" />
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp"/>
+
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/popup_chooseClerkImage"
         android:layout_width="150dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
+        android:background="@drawable/btn_bg"
+        android:fontFamily="@font/eb_garamond_semi_bold"
         android:text="Choose Image"/>
 
     <EditText
@@ -31,6 +39,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:hint="Name"
+        android:fontFamily="@font/eb_garamond_regular"
         android:minHeight="48dp" />
 
     <EditText
@@ -38,6 +47,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:hint="Contact Number"
+        android:fontFamily="@font/eb_garamond_regular"
         android:minHeight="48dp" />
 
     <EditText
@@ -45,6 +55,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:hint="Username"
+        android:fontFamily="@font/eb_garamond_regular"
         android:minHeight="48dp" />
 
     <EditText
@@ -52,12 +63,19 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:hint="Password"
+        android:fontFamily="@font/eb_garamond_regular"
         android:minHeight="48dp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/popup_addClerks_doneBtn"
         android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:text="Done"/>
+        android:text="Done"
+        android:layout_height="40dp"
+        android:background="@drawable/btn_bg"
+        android:fontFamily="@font/eb_garamond_semi_bold"/>
 
 </LinearLayout>

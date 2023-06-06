@@ -20,6 +20,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="Update Banner"
+            android:textColor="@color/black"
+            android:fontFamily="@font/eb_garamond_semi_bold"
             tools:ignore="HardcodedText" />
 
         <!--TextView for uploading a introduction-->
@@ -31,6 +33,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="Update Introduction"
+            android:textColor="@color/black"
+            android:fontFamily="@font/eb_garamond_semi_bold"
             tools:ignore="HardcodedText" />
 
         <!--TextView for uploading a images-->
@@ -42,6 +46,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="Update Images"
+            android:textColor="@color/black"
+            android:fontFamily="@font/eb_garamond_semi_bold"
             tools:ignore="HardcodedText" />
         
         <ImageView
@@ -69,14 +75,17 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/manager_popupAddImage"
-        android:layout_width="500dp"
-        android:layout_height="wrap_content"
+        android:layout_width="410dp"
+        android:layout_height="40dp"
+        android:background="@drawable/btn_bg"
         android:text="Add Image"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/manager_popupUpload"
-        android:layout_width="500dp"
-        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_width="410dp"
+        android:layout_height="40dp"
+        android:background="@drawable/btn_bg"
         android:text="Upload"/>
 
 
