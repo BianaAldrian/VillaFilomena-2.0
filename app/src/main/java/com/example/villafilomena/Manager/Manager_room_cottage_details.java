@@ -24,7 +24,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.villafilomena.Adapters.RoomCottageDetails_Adapter;
+import com.example.villafilomena.Adapters.Room_Adapter;
 import com.example.villafilomena.Models.RoomCottageDetails_Model;
 import com.example.villafilomena.R;
 import com.google.firebase.storage.FirebaseStorage;
@@ -165,7 +165,7 @@ public class Manager_room_cottage_details extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            RoomCottageDetails_Adapter adapter = new RoomCottageDetails_Adapter(this,detailsHolder);
+            Room_Adapter adapter = new Room_Adapter(this,detailsHolder);
             LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
             roomDetails_Container.setLayoutManager(layoutManager);
             roomDetails_Container.setAdapter(adapter);

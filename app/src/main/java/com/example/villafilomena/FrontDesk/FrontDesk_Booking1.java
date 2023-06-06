@@ -24,7 +24,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.villafilomena.Adapters.RoomCottageDetails_Adapter;
+import com.example.villafilomena.Adapters.Room_Adapter;
 import com.example.villafilomena.Models.RoomCottageDetails_Model;
 import com.example.villafilomena.R;
 
@@ -54,7 +54,7 @@ public class FrontDesk_Booking1 extends AppCompatActivity {
     RecyclerView roomListContainer;
     Button continueBtn;
     ArrayList<RoomCottageDetails_Model> detailsHolder;
-    RoomCottageDetails_Adapter adapter;
+    Room_Adapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,7 +140,7 @@ public class FrontDesk_Booking1 extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    adapter = new RoomCottageDetails_Adapter(this, detailsHolder);
+                    adapter = new Room_Adapter(this, detailsHolder);
                     roomListContainer.setAdapter(adapter);
 
                 }, error -> Toast.makeText(this, error.getMessage(), Toast.LENGTH_LONG).show());
@@ -295,7 +295,7 @@ public class FrontDesk_Booking1 extends AppCompatActivity {
             }
 
            /* roomListContainer.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-            adapter = new RoomCottageDetails_Adapter(this, detailsHolder);
+            adapter = new Room_Adapter(this, detailsHolder);
             roomListContainer.setAdapter(adapter);*/
             adapter.setAvailability(detailsHolder);
         },

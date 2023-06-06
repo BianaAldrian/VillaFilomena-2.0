@@ -1,8 +1,8 @@
 package com.example.villafilomena.Adapters;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +15,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.villafilomena.FrontDesk.FrontDesk_Booking1;
 import com.example.villafilomena.Guest.Guest_bookingPage1;
 import com.example.villafilomena.Models.RoomCottageDetails_Model;
@@ -24,13 +27,13 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class RoomCottageDetails_Adapter extends RecyclerView.Adapter<RoomCottageDetails_Adapter.ViewHolder> {
-    Activity activity;
+public class Room_Adapter extends RecyclerView.Adapter<Room_Adapter.ViewHolder> {
+    Context context;
     ArrayList<RoomCottageDetails_Model> detailsHolder;
 
     @SuppressLint("NotifyDataSetChanged")
-    public RoomCottageDetails_Adapter(Activity activity, ArrayList<RoomCottageDetails_Model> detailsHolder) {
-        this.activity = activity;
+    public Room_Adapter(Context context, ArrayList<RoomCottageDetails_Model> detailsHolder) {
+        this.context = context;
         this.detailsHolder = detailsHolder;
         notifyDataSetChanged();
     }
@@ -43,28 +46,39 @@ public class RoomCottageDetails_Adapter extends RecyclerView.Adapter<RoomCottage
 
     @NonNull
     @Override
-    public RoomCottageDetails_Adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public Room_Adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.room_cottage_details_list, parent, false);
         return new ViewHolder(view);
     }
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull RoomCottageDetails_Adapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull Room_Adapter.ViewHolder holder, int position) {
 
         if (Guest_bookingPage1.showBox || FrontDesk_Booking1.showBox) {
             holder.box.setVisibility(View.VISIBLE);
         }
 
         RoomCottageDetails_Model model = detailsHolder.get(position);
-        Picasso.get().load(model.getImageUrl()).into(holder.image);
+
+        RequestOptions requestOptions = new RequestOptions()
+                .placeholder(R.drawable.image_placeholder)  // Placeholder image while loading
+                .error(R.drawable.error_image)  // Error image if loading fails
+                .transform(new RoundedCorners(10));  // Apply rounded corners to the image
+
+        Glide.with(context)
+                .load(model.getImageUrl())
+                .apply(requestOptions)
+                .into(holder.image);
+
+        /*Picasso.get().load(model.getImageUrl()).into(holder.image);*/
         holder.infos.setText(
                 ""+model.getName()+"\n"+
                 model.getCapacity()+"\n"+
                 model.getRate());
 
         holder.seeMore.setOnClickListener(v -> {
-            Dialog DetailedInfo = new Dialog(activity);
+            Dialog DetailedInfo = new Dialog(context);
             DetailedInfo.setContentView(R.layout.popup_room_cottage_detailed_information_dialog);
             Window window = DetailedInfo.getWindow();
             window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);

@@ -32,7 +32,8 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.villafilomena.Adapters.RoomCottageDetails_Adapter;
+import com.example.villafilomena.Adapters.Cottage_Adapter;
+import com.example.villafilomena.Adapters.Room_Adapter;
 import com.example.villafilomena.Models.RoomCottageDetails_Model;
 import com.example.villafilomena.R;
 
@@ -64,6 +65,7 @@ public class Guest_bookingPage1 extends Fragment {
     RecyclerView roomList, cottageList;
     Button continueBtn;
     ArrayList<RoomCottageDetails_Model> detailsHolder;
+    ArrayList<RoomCottageDetails_Model> cottageHolder;
     double dayTour_kidFee, dayTour_adultFee, nightTour_kidFee, nightTour_adultFee;
     int dayDiff, nightDiff;
 
@@ -429,8 +431,8 @@ public class Guest_bookingPage1 extends Fragment {
                 e.printStackTrace();
             }
 
-            RoomCottageDetails_Adapter adapter = new RoomCottageDetails_Adapter(getActivity(),detailsHolder);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+            Room_Adapter adapter = new Room_Adapter(getContext(),detailsHolder);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
             roomList.setLayoutManager(layoutManager);
             roomList.setAdapter(adapter);
 
@@ -440,7 +442,7 @@ public class Guest_bookingPage1 extends Fragment {
     }
 
     private void displayCottages() {
-        detailsHolder = new ArrayList<>();
+        cottageHolder = new ArrayList<>();
 
         String url = "http://"+ipAddress+"/VillaFilomena/guest_dir/retrieve/guest_getRoomDetails.php";
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
@@ -458,14 +460,14 @@ public class Guest_bookingPage1 extends Fragment {
                             object.getString("roomRate"),
                             object.getString("roomDescription"));
 
-                    detailsHolder.add(model);
+                    cottageHolder.add(model);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            RoomCottageDetails_Adapter adapter = new RoomCottageDetails_Adapter(getActivity(),detailsHolder);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+            Cottage_Adapter adapter = new Cottage_Adapter(getContext(),cottageHolder);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
             cottageList.setLayoutManager(layoutManager);
             cottageList.setAdapter(adapter);
 
@@ -500,7 +502,7 @@ public class Guest_bookingPage1 extends Fragment {
                 e.printStackTrace();
             }
 
-            RoomCottageDetails_Adapter adapter = new RoomCottageDetails_Adapter(getActivity(),detailsHolder);
+            Room_Adapter adapter = new Room_Adapter(getActivity(),detailsHolder);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
             roomList.setLayoutManager(layoutManager);
             roomList.setAdapter(adapter);
