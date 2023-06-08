@@ -16,9 +16,9 @@
         <ImageView
             android:id="@+id/guest_menuToolbar"
             android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:src="@drawable/menu_btn"/>
+            android:src="@drawable/menu_btn" />
 
         <!--<androidx.appcompat.widget.Toolbar
             android:id="@+id/guest_menuToolbar"
