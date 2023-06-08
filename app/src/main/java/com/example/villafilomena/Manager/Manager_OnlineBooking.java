@@ -33,9 +33,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class Manager_OnlineBooking extends AppCompatActivity implements Manager_bookingConfirmation_Adapter.ItemClickListener{
-    //public static ArrayList<BookingInfo_Model> bookingHolder;
     Manager_bookingConfirmation_Adapter adapter;
-    LinearLayoutManager layoutManager;
     String ipAddress;
     RecyclerView bookingList_container;
     private final BroadcastReceiver mPushNotificationReceiver = new BroadcastReceiver() {
@@ -113,7 +111,6 @@ public class Manager_OnlineBooking extends AppCompatActivity implements Manager_
                             object.getString("receipt_url"),
                             object.getString("bookings_status")
                     );
-
                     bookingHolder.add(model);
                 }
 
@@ -121,9 +118,8 @@ public class Manager_OnlineBooking extends AppCompatActivity implements Manager_
                 e.printStackTrace();
             }
 
+            bookingList_container.setLayoutManager(new LinearLayoutManager(this));
             adapter = new Manager_bookingConfirmation_Adapter(this, bookingHolder);
-            layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-            bookingList_container.setLayoutManager(layoutManager);
             bookingList_container.setAdapter(adapter);
             adapter.addItemClickListener(this);
 

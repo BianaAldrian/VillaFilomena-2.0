@@ -3,6 +3,7 @@ package com.example.villafilomena.Guest;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -52,8 +53,8 @@ public class Guest_bookingPage2 extends Fragment {
     ArrayList<RoomCottageDetails_Model> detailsHolder;
     String postUrl = "https://fcm.googleapis.com/fcm/send";
     String fcmServerKey = "AAAAN__YSUs:APA91bGogQWxZZ5Y-10ZD4FEWfJ0j8kBRPZ06oDn5zDSw5Fc_lmzWZgFbyW50Rw0k9hWOz7ZOoeACOaiBNX3nbJJGCpj8KSRDMQBiFo5MAE0AFJqgHGNE7tzW83E1nY8l6zBIgAaiQa_";
-
     Dialog loading_dialog;
+    String selectedPaymentOption;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -156,6 +157,7 @@ public class Guest_bookingPage2 extends Fragment {
         termsCondition.show();
     }
 
+    @SuppressLint("SetTextI18n")
     private void GCashDialog(){
         Dialog gcash = new Dialog(getContext());
         gcash.setContentView(R.layout.popup_gcash_payment_dialog);
@@ -164,10 +166,13 @@ public class Guest_bookingPage2 extends Fragment {
 
         EditText gcashNum = gcash.findViewById(R.id.popup_GCash_guestNumber);
         Spinner paymentOptionSpn = gcash.findViewById(R.id.popup_GCash_paymentOptionSpn);
+        TextView totalPayment = gcash.findViewById(R.id.popup_GCash_totalPayment);
         EditText refNum = gcash.findViewById(R.id.popup_GCash_referenceNum);
         Button confirm = gcash.findViewById(R.id.popup_GCash_confirm);
 
-        String[] paymentOptions = new String[] {"Partial", "Full"};
+        String[] paymentOptions = new String[] {"Full", "Partial"};
+
+        totalPayment.setText(""+Guest_bookingPage1.total);
 
         ArrayAdapter<String> paymentSpinnerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, paymentOptions);
         paymentOptionSpn.setAdapter(paymentSpinnerAdapter);
@@ -175,7 +180,14 @@ public class Guest_bookingPage2 extends Fragment {
         paymentOptionSpn.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //Toast.makeText(getContext(), position, Toast.LENGTH_SHORT).show();
+                selectedPaymentOption = parent.getItemAtPosition(position).toString();
+
+                if (selectedPaymentOption.equals("Full")){
+                    totalPayment.setText(""+Guest_bookingPage1.total);
+                } else if (selectedPaymentOption.equals("Partial")) {
+                    totalPayment.setText(""+(Guest_bookingPage1.total / 2));
+                }
+                //Toast.makeText(getContext(), selectedPaymentOption, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -185,27 +197,55 @@ public class Guest_bookingPage2 extends Fragment {
         });
 
         confirm.setOnClickListener(v -> {
-            loading_dialog = new Dialog(getContext());
-            loading_dialog.setContentView(R.layout.loading_dialog);
-            loading_dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-            Window loadingWidow = loading_dialog.getWindow();
-            loadingWidow.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            if (gcashNum.getText().length() < 11 || gcashNum.getText().toString().isEmpty()){
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Invalid!");
+                builder.setMessage("Incomplete GCash number, please double check");
+                builder.setPositiveButton("OK", (dialog, which) -> {
+                    // Handle the OK button click
+                    dialog.dismiss();
 
-            //ProgressBar progressBar = loading_dialog.findViewById(R.id.loading_dialog);
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            } else if (refNum.getText().length() < 13 || refNum.getText().toString().isEmpty()){
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Invalid!");
+                builder.setMessage("Incomplete Reference number, please double check");
+                builder.setPositiveButton("OK", (dialog, which) -> {
+                    // Handle the OK button click
+                    dialog.dismiss();
 
-            loading_dialog.show();
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            } else {
+                loading_dialog = new Dialog(getContext());
+                loading_dialog.setContentView(R.layout.loading_dialog);
+                loading_dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                Window loadingWidow = loading_dialog.getWindow();
+                loadingWidow.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
-            requestBooking();
-            if (!Guest_bookingPage1.selectedRoom_id.isEmpty()){
-                for (String roomId : Guest_bookingPage1.selectedRoom_id) {
-                    reserveRoom(roomId);
+                //ProgressBar progressBar = loading_dialog.findViewById(R.id.loading_dialog);
+
+                loading_dialog.show();
+
+                requestBooking();
+                if (!Guest_bookingPage1.selectedRoom_id.isEmpty()){
+                    for (String roomId : Guest_bookingPage1.selectedRoom_id) {
+                        reserveRoom(roomId);
+                    }
                 }
+                if (!Guest_bookingPage1.selectedCottage_id.isEmpty()){
+                    for (String cottageId : Guest_bookingPage1.selectedCottage_id) {
+                        reserveCottage(cottageId);
+                    }
+                }
+
+                gcash.hide();
             }
-            gcash.hide();
         });
-
         gcash.show();
-
     }
 
     private void requestBooking(){
@@ -213,20 +253,20 @@ public class Guest_bookingPage2 extends Fragment {
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
             if (response.equals("success")){
-
                 getManagerToken();
                 loading_dialog.hide();
                 Guest_bookedListPage.fromBooking = true;
                 startActivity(new Intent(getContext(), Guest_bookedListPage.class));
                 Guest_fragmentsContainer guest = new Guest_fragmentsContainer();
-                guest.closeActivity();
+                guest.finish();
                 Toast.makeText(getContext(), "Booking Successful", Toast.LENGTH_SHORT).show();
             }
             else if(response.equals("failed")){
                 Toast.makeText(getContext(), "Booking Failed", Toast.LENGTH_SHORT).show();
+                loading_dialog.hide();
             }
         },
-                error -> Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show())
+                Throwable::printStackTrace)
         {
             @Override
             protected HashMap<String,String> getParams() {
@@ -240,9 +280,9 @@ public class Guest_bookingPage2 extends Fragment {
                 map.put("adult_qty", String.valueOf(Guest_bookingPage1.finalAdultQty));
                 map.put("kid_qty", String.valueOf(Guest_bookingPage1.finalKidQty));
                 map.put("room_id", String.valueOf(Guest_bookingPage1.selectedRoom_id).replace("[", "").replace("]", "").trim());
-                map.put("cottage_id","cottage_id");
+                map.put("cottage_id", String.valueOf(Guest_bookingPage1.selectedCottage_id).replace("[", "").replace("]", "").trim());
                 map.put("total_payment", String.valueOf(Guest_bookingPage1.total));
-                map.put("payment_status","payment_status");
+                map.put("payment_status",selectedPaymentOption);
                 map.put("GCash_number","GCash_number");
                 map.put("reference_num","reference_num");
                 return map;
@@ -262,13 +302,41 @@ public class Guest_bookingPage2 extends Fragment {
                 Toast.makeText(getContext(), "Room Reservation Failed", Toast.LENGTH_SHORT).show();
             }
         },
-                error -> Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show())
+                Throwable::printStackTrace)
         {
             @Override
             protected HashMap<String,String> getParams() {
                 HashMap<String,String> map = new HashMap<>();
                 map.put("room_id",roomId);
                 map.put("bookBy_guest_email", Guest_fragmentsContainer.email);
+                map.put("checkIn_date",Guest_bookingPage1.finalCheckIn_date);
+                map.put("checkIn_time",Guest_bookingPage1.finalCheckIn_time);
+                map.put("checkOut_date",Guest_bookingPage1.finalCheckOut_date);
+                map.put("checkOut_time",Guest_bookingPage1.finalCheckOut_time);
+                return map;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
+    private void reserveCottage(String cottageId){
+        String url = "http://"+ipAddress+"/VillaFilomena/guest_dir/insert/guest_cottageReservation.php";
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
+            if (response.equals("success")){
+                Toast.makeText(getContext(), "Room Reservation Successful", Toast.LENGTH_SHORT).show();
+            }
+            else if(response.equals("failed")){
+                Toast.makeText(getContext(), "Room Reservation Failed", Toast.LENGTH_SHORT).show();
+            }
+        },
+                Throwable::printStackTrace)
+        {
+            @Override
+            protected HashMap<String,String> getParams() {
+                HashMap<String,String> map = new HashMap<>();
+                map.put("room_id",cottageId);
+                map.put("bookBy_guest_email",Guest_fragmentsContainer.email);
                 map.put("checkIn_date",Guest_bookingPage1.finalCheckIn_date);
                 map.put("checkIn_time",Guest_bookingPage1.finalCheckIn_time);
                 map.put("checkOut_date",Guest_bookingPage1.finalCheckOut_date);
@@ -296,8 +364,8 @@ public class Guest_bookingPage2 extends Fragment {
             } catch (JSONException e) {
                 Toast.makeText(getContext(), e.toString(), Toast.LENGTH_LONG).show();
             }
-        },
-                error -> Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show());
+        }, Throwable::printStackTrace);
+
         requestQueue.add(stringRequest);
     }
 
@@ -333,7 +401,7 @@ public class Guest_bookingPage2 extends Fragment {
             requestQueue.add(request);
 
         } catch (JSONException e) {
-            Toast.makeText(getContext(), e.toString(), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
     }
 }

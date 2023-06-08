@@ -21,7 +21,6 @@ import java.util.List;
 public class Manager_Calendar extends AppCompatActivity {
     RecyclerView dateContainer;
     private CalendarAdapter adapter;
-    private List<Date> datesList;
     private int currentMonth;
     private int currentYear;
 
@@ -41,7 +40,7 @@ public class Manager_Calendar extends AppCompatActivity {
         };
 
         // Replace the yearOptions array with the appropriate range of years
-        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        currentYear = Calendar.getInstance().get(Calendar.YEAR);
         int startYear = currentYear - 10;
         int endYear = currentYear + 10;
         String[] yearOptions = generateYearOptions(startYear, endYear);
@@ -51,6 +50,13 @@ public class Manager_Calendar extends AppCompatActivity {
 
         monthSpinner.setAdapter(monthSpinnerAdapter);
         yearSpinner.setAdapter(yearSpinnerAdapter);
+
+        // Set up the RecyclerView layout manager and adapter
+        dateContainer.setLayoutManager(new GridLayoutManager(this, 7)); // Assuming 7 columns for each week
+        List<Date> datesList = generateDatesForMonth(currentMonth, currentYear); // Generate your list of dates for the initial month and year
+        adapter = new CalendarAdapter(Manager_Calendar.this, datesList, currentMonth);
+        dateContainer.setAdapter(adapter);
+        dateContainer.setHasFixedSize(true);
 
         monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -84,11 +90,11 @@ public class Manager_Calendar extends AppCompatActivity {
         int currentYearIndex = currentYear - startYear;
         yearSpinner.setSelection(currentYearIndex);
 
-        // Set up the RecyclerView layout manager and adapter
+        /*// Set up the RecyclerView layout manager and adapter
         dateContainer.setLayoutManager(new GridLayoutManager(this, 7)); // Assuming 7 columns for each week
-        datesList = generateDatesForMonth(currentMonth, currentYear); // Generate your list of dates for the initial month and year
+        List<Date> datesList = generateDatesForMonth(currentMonth, currentYear); // Generate your list of dates for the initial month and year
         adapter = new CalendarAdapter(Manager_Calendar.this, datesList, currentMonth);
-        dateContainer.setAdapter(adapter);
+        dateContainer.setAdapter(adapter);*/
     }
 
     private String[] generateYearOptions(int startYear, int endYear) {

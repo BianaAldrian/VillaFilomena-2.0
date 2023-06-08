@@ -4,11 +4,15 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +51,7 @@ public class Manager_bookingConfirmation_Adapter extends RecyclerView.Adapter<Ma
     String postUrl = "https://fcm.googleapis.com/fcm/send";
     String fcmServerKey = "AAAAN__YSUs:APA91bGogQWxZZ5Y-10ZD4FEWfJ0j8kBRPZ06oDn5zDSw5Fc_lmzWZgFbyW50Rw0k9hWOz7ZOoeACOaiBNX3nbJJGCpj8KSRDMQBiFo5MAE0AFJqgHGNE7tzW83E1nY8l6zBIgAaiQa_";
     StorageReference InvoiceReference;
+    Dialog loading_dialog;
 
     private ItemClickListener mItemClickListener;
 
@@ -71,7 +76,7 @@ public class Manager_bookingConfirmation_Adapter extends RecyclerView.Adapter<Ma
         mItemClickListener = listener;
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SimpleDateFormat")
     @Override
     public void onBindViewHolder(@NonNull Manager_bookingConfirmation_Adapter.ViewHolder holder, int position) {
         final BookingInfo_Model model = bookingHolder.get(position);
@@ -120,14 +125,60 @@ public class Manager_bookingConfirmation_Adapter extends RecyclerView.Adapter<Ma
         holder.GCashNumber.setText(model.getGCash_number());
 
         holder.reject.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            builder.setTitle("Reject");
+            builder.setMessage("Are you sure?");
+            builder.setPositiveButton("YES", (dialog, which) -> {
+                // Handle the OK button click
+                loading_dialog = new Dialog(activity);
+                loading_dialog.setContentView(R.layout.loading_dialog);
+                loading_dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                Window loadingWidow = loading_dialog.getWindow();
+                loadingWidow.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
+                //ProgressBar progressBar = loading_dialog.findViewById(R.id.loading_dialog);
+
+                loading_dialog.show();
+
+                deleteRoomSched(position);
+                rejectGuestBooking(position, model.getId());
+
+                });
+            builder.setNegativeButton("NO", (dialog, which) -> {
+                // Handle the Cancel button click
+                dialog.dismiss(); // Close the dialog
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
 
         holder.accept.setOnClickListener(v -> {
-            confirmGuestBooking(position, model.getId());
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            builder.setTitle("Accept");
+            builder.setMessage("Are you sure?");
+            builder.setPositiveButton("YES", (dialog, which) -> {
+                loading_dialog = new Dialog(activity);
+                loading_dialog.setContentView(R.layout.loading_dialog);
+                loading_dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                Window loadingWidow = loading_dialog.getWindow();
+                loadingWidow.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+
+                //ProgressBar progressBar = loading_dialog.findViewById(R.id.loading_dialog);
+
+                loading_dialog.show();
+
+                // Handle the OK button click
+                confirmGuestBooking(position, model.getId());
+            });
+            builder.setNegativeButton("NO", (dialog, which) -> {
+                // Handle the Cancel button click
+                dialog.dismiss(); // Close the dialog
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
             //getGuestToken(model.getGuest_email());
             //Toast.makeText(activity, model.getGuest_email(), Toast.LENGTH_SHORT).show();
-
         });
 
     }
@@ -237,10 +288,12 @@ public class Manager_bookingConfirmation_Adapter extends RecyclerView.Adapter<Ma
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
                 if (response.equals("success")){
                     Toast.makeText(activity, "Confirmation Successful", Toast.LENGTH_SHORT).show();
-                    getGuestToken(model.getGuest_email());
+                    getGuestToken(model.getGuest_email(), "Your Booking is accepted");
+                    loading_dialog.hide();
                 }
                 else if(response.equals("failed")){
                     Toast.makeText(activity, "Confirmation Failed", Toast.LENGTH_SHORT).show();
+                    loading_dialog.hide();
                 }
             },
                     error -> Toast.makeText(activity, error.getMessage().toString(), Toast.LENGTH_LONG).show())
@@ -254,13 +307,70 @@ public class Manager_bookingConfirmation_Adapter extends RecyclerView.Adapter<Ma
                 }
             };
             requestQueue.add(stringRequest);
-
         });
 
         pdfReceipt.generatePDF();
     }
 
-    private void getGuestToken(String guest_email){
+    private void rejectGuestBooking(int position, String id){
+        final BookingInfo_Model model = bookingHolder.get(position);
+
+        String url = "http://"+ipAddress+"/VillaFilomena/manager_dir/update/manager_rejectGuestBooking.php";
+        RequestQueue requestQueue = Volley.newRequestQueue(activity);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
+            if (response.equals("success")){
+                Toast.makeText(activity, "Booking Rejected", Toast.LENGTH_SHORT).show();
+                getGuestToken(model.getGuest_email(), "Your Booking is Rejected");
+                loading_dialog.hide();
+            }
+            else if(response.equals("failed")){
+                Toast.makeText(activity, "Rejection Failed", Toast.LENGTH_SHORT).show();
+                loading_dialog.hide();
+            }
+        },
+                Throwable::printStackTrace)
+        {
+            @Override
+            protected HashMap<String,String> getParams() {
+                HashMap<String,String> map = new HashMap<>();
+                map.put("id", id);
+                return map;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
+    private void deleteRoomSched(int position){
+        final BookingInfo_Model model = bookingHolder.get(position);
+
+        String url = "http://"+ipAddress+"/VillaFilomena/manager_dir/delete/manager_deleteRoomSched.php";
+        RequestQueue requestQueue = Volley.newRequestQueue(activity);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
+            if (response.equals("success")){
+                Toast.makeText(activity, "Room Delete Success", Toast.LENGTH_SHORT).show();
+            }
+            else if(response.equals("failed")){
+                Toast.makeText(activity, "Room Delete Failed", Toast.LENGTH_SHORT).show();
+            }
+        },
+                error -> Toast.makeText(activity, error.getMessage().toString(), Toast.LENGTH_LONG).show())
+        {
+            @Override
+            protected HashMap<String,String> getParams() {
+                HashMap<String,String> map = new HashMap<>();
+                map.put("guest_email", model.getGuest_email());
+                map.put("checkIn_date", model.getCheckIn_date());
+                map.put("checkIn_time", model.getCheckIn_time());
+                map.put("checkOut_date", model.getCheckOut_date());
+                map.put("checkOut_time", model.getCheckOut_time());
+                map.put("room_id", model.getRoom_id());
+                return map;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
+    private void getGuestToken(String guest_email, String message){
         String url = "http://"+ipAddress+"/VillaFilomena/manager_dir/retrieve/manager_getGuestToken.php";
         RequestQueue requestQueue = Volley.newRequestQueue(activity);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
@@ -269,10 +379,9 @@ public class Manager_bookingConfirmation_Adapter extends RecyclerView.Adapter<Ma
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject object = jsonArray.getJSONObject(i);
 
-                    SendNotifications(object.getString("token"), "Your Booking is accepted");
+                    SendNotifications(object.getString("token"), message);
 
                     //Toast.makeText(getContext(), object.getString("token"), Toast.LENGTH_LONG).show();
-
                 }
             } catch (JSONException e) {
                 Toast.makeText(activity, e.toString(), Toast.LENGTH_LONG).show();

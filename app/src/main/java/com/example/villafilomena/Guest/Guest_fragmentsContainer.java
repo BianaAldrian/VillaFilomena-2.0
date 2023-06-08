@@ -104,21 +104,21 @@ public class  Guest_fragmentsContainer extends AppCompatActivity {
             //replace(new Guest_bookingPage1());
         });
 
-        fromBookingFunctions();
+        //fromBookingFunctions();
         toolbarFunctions();
     }
 
-    private void fromBookingFunctions() {
+   /* private void fromBookingFunctions() {
         if (fromBooking.equals("booking")){
-            /*nestedScrllView.fullScroll(View.FOCUS_UP);
+            *//*nestedScrllView.fullScroll(View.FOCUS_UP);
             toggle(true);
             nestedScrllView.setNestedScrollingEnabled(true);
-*/
+*//*
             home.setPaintFlags(home.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             home.setPaintFlags(home.getPaintFlags() | Paint.FAKE_BOLD_TEXT_FLAG);
-            replace_book(new Guest_bookingPage1());
+            replace_home(new Guest_homePage());
         }
-    }
+    }*/
 
     private void toolbarFunctions(){
         toolbar.setOnClickListener(v -> {

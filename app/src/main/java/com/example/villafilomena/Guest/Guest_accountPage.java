@@ -59,14 +59,10 @@ public class Guest_accountPage extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     private void get_Infos(TextView name, TextView contact, TextView email, TextView password) {
         String url = "http://"+ipAddress+"/VillaFilomena/guest_dir/retrieve/guest_getGuestInfo.php";
-
-        // Create a StringRequest for the HTTP GET request
-        // Handle error
         StringRequest request = new StringRequest(Request.Method.POST, url,
                 response -> {
                     try {
                         JSONArray jsonArray = new JSONArray(response);
-
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
 
@@ -74,9 +70,7 @@ public class Guest_accountPage extends AppCompatActivity {
                             contact.setText("Contact: " +jsonObject.getString("contact"));
                             email.setText("Email: " +jsonObject.getString("email"));
                             password.setText(jsonObject.getString("password"));
-
                         }
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

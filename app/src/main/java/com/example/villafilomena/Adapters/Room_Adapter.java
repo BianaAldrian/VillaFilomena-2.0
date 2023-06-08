@@ -18,8 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.villafilomena.FrontDesk.FrontDesk_Booking1;
-import com.example.villafilomena.Guest.Guest_bookingPage1;
 import com.example.villafilomena.Models.RoomCottageDetails_Model;
 import com.example.villafilomena.R;
 import com.google.android.material.card.MaterialCardView;
@@ -30,11 +28,13 @@ import java.util.ArrayList;
 public class Room_Adapter extends RecyclerView.Adapter<Room_Adapter.ViewHolder> {
     Context context;
     ArrayList<RoomCottageDetails_Model> detailsHolder;
+    boolean showBox = false;
 
     @SuppressLint("NotifyDataSetChanged")
-    public Room_Adapter(Context context, ArrayList<RoomCottageDetails_Model> detailsHolder) {
+    public Room_Adapter(Context context, ArrayList<RoomCottageDetails_Model> detailsHolder, boolean showBox) {
         this.context = context;
         this.detailsHolder = detailsHolder;
+        this.showBox = showBox;
         notifyDataSetChanged();
     }
 
@@ -55,7 +55,7 @@ public class Room_Adapter extends RecyclerView.Adapter<Room_Adapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull Room_Adapter.ViewHolder holder, int position) {
 
-        if (Guest_bookingPage1.showBox || FrontDesk_Booking1.showBox) {
+        if (showBox) {
             holder.box.setVisibility(View.VISIBLE);
         }
 
@@ -74,7 +74,7 @@ public class Room_Adapter extends RecyclerView.Adapter<Room_Adapter.ViewHolder> 
         /*Picasso.get().load(model.getImageUrl()).into(holder.image);*/
         holder.infos.setText(
                 ""+model.getName()+"\n"+
-                model.getCapacity()+"\n"+
+                model.getCapacity()+" People\n"+
                 "₱"+model.getRate());
 
         holder.seeMore.setOnClickListener(v -> {

@@ -1,8 +1,10 @@
 package com.example.villafilomena.Adapters.Manager;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,7 +15,7 @@ import com.example.villafilomena.R;
 import java.util.List;
 
 public class Manager_GuestInfo_Adapter extends RecyclerView.Adapter<Manager_GuestInfo_Adapter.ViewHolder> {
-    private List<Manager_GuestInfo_Model> guestInfoList;
+    private final List<Manager_GuestInfo_Model> guestInfoList;
 
     public Manager_GuestInfo_Adapter(List<Manager_GuestInfo_Model> guestInfoList) {
         this.guestInfoList = guestInfoList;
@@ -27,15 +29,13 @@ public class Manager_GuestInfo_Adapter extends RecyclerView.Adapter<Manager_Gues
         return new ViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // Get the Manager_GuestInfo_Model object at the specified position
         Manager_GuestInfo_Model guestInfo = guestInfoList.get(position);
 
-        // Bind the guest information to the view holder
-       /* holder.fullNameTextView.setText(guestInfo.getFullName());
-        holder.contactTextView.setText(guestInfo.getContact());
-        holder.emailTextView.setText(guestInfo.getEmail());*/
+        holder.guestDetails.setText(guestInfo.getFullName() + "\n" + guestInfo.getContact() + "\n" + guestInfo.getEmail());
     }
 
     @Override
@@ -44,17 +44,11 @@ public class Manager_GuestInfo_Adapter extends RecyclerView.Adapter<Manager_Gues
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-      /*  public TextView fullNameTextView;
-        public TextView contactTextView;
-        public TextView emailTextView;*/
-
+        TextView guestDetails;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-           /* // Initialize the views in the item layout
-            fullNameTextView = itemView.findViewById(R.id.fullNameTextView);
-            contactTextView = itemView.findViewById(R.id.contactTextView);
-            emailTextView = itemView.findViewById(R.id.emailTextView);*/
+            guestDetails = itemView.findViewById(R.id.calendar_guestDetails);
         }
     }
 }

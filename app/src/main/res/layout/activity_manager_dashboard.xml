@@ -3,14 +3,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background1"
     android:gravity="center"
     tools:context=".Manager.Manager_Dashboard">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/header"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/beaurivage_regular"
+            android:gravity="center"
+            android:text="Villa Filomena Natural Spring Resort"
+            android:textColor="#FFFFFF"
+            android:textSize="40sp"
+            tools:ignore="HardcodedText" />
+
+    </LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="70dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -18,27 +36,11 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="@drawable/header"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/beaurivage_regular"
-                    android:gravity="center"
-                    android:text="Villa Filomena Natural Spring Resort"
-                    android:textColor="#FFFFFF"
-                    android:textSize="40sp" />
-
-            </LinearLayout>
-
             <GridLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:columnCount="4">
+                android:layout_gravity="center"
+                android:columnCount="2">
 
                 <LinearLayout
                     android:id="@+id/manager_onlineBooking"
@@ -218,6 +220,7 @@
 
                 <!--start of 6-->
                 <LinearLayout
+                    android:id="@+id/manager_rateFeedback"
                     android:layout_width="200dp"
                     android:layout_height="200dp"
                     android:layout_margin="20dp"
@@ -241,6 +244,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/manager_orgChart"
                     android:layout_width="200dp"
                     android:layout_height="200dp"
                     android:layout_margin="20dp"
@@ -266,31 +270,35 @@
 
             </GridLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginEnd="50dp"
-                android:layout_marginBottom="5dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/signout"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/eb_garamond_regular"
-                    android:text="Sign out"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
-
-            </LinearLayout>
         </LinearLayout>
+
     </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/manager_signOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/signout"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/eb_garamond_regular"
+            android:text="Sign out"
+            android:textColor="@color/black"
+            android:textSize="24sp" />
+
+    </LinearLayout>
 
 </FrameLayout>

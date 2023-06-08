@@ -9,7 +9,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,30 +24,35 @@
                 android:layout_height="wrap_content" />
 
             <LinearLayout
-                android:layout_width="250dp"
+                android:layout_width="300dp"
                 android:layout_height="40dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/btn_bg"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:padding="10dp">
+                android:padding="10dp"
+                tools:ignore="TextSizeCheck">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/eb_garamond_bold"
-                    android:text="Payment"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"/>
-
-                <TextView
-                    android:id="@+id/Guest_booking2_total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/eb_garamond_bold"
+                    android:text="Total Payment"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:id="@+id/Guest_booking2_total"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/eb_garamond_bold"
+                    android:gravity="end"
                     android:text="Total"
                     android:textColor="@color/black"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    tools:ignore="HardcodedText" />
 
             </LinearLayout>
 
@@ -62,7 +68,8 @@
                     android:layout_width="150dp"
                     android:layout_height="40dp"
                     android:background="@drawable/btn_bg"
-                    android:text="back"/>
+                    android:text="back"
+                    tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
                 <Space
                     android:layout_width="40dp"
@@ -73,7 +80,8 @@
                     android:layout_width="150dp"
                     android:layout_height="40dp"
                     android:background="@drawable/btn_bg"
-                    android:text="Continue"/>
+                    android:text="Continue"
+                    tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
             </LinearLayout>
 

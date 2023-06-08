@@ -107,7 +107,7 @@ public class Guest_rates_feedbacksPage extends AppCompatActivity {
                     }
 
                     feedbackContainer.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-                    Feedbacks_Adapter adapter = new Feedbacks_Adapter(this, feedbacksHolder);
+                    Feedbacks_Adapter adapter = new Feedbacks_Adapter(this, feedbacksHolder, true);
                     feedbackContainer.setAdapter(adapter);
                 },
                 Throwable::printStackTrace) {

@@ -40,14 +40,14 @@ public class Guest_homePage extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_guest_home_page, container, false);
 
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyPrefs", MODE_PRIVATE);
         ipAddress = sharedPreferences.getString("IP", "");
 
         imageContainer = view.findViewById(R.id.guest_homepage_imageContainer);
         videoContainer = view.findViewById(R.id.guest_homepage_videoContainer);
 
         displayImages();
-        //displayVideos();
+        displayVideos();
         return view;
     }
 
@@ -55,7 +55,7 @@ public class Guest_homePage extends Fragment {
         imageHolder = new ArrayList<>();
 
         String url = "http://"+ipAddress+"/VillaFilomena/guest_dir/retrieve/guest_getImages.php";
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
             try {
                 JSONArray jsonArray = new JSONArray(response);
@@ -65,15 +65,15 @@ public class Guest_homePage extends Fragment {
                     Image_Model model = new Image_Model(
                             object.getString("id"),
                             object.getString("image_url"));
-
                     imageHolder.add(model);
                 }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
             imageContainer.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-            Image_Adapter adapter = new Image_Adapter(getContext(), imageHolder, false);
+            Image_Adapter adapter = new Image_Adapter(requireContext(), imageHolder, false);
             imageContainer.setAdapter(adapter);
             imageContainer.setHasFixedSize(true);
 
@@ -85,7 +85,7 @@ public class Guest_homePage extends Fragment {
         videoHolder = new ArrayList<>();
 
         String url = "http://"+ipAddress+"/VillaFilomena/guest_dir/retrieve/guest_getVideos.php";
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
             try {
                 JSONArray jsonArray = new JSONArray(response);

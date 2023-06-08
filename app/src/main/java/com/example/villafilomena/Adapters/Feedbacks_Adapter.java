@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -29,13 +30,15 @@ import java.util.List;
 import java.util.Map;
 
 public class Feedbacks_Adapter extends RecyclerView.Adapter<Feedbacks_Adapter.ViewHolder> {
+    boolean fromGuest = false;
     private Context context;
     private List<Feedbacks_Model> feedbacksList;
     private String ipAddress;
 
-    public Feedbacks_Adapter(Context context, List<Feedbacks_Model> feedbacksList) {
+    public Feedbacks_Adapter(Context context, List<Feedbacks_Model> feedbacksList, boolean fromGuest) {
         this.context = context;
         this.feedbacksList = feedbacksList;
+        this.fromGuest =fromGuest;
 
         SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         ipAddress = sharedPreferences.getString("IP", "");
@@ -56,6 +59,14 @@ public class Feedbacks_Adapter extends RecyclerView.Adapter<Feedbacks_Adapter.Vi
         holder.ratingBar.setRating(Float.parseFloat(model.getRatings()));
         holder.date.setText(model.getDate());
         holder.feedbacks.setText(model.getFeedback());
+
+        if (fromGuest){
+            holder.comment.setVisibility(View.GONE);
+            holder.commentSection.setVisibility(View.GONE);
+        } else {
+            holder.comment.setVisibility(View.VISIBLE);
+            holder.commentSection.setVisibility(View.VISIBLE);
+        }
 
         String imageUrl = model.getImage_urls();
 
@@ -112,6 +123,7 @@ public class Feedbacks_Adapter extends RecyclerView.Adapter<Feedbacks_Adapter.Vi
         TextView firstLetter, name, date, feedbacks;
         AppCompatRatingBar ratingBar;
         RecyclerView imageContainer;
+        LinearLayout comment, commentSection;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -121,6 +133,8 @@ public class Feedbacks_Adapter extends RecyclerView.Adapter<Feedbacks_Adapter.Vi
             feedbacks = itemView.findViewById(R.id.feedbackList_feedback);
             ratingBar = itemView.findViewById(R.id.feedbackList_rateBar);
             imageContainer = itemView.findViewById(R.id.feedbackList_imageContainer);
+            comment = itemView.findViewById(R.id.feedbackList_comment);
+            commentSection = itemView.findViewById(R.id.feedbackList_commentSection);
         }
     }
 }

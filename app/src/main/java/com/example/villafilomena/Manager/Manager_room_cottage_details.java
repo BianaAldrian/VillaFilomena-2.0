@@ -1,5 +1,6 @@
 package com.example.villafilomena.Manager;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -49,6 +50,7 @@ public class Manager_room_cottage_details extends AppCompatActivity {
     ImageView chosenImage;
     Uri imageUri;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +102,13 @@ public class Manager_room_cottage_details extends AppCompatActivity {
             EditText roomCapacity = addRoom_details.findViewById(R.id.popup_roomCottageDtl_Capacity);
             EditText roomRate = addRoom_details.findViewById(R.id.popup_roomCottageDtl_Rate);
             EditText roomDescription = addRoom_details.findViewById(R.id.popup_roomCottageDtl_Description);
+            TextView title = addRoom_details.findViewById(R.id.addRoomCottage_title);
+
+            title.setText("Add Cottage Details");
+            roomName.setHint("Room Type");
+            roomCapacity.setHint("Room Capacity");
+            roomRate.setHint("Room Rate");
+            roomDescription.setHint("Room Description");
 
             close.setOnClickListener(v1 -> addRoom_details.hide());
 
@@ -115,6 +124,7 @@ public class Manager_room_cottage_details extends AppCompatActivity {
         addCottage.setOnClickListener(v -> {
             addCottage_details = new Dialog(this);
             addCottage_details.setContentView(R.layout.popup_add_room_cottage_details_dialog);
+            addCottage_details.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             Window window = addCottage_details.getWindow();
             window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
@@ -126,6 +136,13 @@ public class Manager_room_cottage_details extends AppCompatActivity {
             EditText cottageCapacity = addCottage_details.findViewById(R.id.popup_roomCottageDtl_Capacity);
             EditText cottageRate = addCottage_details.findViewById(R.id.popup_roomCottageDtl_Rate);
             EditText cottageDescription = addCottage_details.findViewById(R.id.popup_roomCottageDtl_Description);
+            TextView title = addCottage_details.findViewById(R.id.addRoomCottage_title);
+
+            title.setText("Add Cottage Details");
+            cottageName.setHint("Cottage Type");
+            cottageCapacity.setHint("Cottage Capacity");
+            cottageRate.setHint("Cottage Rate");
+            cottageDescription.setHint("Cottage Description");
 
             close.setOnClickListener(v1 -> addCottage_details.hide());
 
@@ -141,7 +158,6 @@ public class Manager_room_cottage_details extends AppCompatActivity {
 
     public void displayRoomDetails(){
         ArrayList<RoomCottageDetails_Model> detailsHolder = new ArrayList<>();
-
         String url = "http://"+ipAddress+"/VillaFilomena/manager_dir/retrieve/manager_getRoomDetails.php";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
@@ -160,16 +176,13 @@ public class Manager_room_cottage_details extends AppCompatActivity {
 
                     detailsHolder.add(model);
                 }
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-            Room_Adapter adapter = new Room_Adapter(this,detailsHolder);
+            Room_Adapter adapter = new Room_Adapter(this,detailsHolder, false);
             LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
             roomDetails_Container.setLayoutManager(layoutManager);
             roomDetails_Container.setAdapter(adapter);
-
         }, error -> Toast.makeText(this, error.getMessage(), Toast.LENGTH_LONG).show());
         requestQueue.add(stringRequest);
     }

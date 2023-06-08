@@ -334,8 +334,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
             }
         };
         requestQueue.add(stringRequest);
-
-
     }
 
 

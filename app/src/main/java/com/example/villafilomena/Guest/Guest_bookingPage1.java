@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +57,7 @@ public class Guest_bookingPage1 extends Fragment {
     public static String finalCheckIn_time;
     public static String finalCheckOut_time;
     public static ArrayList<String> selectedRoom_id;
+    public static ArrayList<String> selectedCottage_id;
     public static boolean showBox = false;
     public static int finalAdultQty, finalKidQty;
     public static double total;
@@ -94,6 +96,7 @@ public class Guest_bookingPage1 extends Fragment {
         qty.setOnClickListener(v -> pickQty());
 
         selectedRoom_id = new ArrayList<>();
+        selectedCottage_id = new ArrayList<>();
 
         continueBtn.setOnClickListener(v -> {
             if (Guest_fragmentsContainer.email.equals("")){
@@ -105,7 +108,7 @@ public class Guest_bookingPage1 extends Fragment {
                     startActivity(new Intent(getContext(), Guest_Login.class));
                     Guest_Login.originateFrom = "booking";
                     Guest_fragmentsContainer guest = new Guest_fragmentsContainer();
-                    guest.closeActivity();
+                    guest.finish();
 
                 });
                 builder.setNegativeButton("Cancel", (dialog, which) -> {
@@ -120,10 +123,12 @@ public class Guest_bookingPage1 extends Fragment {
                 } else if (finalAdultQty == 0) {
                     Toast.makeText(getContext(), "Adult Quantity not set", Toast.LENGTH_SHORT).show();
                 } else {
+
+                    //for getting the checked rooms
                     double roomTotalPrice = 0;
 
-                    int childCount = roomList.getChildCount();
-                    for (int i=0; i<childCount; i++){
+                    int roomChildCount = roomList.getChildCount();
+                    for (int i=0; i<roomChildCount; i++){
                         View childView = roomList.getLayoutManager().findViewByPosition(i);
                         ImageView check = childView.findViewById(R.id.RoomCottageDetail_check);
                         if (check.getVisibility() == View.VISIBLE){
@@ -134,17 +139,34 @@ public class Guest_bookingPage1 extends Fragment {
                         }
                     }
 
+                    //for getting the checked cottages
+                    double cottageTotalPrice = 0;
+                    int cottageChildCount = cottageList.getChildCount();
+                    for (int i=0; i<cottageChildCount; i++){
+                        View childView = cottageList.getLayoutManager().findViewByPosition(i);
+                        ImageView check = childView.findViewById(R.id.RoomCottageDetail_check);
+                        if (check.getVisibility() == View.VISIBLE){
+                            final RoomCottageDetails_Model model = cottageHolder.get(i);
+                            selectedCottage_id.add(model.getId());
+
+                            cottageTotalPrice += Double.parseDouble(model.getRate());
+                        }
+                    }
+
                     double dayTour_roomRate, nightTour_roomRate;
+                    double dayTour_cottageRate, nightTour_cottageRate;
 
                     dayTour_roomRate = roomTotalPrice * dayDiff;
                     nightTour_roomRate = roomTotalPrice * nightDiff;
+                    dayTour_cottageRate = cottageTotalPrice * dayDiff;
+                    nightTour_cottageRate = cottageTotalPrice * nightDiff;
 
-                    dayTour_kidFee = (finalKidQty * dayDiff) * dayTour_kidFee;
-                    dayTour_adultFee = (finalAdultQty * dayDiff) * dayTour_adultFee;
-                    nightTour_kidFee = (finalKidQty * nightDiff) * nightTour_kidFee;
-                    nightTour_adultFee = (finalAdultQty * nightDiff) * nightTour_adultFee;
+                    dayTour_kidFee = (finalKidQty * dayTour_kidFee) * dayDiff;
+                    dayTour_adultFee = (finalAdultQty * dayTour_adultFee) * dayDiff;
+                    nightTour_kidFee = (finalKidQty * nightTour_kidFee) * nightDiff;
+                    nightTour_adultFee = (finalAdultQty * nightTour_adultFee) * nightDiff;
 
-                    total = dayTour_kidFee + dayTour_adultFee + nightTour_kidFee + nightTour_adultFee + dayTour_roomRate + nightTour_roomRate;
+                    total = dayTour_kidFee + dayTour_adultFee + nightTour_kidFee + nightTour_adultFee + dayTour_roomRate + nightTour_roomRate + dayTour_cottageRate + nightTour_cottageRate;
 
                     Toast.makeText(getContext(), dayDiff + "\n" + nightDiff, Toast.LENGTH_SHORT).show();
                     replace_bookingPage1(new Guest_bookingPage2());
@@ -263,6 +285,11 @@ public class Guest_bookingPage1 extends Fragment {
             finalCheckOut_date = checkOut_date[0];
             finalCheckOut_time = checkOut_time[0];
 
+            Log.d("Tag","finalCheckIn_date: " + finalCheckIn_date);
+            Log.d("Tag","finalCheckIn_time: " + finalCheckIn_time);
+            Log.d("Tag","finalCheckOut_date: " + finalCheckOut_date);
+            Log.d("Tag","finalCheckOut_time: " + finalCheckOut_time);
+
             //Toast.makeText(getContext(), Arrays.toString(checkIn_date) + "\n"+ Arrays.toString(checkOut_date) + "\n"+ Arrays.toString(checkIn_time) + "\n"+ Arrays.toString(checkOut_time), Toast.LENGTH_SHORT).show();
             //Toast.makeText(getContext(), finalCheckIn_date + "\n"+ finalCheckIn_time + "\n"+ finalCheckOut_date + "\n"+  finalCheckOut_time, Toast.LENGTH_SHORT).show();
 
@@ -276,7 +303,8 @@ public class Guest_bookingPage1 extends Fragment {
                 Toast.makeText(getContext(), "Select Check-Out Time", Toast.LENGTH_SHORT).show();
             } else {
                 getDateDifference();
-                displayAvailableRooms();
+                displayAvailableRooms(finalCheckIn_date, finalCheckIn_time, finalCheckOut_date, finalCheckOut_time);
+                displayAvailableCottage();
 
                 try {
                     SimpleDateFormat inputFormat = new SimpleDateFormat("d/M/yyyy");
@@ -431,7 +459,7 @@ public class Guest_bookingPage1 extends Fragment {
                 e.printStackTrace();
             }
 
-            Room_Adapter adapter = new Room_Adapter(getContext(),detailsHolder);
+            Room_Adapter adapter = new Room_Adapter(getContext(),detailsHolder, false);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
             roomList.setLayoutManager(layoutManager);
             roomList.setAdapter(adapter);
@@ -445,7 +473,7 @@ public class Guest_bookingPage1 extends Fragment {
         showBox = false;
         cottageHolder = new ArrayList<>();
 
-        String url = "http://"+ipAddress+"/VillaFilomena/guest_dir/retrieve/guest_getRoomDetails.php";
+        String url = "http://"+ipAddress+"/VillaFilomena/guest_dir/retrieve/guest_getCottageDetails.php";
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
             try {
@@ -456,11 +484,10 @@ public class Guest_bookingPage1 extends Fragment {
                     RoomCottageDetails_Model model = new RoomCottageDetails_Model(
                             object.getString("id"),
                             object.getString("imageUrl"),
-                            object.getString("roomName"),
-                            object.getString("roomCapacity"),
-                            object.getString("roomRate"),
-                            object.getString("roomDescription"));
-
+                            object.getString("cottageName"),
+                            object.getString("cottageCapacity"),
+                            object.getString("cottageRate"),
+                            object.getString("cottageDescription"));
                     cottageHolder.add(model);
                 }
             } catch (JSONException e) {
@@ -476,7 +503,7 @@ public class Guest_bookingPage1 extends Fragment {
         requestQueue.add(stringRequest);
     }
 
-    private void displayAvailableRooms() {
+    private void displayAvailableRooms(String finalCheckIn_date, String finalCheckIn_time, String finalCheckOut_date, String finalCheckOut_time) {
         showBox = true;
 
         detailsHolder = new ArrayList<>();
@@ -503,11 +530,57 @@ public class Guest_bookingPage1 extends Fragment {
                 e.printStackTrace();
             }
 
-            Room_Adapter adapter = new Room_Adapter(getActivity(),detailsHolder);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-            roomList.setLayoutManager(layoutManager);
+            roomList.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+            Room_Adapter adapter = new Room_Adapter(getActivity(),detailsHolder, true);
             roomList.setAdapter(adapter);
 
+        },
+                Throwable::printStackTrace)
+        {
+            @Override
+            protected HashMap<String,String> getParams() {
+                HashMap<String,String> map = new HashMap<>();
+                map.put("checkIn_date", finalCheckIn_date);
+                map.put("checkIn_time", finalCheckIn_time);
+                map.put("checkOut_date", finalCheckOut_date);
+                map.put("checkOut_time", finalCheckOut_time);
+                return map;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
+    private void displayAvailableCottage(){
+        showBox = true;
+
+        cottageHolder = new ArrayList<>();
+
+        String url = "http://"+ipAddress+"/VillaFilomena/guest_dir/retrieve/guest_getAvailableCottage.php";
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
+            try {
+                JSONArray jsonArray = new JSONArray(response);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject object = jsonArray.getJSONObject(i);
+
+                    RoomCottageDetails_Model model = new RoomCottageDetails_Model(
+                            object.getString("id"),
+                            object.getString("imageUrl"),
+                            object.getString("roomName"),
+                            object.getString("roomCapacity"),
+                            object.getString("roomRate"),
+                            object.getString("roomDescription"));
+
+                    cottageHolder.add(model);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            Room_Adapter adapter = new Room_Adapter(getActivity(),cottageHolder, true);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+            cottageList.setLayoutManager(layoutManager);
+            cottageList.setAdapter(adapter);
         },
                 error -> Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show())
         {
@@ -522,7 +595,5 @@ public class Guest_bookingPage1 extends Fragment {
             }
         };
         requestQueue.add(stringRequest);
-
-        //showCheckbox();
     }
 }
