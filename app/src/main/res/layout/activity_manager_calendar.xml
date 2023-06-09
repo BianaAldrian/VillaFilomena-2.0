@@ -9,15 +9,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
+
         android:background="@drawable/header"
         android:gravity="center"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/manager_calendar_exit"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginStart="20dp"
             android:src="@drawable/btn_back"/>
 
