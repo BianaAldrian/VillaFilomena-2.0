@@ -23,11 +23,12 @@
 
 
         <TextView
-            android:layout_width="470dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/beaurivage_regular"
             android:gravity="center"
             android:text="My Account"
+            android:layout_weight="1"
             android:textColor="#FFFFFF"
             android:textSize="40sp"/>
 
@@ -36,6 +37,13 @@
             android:layout_height="100dp"
             android:layout_gravity="center|right"
             android:src="@drawable/edit" />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center|right"
+            android:src="@drawable/save" />
+
 
     </LinearLayout>
 
