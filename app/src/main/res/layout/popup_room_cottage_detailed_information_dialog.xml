@@ -4,7 +4,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#B0D4D9">
 
     <ImageView
         android:id="@+id/RoomCottageDetailInfo_image"
@@ -16,10 +17,20 @@
         android:id="@+id/RoomCottageDetailInfo_infos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/balsamiqsans_regular"
+        android:fontFamily="@font/eb_garamond_regular"
         android:gravity="center"
-        android:text="ROOM TYPE \nROOM CAPACITY\nROOM RATE"
+        android:text="Room 104
+\nCapacity: 4"
         android:textColor="@color/black"
-        android:textSize="16sp"/>
+        android:textSize="18sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:fontFamily="@font/eb_garamond_regular"
+        android:text="Details:\nLiving room with 2 sofa chair and 1 dining tables \n1 Bedroom With 2 Double Deck\n1 Bathroom\n1 Sink\n"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
 
 </LinearLayout>

@@ -24,37 +24,132 @@
                 android:layout_height="wrap_content" />
 
             <LinearLayout
-                android:layout_width="300dp"
-                android:layout_height="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/btn_bg"
+                android:orientation="vertical"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="10dp"
                 tools:ignore="TextSizeCheck">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <GridLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/eb_garamond_bold"
-                    android:text="Total Payment"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    tools:ignore="HardcodedText" />
+                    android:columnCount="4"
+                    android:layout_margin="10dp">
 
-                <TextView
-                    android:id="@+id/Guest_booking2_total"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/eb_garamond_bold"
-                    android:gravity="end"
-                    android:text="Total"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    tools:ignore="HardcodedText" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_columnWeight="1"
+                        android:background="@drawable/border"
+                        android:text="Details"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/eb_garamond_regular"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_columnWeight="1"
+                        android:background="@drawable/border"
+                        android:text="Quantity"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/eb_garamond_regular"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_columnWeight="1"
+                        android:background="@drawable/border"
+                        android:text="Days &amp; Nights"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/eb_garamond_regular"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_columnWeight="1"
+                        android:background="@drawable/border"
+                        android:text="Total"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/eb_garamond_regular"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_columnWeight="1"
+                        android:background="@drawable/border"
+                        android:text="Adult/s
+\nKid/s
+\nRooms
+\nCottages"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/eb_garamond_regular"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_columnWeight="1"
+                        android:background="@drawable/border"
+                        android:text="2\n2\n1\n0"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/eb_garamond_regular"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_columnWeight="1"
+                        android:background="@drawable/border"
+                        android:text="\n2 Days &amp; \n2 Nights\n"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/eb_garamond_regular"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_columnWeight="1"
+                        android:background="@drawable/border"
+                        android:text="₱360\n₱500\n₱2,500\n₱0"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/eb_garamond_regular"/>
+
+                </GridLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Total Payment: ₱3,190\n"
+                        android:textSize="18sp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/eb_garamond_medium"/>
+
+                </LinearLayout>
 
             </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -68,7 +163,10 @@
                     android:layout_width="150dp"
                     android:layout_height="40dp"
                     android:background="@drawable/btn_bg"
-                    android:text="back"
+                    android:fontFamily="@font/eb_garamond_medium"
+                    android:textSize="18sp"
+                    android:textAllCaps="false"
+                    android:text="Back"
                     tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
                 <Space
@@ -80,6 +178,9 @@
                     android:layout_width="150dp"
                     android:layout_height="40dp"
                     android:background="@drawable/btn_bg"
+                    android:fontFamily="@font/eb_garamond_medium"
+                    android:textSize="18sp"
+                    android:textAllCaps="false"
                     android:text="Continue"
                     tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 

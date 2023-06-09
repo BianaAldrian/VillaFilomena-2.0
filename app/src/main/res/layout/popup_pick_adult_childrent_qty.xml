@@ -30,9 +30,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginRight="20dp"
-                android:fontFamily="@font/eb_garamond_semi_bold"
+                android:fontFamily="@font/eb_garamond_regular"
                 android:gravity="center"
-                android:text=" Adults and Children"
+                android:text=" Adults and Kids"
                 android:textColor="#ffffff"
                 android:textSize="25sp"/>
 
@@ -56,7 +56,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="15dp"
-                    android:fontFamily="@font/balsamiqsans_regular"
+                    android:fontFamily="@font/eb_garamond_regular"
                     android:text="Adult"
                     android:textColor="@color/black"
                     android:textSize="20sp"/>
@@ -117,7 +117,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="15dp"
-                    android:fontFamily="@font/balsamiqsans_regular"
+                    android:fontFamily="@font/eb_garamond_regular"
                     android:text="Kid"
                     android:textColor="@color/black"
                     android:textSize="20sp"/>
@@ -175,6 +175,7 @@
             android:layout_height="50dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/btn_bg"
+            android:fontFamily="@font/eb_garamond_medium"
             android:text="Done"/>
 
     </LinearLayout>

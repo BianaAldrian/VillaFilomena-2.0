@@ -50,8 +50,10 @@
                         android:layout_width="350dp"
                         android:layout_height="60dp"
                         android:inputType="textEmailAddress"
-                        android:hint="Email                                              @gmail.com"
-                        android:textColor="@color/black"
+                        android:hint="Email                                                     @gmail.com"
+                        android:textColor="#5C5353"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/eb_garamond_regular"
                         android:background="@drawable/edttxt_bg"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -97,7 +99,9 @@
                             android:layout_width="350dp"
                             android:layout_height="60dp"
                             android:hint="Password"
-                            android:textColor="@color/black"
+                            android:textColor="#5C5353"
+                            android:textSize="18sp"
+                            android:fontFamily="@font/eb_garamond_regular"
                             android:password="true"
                             android:background="@drawable/edttxt_bg"/>
 
@@ -146,7 +150,9 @@
                             android:background="@drawable/edttxt_bg"
                             android:hint="Confirm Password"
                             android:password="true"
-                            android:textColor="@color/black" />
+                            android:textColor="#5C5353"
+                            android:textSize="18sp"
+                            android:fontFamily="@font/eb_garamond_regular" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -170,7 +176,9 @@
                         android:layout_height="60dp"
                         android:inputType="textEmailAddress"
                         android:hint="First Name"
-                        android:textColor="@color/black"
+                        android:textColor="#5C5353"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/eb_garamond_regular"
                         android:background="@drawable/edttxt_bg"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -193,7 +201,9 @@
                         android:layout_height="60dp"
                         android:inputType="textEmailAddress"
                         android:hint="Last Name"
-                        android:textColor="@color/black"
+                        android:textColor="#5C5353"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/eb_garamond_regular"
                         android:background="@drawable/edttxt_bg"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -216,7 +226,9 @@
                         android:layout_height="60dp"
                         android:inputType="textEmailAddress"
                         android:hint="Contact Number"
-                        android:textColor="@color/black"
+                        android:textColor="#5C5353"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/eb_garamond_regular"
                         android:background="@drawable/edttxt_bg"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -234,7 +246,7 @@
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="22sp"
-                android:fontFamily="@font/eb_garamond_semi_bold"/>
+                android:fontFamily="@font/eb_garamond_medium"/>
 
 
             <LinearLayout
@@ -250,7 +262,7 @@
                     android:text="Already registered?"
                     android:textColor="@color/black"
                     android:textSize="17sp"
-                    android:fontFamily="@font/eb_garamond_medium"/>
+                    android:fontFamily="@font/eb_garamond_regular"/>
 
                 <TextView
                     android:id="@+id/Guest_register_login"

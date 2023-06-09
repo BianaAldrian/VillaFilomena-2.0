@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:fontFamily="@font/balsamiqsans_regular"
+        android:fontFamily="@font/eb_garamond_regular"
         android:text="How’s your experience?"
         android:textColor="@color/white"
         android:textSize="24sp"
@@ -21,8 +21,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:fontFamily="@font/balsamiqsans_regular"
-        android:text="We Value your feedback"
+        android:fontFamily="@font/eb_garamond_regular"
+        android:text="We value your feedback"
         android:textColor="@color/white"
         android:textSize="18sp"
         tools:ignore="HardcodedText,TextContrastCheck" />
@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:fontFamily="@font/balsamiqsans_regular"
+        android:fontFamily="@font/eb_garamond_regular"
         android:gravity="center"
         android:text="How do you feel about Villa Filomena Natural Spring Resort?"
         android:textColor="@color/white"
@@ -43,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
-        android:fontFamily="@font/eb_garamond_bold"
+        android:fontFamily="@font/eb_garamond_medium"
         android:gravity="center"
         android:text="Satisfied"
         android:textColor="@color/white"
@@ -66,9 +66,9 @@
         android:layout_height="200dp"
         android:layout_margin="20dp"
         android:background="@color/white"
-        android:fontFamily="@font/balsamiqsans_regular"
+        android:fontFamily="@font/eb_garamond_regular"
         android:gravity="top"
-        android:hint="Enter you feedback"
+        android:hint="Enter your feedback"
         android:padding="10dp"
         android:textColor="@color/black"
         tools:ignore="Autofill,HardcodedText,TextFields,VisualLintTextFieldSize" />
@@ -86,7 +86,8 @@
         android:background="@drawable/btn_bg"
         android:text="Add Image"
         android:textAllCaps="false"
-        android:textSize="16sp"
+        android:textSize="20sp"
+        android:fontFamily="@font/eb_garamond_medium"
         tools:ignore="HardcodedText" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -97,7 +98,8 @@
         android:background="@drawable/btn_bg"
         android:text="Submit"
         android:textAllCaps="false"
-        android:textSize="16sp"
+        android:textSize="20sp"
+        android:fontFamily="@font/eb_garamond_medium"
         tools:ignore="HardcodedText,VisualLintBounds" />
 
 </LinearLayout>

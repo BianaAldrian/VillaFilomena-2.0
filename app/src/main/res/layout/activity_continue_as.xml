@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="30dp"
-        android:fontFamily="@font/eb_garamond_bold"
+        android:fontFamily="@font/eb_garamond_semi_bold"
         android:text="CONTINUE AS:"
         android:textColor="#000000"
         android:textSize="28sp" />
@@ -25,7 +25,7 @@
         android:layout_height="65dp"
         android:layout_marginTop="50dp"
         android:background="@drawable/btn_bg"
-        android:fontFamily="@font/eb_garamond_semi_bold"
+        android:fontFamily="@font/eb_garamond_medium"
         android:text="GUEST"
         android:textColor="#000000"
         android:textSize="20sp" />
@@ -37,7 +37,7 @@
         android:layout_height="65dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/btn_bg"
-        android:fontFamily="@font/eb_garamond_semi_bold"
+        android:fontFamily="@font/eb_garamond_medium"
         android:text="FRONT DESK"
         android:textColor="#000000"
         android:textSize="20sp" />
@@ -48,7 +48,7 @@
         android:layout_height="65dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/btn_bg"
-        android:fontFamily="@font/eb_garamond_semi_bold"
+        android:fontFamily="@font/eb_garamond_medium"
         android:text="MANAGER"
         android:textColor="#000000"
         android:textSize="20sp" />
