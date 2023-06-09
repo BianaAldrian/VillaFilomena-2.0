@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <item
         android:id="@+id/menu_item1"
-        android:title="Custom"
+        android:title="Disable Day"
+        tools:ignore="HardcodedText" />
+
+    <item
+        android:id="@+id/menu_item2"
+        android:title="Set Daily Capacity"
         tools:ignore="HardcodedText" />
 </menu>
