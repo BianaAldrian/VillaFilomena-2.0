@@ -56,6 +56,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
 
         SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", MODE_PRIVATE);
         ipAddress = sharedPreferences.getString("IP", "");
+        notifyDataSetChanged();
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -76,7 +77,13 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
     public void onBindViewHolder(@NonNull CalendarAdapter.ViewHolder holder, int position) {
         Date date = datesList.get(position);
 
-        if (date != null) {
+        if (date == null){
+            //Handle empty cells or other scenarios
+            holder.day.setText("");
+            holder.schedule.setText("");
+            //holder.dayView.setVisibility(View.GONE);
+        }
+        else {
             // Format the date as desired
             SimpleDateFormat dayFormat = new SimpleDateFormat("dd", Locale.getDefault());
             String formattedDay = dayFormat.format(date);
@@ -99,6 +106,8 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
             if (dayOfWeek == Calendar.SUNDAY) {
                 // Sunday styling
                 holder.day.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.red));
+            } else if (dayOfWeek == Calendar.SATURDAY) {
+                holder.day.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.blue));
             } else {
                 // Other days of the week styling
                 holder.day.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.black));
@@ -107,10 +116,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
             holder.itemView.setOnClickListener(v -> {
                 showScheduledUserDialog(formattedDate);
             });
-        } else {
-            // Handle empty cells or other scenarios
-            holder.day.setText("");
-            holder.schedule.setText("");
+
         }
     }
 
