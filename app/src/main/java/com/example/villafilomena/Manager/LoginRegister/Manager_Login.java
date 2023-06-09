@@ -21,6 +21,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class Manager_Login extends AppCompatActivity {
     String token;
@@ -52,34 +53,34 @@ public class Manager_Login extends AppCompatActivity {
         password = findViewById(R.id.manager_login_Password);
         login = findViewById(R.id.manager_login_Login);
 
-        login.setOnClickListener(v -> {
-            login();
-        });
+        login.setOnClickListener(v -> login());
     }
 
     private void login(){
         String url = "http://"+ipAddress+"/VillaFilomena/manager_dir/retrieve/manager_login.php";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
-            if (response.equals("false")){
-                Toast.makeText(this, "Email doesn't exist", Toast.LENGTH_SHORT).show();
-            }
-            else if(response.equals("not match")){
-                Toast.makeText(this, "Incorrect password", Toast.LENGTH_SHORT).show();
-            }
-            else if(response.equals("match")){
-                updateToken();
-                startActivity(new Intent(this, Manager_Dashboard.class));
-                finish();
+            switch (response) {
+                case "false":
+                    Toast.makeText(this, "Email doesn't exist", Toast.LENGTH_SHORT).show();
+                    break;
+                case "not match":
+                    Toast.makeText(this, "Incorrect password", Toast.LENGTH_SHORT).show();
+                    break;
+                case "match":
+                    updateToken();
+                    startActivity(new Intent(this, Manager_Dashboard.class));
+                    finish();
+                    break;
             }
         },
-                error -> Toast.makeText(this, error.getMessage().toString(), Toast.LENGTH_LONG).show())
+                Throwable::printStackTrace)
         {
             @Override
             protected HashMap<String,String> getParams() {
                 HashMap<String,String> map = new HashMap<>();
-                map.put("email",email.getText().toString());
-                map.put("password",password.getText().toString());
+                map.put("email", Objects.requireNonNull(email.getText()).toString());
+                map.put("password", Objects.requireNonNull(password.getText()).toString());
                 return map;
             }
         };
@@ -96,12 +97,12 @@ public class Manager_Login extends AppCompatActivity {
                 Toast.makeText(this, "Token Update Failed", Toast.LENGTH_LONG).show();
             }
         },
-                error -> Toast.makeText(this, error.getMessage().toString(), Toast.LENGTH_LONG).show())
+                Throwable::printStackTrace)
         {
             @Override
             protected HashMap<String,String> getParams() {
                 HashMap<String,String> map = new HashMap<>();
-                map.put("email",email.getText().toString().trim());
+                map.put("email", Objects.requireNonNull(email.getText()).toString().trim());
                 map.put("token",token);
 
                 return map;

@@ -1,9 +1,15 @@
 package com.example.villafilomena.Manager;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +26,7 @@ import java.util.List;
 
 public class Manager_Calendar extends AppCompatActivity {
     RecyclerView dateContainer;
+    ImageView exit, menu;
     private CalendarAdapter adapter;
     private int currentMonth;
     private int currentYear;
@@ -30,6 +37,35 @@ public class Manager_Calendar extends AppCompatActivity {
         setContentView(R.layout.activity_manager_calendar);
 
         dateContainer = findViewById(R.id.manager_calendar_dateContainer);
+        exit = findViewById(R.id.manager_calendar_exit);
+        menu = findViewById(R.id.manager_calendar_menu);
+
+        exit.setOnClickListener(v -> {
+            startActivity(new Intent(this, Manager_Dashboard.class));
+            finish();
+        });
+        menu.setOnClickListener(v -> {
+            PopupMenu popupMenu = new PopupMenu(this, menu);
+            popupMenu.getMenuInflater().inflate(R.menu.manager_dropdown_menu, popupMenu.getMenu());
+
+            popupMenu.setOnMenuItemClickListener(item -> {
+                // Handle menu item selection
+                // Handle menu item 1 click
+
+                Dialog dialog = new Dialog(this);
+                dialog.setContentView(R.layout.manager_calendar_scheduler_dialog);
+                dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                Window window = dialog.getWindow();
+                window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+
+
+                dialog.show();
+
+                return item.getItemId() == R.id.menu_item1;
+            });
+
+            popupMenu.show();
+        });
 
         Spinner monthSpinner = findViewById(R.id.manager_monthSpinner);
         Spinner yearSpinner = findViewById(R.id.manager_yearSpinner);
@@ -45,8 +81,8 @@ public class Manager_Calendar extends AppCompatActivity {
         int endYear = currentYear + 10;
         String[] yearOptions = generateYearOptions(startYear, endYear);
 
-        ArrayAdapter<String> monthSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, monthOptions);
-        ArrayAdapter<String> yearSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, yearOptions);
+        ArrayAdapter<String> monthSpinnerAdapter = new ArrayAdapter<>(this, R.layout.spinner_layout_list, monthOptions);
+        ArrayAdapter<String> yearSpinnerAdapter = new ArrayAdapter<>(this, R.layout.spinner_layout_list, yearOptions);
 
         monthSpinner.setAdapter(monthSpinnerAdapter);
         yearSpinner.setAdapter(yearSpinnerAdapter);
