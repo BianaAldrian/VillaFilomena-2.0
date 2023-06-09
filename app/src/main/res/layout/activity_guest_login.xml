@@ -106,7 +106,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/eb_garamond_semi_bold"
+                android:layout_marginStart="200dp"
+                android:fontFamily="@font/eb_garamond_regular"
                 android:text="Forgot Password?"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
@@ -127,7 +128,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:background="@drawable/btn_bg"
-            android:fontFamily="@font/eb_garamond_semi_bold"
+            android:fontFamily="@font/eb_garamond_medium"
             android:text="Login"
             android:textAllCaps="false"
             android:textColor="@color/black"
@@ -143,7 +144,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/eb_garamond_medium"
+                android:fontFamily="@font/eb_garamond_regular"
                 android:text="Don't have an account?"
                 android:textColor="@color/black"
                 android:textSize="17sp"/>
@@ -152,7 +153,7 @@
                 android:id="@+id/Guest_login_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/eb_garamond_bold"
+                android:fontFamily="@font/eb_garamond_medium"
                 android:text=" Register"
                 android:textColor="@color/black"
                 android:textSize="17sp"/>

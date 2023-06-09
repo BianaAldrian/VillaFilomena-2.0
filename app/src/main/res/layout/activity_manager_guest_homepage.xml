@@ -20,7 +20,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@drawable/cardview_bg"
+            android:background="@drawable/header"
             android:gravity="center"
             android:orientation="horizontal"
             tools:ignore="TextSizeCheck">
@@ -35,11 +35,11 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:fontFamily="@font/eb_garamond_regular"
+                android:fontFamily="@font/beaurivage_regular"
                 android:gravity="center"
                 android:text="Guest Home Page"
-                android:textColor="#060606"
-                android:textSize="32sp"
+                android:textColor="#ffffff"
+                android:textSize="35sp"
                 tools:ignore="HardcodedText" />
 
             <ImageView
@@ -65,9 +65,9 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:fontFamily="@font/balsamiqsans_bold"
+                android:fontFamily="@font/eb_garamond_medium"
                 android:gravity="center"
                 android:text="Banner"
                 android:textColor="@color/black"
@@ -102,7 +102,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:fontFamily="@font/balsamiqsans_bold"
+                android:fontFamily="@font/eb_garamond_medium"
                 android:gravity="center"
                 android:text="Introduction"
                 android:textColor="@color/black"
@@ -126,7 +126,7 @@
             android:layout_width="400dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:fontFamily="@font/balsamiqsans_bold"
+            android:fontFamily="@font/eb_garamond_regular"
             android:gravity="center"
             android:text="Find your own quiet haven. The Villa Filomena Resort in Cavite, Philippines is situated on the alpines of South Cavite. This Natural Spring resort is an exclusive resort placing emphasis on your comfort and solitude."
             android:textColor="@color/black"
@@ -144,7 +144,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/balsamiqsans_bold"
+                android:fontFamily="@font/eb_garamond_medium"
                 android:text="Images"
                 android:textColor="@color/black"
                 android:textSize="18sp"
@@ -175,7 +175,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/balsamiqsans_bold"
+                android:fontFamily="@font/eb_garamond_medium"
                 android:text="Videos"
                 android:textColor="@color/black"
                 android:textSize="18sp"
