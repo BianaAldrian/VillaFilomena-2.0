@@ -43,7 +43,7 @@
       android:id="@+id/popup_GCash_paymentOptionSpn"
       android:layout_width="300dp"
       android:layout_height="48dp"
-      android:layout_marginTop="20dp"/>
+      android:layout_marginTop="10dp"/>
 
   <LinearLayout
       android:layout_width="300dp"
@@ -106,6 +106,26 @@
       android:gravity="center"
       android:minHeight="48dp"
       tools:ignore="SpeakableTextPresentCheck" />
+
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="15dp"
+      android:fontFamily="@font/eb_garamond_bold"
+      android:gravity="center"
+      android:text="Upload the GCash Transaction Receipt"
+      android:textColor="@color/black"
+      android:textSize="24sp"/>
+
+  <androidx.appcompat.widget.AppCompatButton
+      android:layout_width="120dp"
+      android:layout_height="50dp"
+      android:layout_marginTop="10dp"
+      android:background="@drawable/btn_bg"
+      android:fontFamily="@font/eb_garamond_medium"
+      android:text="Upload Image"
+      android:textAllCaps="false"
+      android:textSize="22sp"/>
 
   <androidx.appcompat.widget.AppCompatButton
       android:id="@+id/popup_GCash_confirm"
