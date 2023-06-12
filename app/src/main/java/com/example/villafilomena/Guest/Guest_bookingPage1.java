@@ -7,8 +7,11 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +37,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.villafilomena.Adapters.Cottage_Adapter;
+import com.example.villafilomena.Adapters.Guest.Guest_MonthYearAdapter;
 import com.example.villafilomena.Adapters.Room_Adapter;
 import com.example.villafilomena.Models.RoomCottageDetails_Model;
 import com.example.villafilomena.R;
@@ -50,8 +54,10 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 public class Guest_bookingPage1 extends Fragment {
+    private static final int ITEM_COUNT_LIMIT = 100; // Maximum number of items to display
     public static String finalCheckIn_date;
     public static String finalCheckOut_date;
     public static String finalCheckIn_time;
@@ -61,6 +67,7 @@ public class Guest_bookingPage1 extends Fragment {
     public static boolean showBox = false;
     public static int finalAdultQty, finalKidQty;
     public static double total;
+    Guest_MonthYearAdapter calendar_adapter;
     String ipAddress;
     CardView sched, qty;
     TextView dayTourInfo, nightTourInfo, displaySched, displayQty;
@@ -70,6 +77,9 @@ public class Guest_bookingPage1 extends Fragment {
     ArrayList<RoomCottageDetails_Model> cottageHolder;
     double dayTour_kidFee, dayTour_adultFee, nightTour_kidFee, nightTour_adultFee;
     int dayDiff, nightDiff;
+    private Guest_MonthYearAdapter calendarAdapter;
+    private LinearLayoutManager LayoutManager;
+    private List<String> calendarData;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -77,7 +87,7 @@ public class Guest_bookingPage1 extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_guest_booking_page1, container, false);
 
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyPrefs", MODE_PRIVATE);
         ipAddress = sharedPreferences.getString("IP", "");
 
         dayTourInfo = view.findViewById(R.id.guest_dayTourInfo);
@@ -92,7 +102,8 @@ public class Guest_bookingPage1 extends Fragment {
 
         getEntranceFee_Details();
 
-        sched.setOnClickListener(v -> pickSched());
+        //sched.setOnClickListener(v -> pickSched());
+        sched.setOnClickListener(v -> showBottomDialog());
         qty.setOnClickListener(v -> pickQty());
 
         selectedRoom_id = new ArrayList<>();
@@ -179,6 +190,73 @@ public class Guest_bookingPage1 extends Fragment {
 
         return view;
     }
+
+    private void showBottomDialog() {
+        final Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.guest_btm_dialog_calendar);
+
+        RecyclerView dateContainer = dialog.findViewById(R.id.btmDialog_dateContainer);
+        TextView checkInTxt = dialog.findViewById(R.id.btmDialog_checkIn);
+        TextView checkOutTxt = dialog.findViewById(R.id.btmDialog_checkOut);
+        Button applyDatesBtn = dialog.findViewById(R.id.btmDialog_applyDates);
+
+        LayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        dateContainer.setLayoutManager(LayoutManager);
+
+        // Generate calendar data
+        calendarData = generateCalendarData();
+
+        // Create the adapter and set it for the RecyclerView
+        calendarAdapter = new Guest_MonthYearAdapter(getContext(), calendarData, checkInTxt, checkOutTxt, applyDatesBtn);
+        dateContainer.setAdapter(calendarAdapter);
+
+        if (applyDatesBtn.isEnabled()){
+            applyDatesBtn.setOnClickListener(v -> {
+                Log.d("Date", "Check-in: "+ calendar_adapter.getFirstSelectedDate() +"\nCheck-out: " + calendar_adapter.getSecondSelectedDate());
+            });
+        }
+
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+    }
+
+    private List<String> generateCalendarData() {
+        List<String> data = new ArrayList<>();
+
+        // Get the current month and year
+        Calendar calendar = Calendar.getInstance();
+        int currentMonth = calendar.get(Calendar.MONTH);
+        int currentYear = calendar.get(Calendar.YEAR);
+
+        // Generate data for 12 months from now
+        for (int i = 0; i < 12; i++) {
+            int month = (currentMonth + i) % 12;
+            int year = currentYear + (currentMonth + i) / 12;
+
+            if (month == 0) {
+                // Increment year if the month is January
+                currentYear++;
+                year++;
+            }
+
+            // Add month and year to the data list
+            String monthYear = getMonthName(month) + " " + year;
+            data.add(monthYear);
+        }
+
+        return data;
+    }
+
+    private String getMonthName(int month) {
+        DateFormatSymbols dfs = new DateFormatSymbols();
+        String[] months = dfs.getMonths();
+        return months[month];
+    }
+
 
     @SuppressLint("SetTextI18n")
     private void getEntranceFee_Details(){

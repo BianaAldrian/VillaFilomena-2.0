@@ -73,7 +73,7 @@ public class Guest_homePage extends Fragment {
             }
 
             imageContainer.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-            Image_Adapter adapter = new Image_Adapter(requireContext(), imageHolder, false);
+            Image_Adapter adapter = new Image_Adapter(getContext(), imageHolder, false);
             imageContainer.setAdapter(adapter);
             imageContainer.setHasFixedSize(true);
 

@@ -1,5 +1,6 @@
 package com.example.villafilomena.Adapters.Manager;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ public class Manager_DateAdapter extends RecyclerView.Adapter<Manager_DateAdapte
         this.datesList = datesList;
         this.currentMonth = currentMonth;
     }
+    @SuppressLint("NotifyDataSetChanged")
     public void updateDatesList(List<Date> updatedDatesList, int currentMonth) {
         this.datesList = updatedDatesList;
         this.currentMonth = currentMonth;

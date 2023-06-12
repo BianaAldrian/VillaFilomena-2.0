@@ -87,7 +87,8 @@
             android:exported="false" />
         <activity
             android:name=".Guest.Guest_fragmentsContainer"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ContinueAs"
             android:exported="false" />

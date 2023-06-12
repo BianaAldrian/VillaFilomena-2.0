@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/dateScheduler_day"
-    android:layout_width="80dp"
+    android:layout_width="0dp"
     android:layout_height="50dp"
     android:layout_columnWeight="1"
     android:fontFamily="@font/balsamiqsans_regular"

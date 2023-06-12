@@ -39,8 +39,8 @@ public class Guest_accountPage extends AppCompatActivity {
         contact = findViewById(R.id.Guest_contact);
         email = findViewById(R.id.Guest_email);
         password = findViewById(R.id.Guest_password);
-        eyeOn = findViewById(R.id.Guest_eyeOn);
-        eyeOff = findViewById(R.id.Guest_eyeOff);
+        /*eyeOn = findViewById(R.id.Guest_eyeOn);
+        eyeOff = findViewById(R.id.Guest_eyeOff);*/
 
         get_Infos(name, contact, email, password);
 
