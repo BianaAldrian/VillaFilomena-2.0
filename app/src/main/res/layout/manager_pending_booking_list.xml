@@ -101,7 +101,7 @@
                 android:textSize="24sp"
                 tools:ignore="HardcodedText" />
 
-            <TextView
+             <TextView
                 android:id="@+id/manager_pendingBooking_guestGcashNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -112,6 +112,7 @@
                 tools:ignore="HardcodedText" />
 
             <TextView
+                android:id="@+id/manager_pendingBooking_guestRefNum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/eb_garamond_semi_bold"
@@ -124,17 +125,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/eb_garamond_semi_bold"
-                android:text="Proof of Transaction Receipt"
+                android:text="Proof of Transaction Receipt: "
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 tools:ignore="HardcodedText"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-
-            </androidx.recyclerview.widget.RecyclerView>
+            
+            <ImageView
+                android:id="@+id/manager_pendingBooking_proofImage"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 

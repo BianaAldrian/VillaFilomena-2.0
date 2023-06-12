@@ -52,7 +52,9 @@ public class Guest_bookingDetails_Adapter extends RecyclerView.Adapter<Guest_boo
 
         if(model.getBookings_status().equals("Pending")){
             holder.print_receipt.setVisibility(View.GONE);
-        } else {
+        } else if(model.getBookings_status().equals("Rejected")) {
+            holder.print_receipt.setVisibility(View.GONE);
+        }else {
             holder.print_receipt.setVisibility(View.VISIBLE);
         }
 

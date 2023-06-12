@@ -1,9 +1,9 @@
 package com.example.villafilomena.Models;
 
 public class BookingInfo_Model {
-    String id, guest_email, checkIn_date, checkIn_time, checkOut_date, checkOut_time, adult_qty, kid_qty, room_id, cottage_id, total_payment, payment_status, GCash_number, reference_num, receipt_url, bookings_status;
+    String id, guest_email, checkIn_date, checkIn_time, checkOut_date, checkOut_time, adult_qty, kid_qty, room_id, cottage_id, total_payment, payment_status, GCash_number, reference_num, proofPay_url, receipt_url, bookings_status;
 
-    public BookingInfo_Model(String id, String guest_email, String checkIn_date, String checkIn_time, String checkOut_date, String checkOut_time, String adult_qty, String kid_qty, String room_id, String cottage_id, String total_payment, String payment_status, String GCash_number, String reference_num, String receipt_url, String bookings_status) {
+    public BookingInfo_Model(String id, String guest_email, String checkIn_date, String checkIn_time, String checkOut_date, String checkOut_time, String adult_qty, String kid_qty, String room_id, String cottage_id, String total_payment, String payment_status, String GCash_number, String reference_num, String proofPay_url, String receipt_url, String bookings_status) {
         this.id = id;
         this.guest_email = guest_email;
         this.checkIn_date = checkIn_date;
@@ -18,6 +18,7 @@ public class BookingInfo_Model {
         this.payment_status = payment_status;
         this.GCash_number = GCash_number;
         this.reference_num = reference_num;
+        this.proofPay_url = proofPay_url;
         this.receipt_url = receipt_url;
         this.bookings_status = bookings_status;
     }
@@ -84,5 +85,9 @@ public class BookingInfo_Model {
 
     public String getBookings_status() {
         return bookings_status;
+    }
+
+    public String getProofPay_url() {
+        return proofPay_url;
     }
 }

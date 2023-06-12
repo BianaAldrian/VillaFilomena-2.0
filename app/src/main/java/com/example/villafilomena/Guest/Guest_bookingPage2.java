@@ -1,5 +1,6 @@
 package com.example.villafilomena.Guest;
 
+import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.annotation.SuppressLint;
@@ -7,6 +8,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -17,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -33,9 +36,13 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.example.villafilomena.Adapters.Guest.RoomCottageDetails2_Adapter;
 import com.example.villafilomena.Models.RoomCottageDetails_Model;
 import com.example.villafilomena.R;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,8 +52,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringJoiner;
+import java.util.UUID;
 
 public class Guest_bookingPage2 extends Fragment {
+    private static final int PICK_IMAGE_REQUEST = 1;
     String ipAddress;
     RecyclerView roomList;
     TextView total, qty, day_night, tally;
@@ -56,6 +65,10 @@ public class Guest_bookingPage2 extends Fragment {
     String fcmServerKey = "AAAAN__YSUs:APA91bGogQWxZZ5Y-10ZD4FEWfJ0j8kBRPZ06oDn5zDSw5Fc_lmzWZgFbyW50Rw0k9hWOz7ZOoeACOaiBNX3nbJJGCpj8KSRDMQBiFo5MAE0AFJqgHGNE7tzW83E1nY8l6zBIgAaiQa_";
     Dialog loading_dialog;
     String selectedPaymentOption;
+    ImageView receipt;
+    String imageUrl;
+    String GCashNum, RefNum;
+    private Uri selectedImageUri;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -176,6 +189,8 @@ public class Guest_bookingPage2 extends Fragment {
         TextView totalPayment = gcash.findViewById(R.id.popup_GCash_totalPayment);
         EditText refNum = gcash.findViewById(R.id.popup_GCash_referenceNum);
         Button confirm = gcash.findViewById(R.id.popup_GCash_confirm);
+        Button upload = gcash.findViewById(R.id.popup_GCash_upload);
+        receipt = gcash.findViewById(R.id.popup_GCash_image);
 
         String[] paymentOptions = new String[] {"Full", "Partial"};
 
@@ -203,6 +218,9 @@ public class Guest_bookingPage2 extends Fragment {
             }
         });
 
+        upload.setOnClickListener(v -> {
+            chooseImage();
+        });
         confirm.setOnClickListener(v -> {
             if (gcashNum.getText().length() < 11 || gcashNum.getText().toString().isEmpty()){
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -227,6 +245,9 @@ public class Guest_bookingPage2 extends Fragment {
                 AlertDialog dialog = builder.create();
                 dialog.show();
             } else {
+                GCashNum = gcashNum.getText().toString();
+                RefNum = refNum.getText().toString();
+
                 loading_dialog = new Dialog(getContext());
                 loading_dialog.setContentView(R.layout.loading_dialog);
                 loading_dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -237,7 +258,75 @@ public class Guest_bookingPage2 extends Fragment {
 
                 loading_dialog.show();
 
-                requestBooking();
+                // Upload the selected image to Firebase Storage
+                if (selectedImageUri != null) {
+                    uploadImage(selectedImageUri);
+                }
+
+                gcash.hide();
+            }
+        });
+        gcash.show();
+    }
+
+    private void uploadImage(Uri imageUri) {
+        // Generate a unique filename for the image
+        String filename = UUID.randomUUID().toString();
+
+        // Create a reference to the Firebase Storage location where you want to store the image
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("ProofImage/" + filename);
+
+        // Upload the image to Firebase Storage
+        UploadTask uploadTask = storageRef.putFile(imageUri);
+        uploadTask.addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                // Image upload success
+                // You can retrieve the download URL to store or display the image
+                storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                    //imageUrl = uri.toString();
+                    if (uri != null && !uri.toString().isEmpty()) {
+                        requestBooking(uri.toString());
+                    }
+                    // Do something with the image URL, such as storing it in a database
+                }).addOnFailureListener(e -> {
+                    // Handle any errors that occurred during URL retrieval
+                });
+            } else {
+                // Image upload failed
+                // Handle the failure case
+            }
+        });
+    }
+
+
+    private void chooseImage() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            selectedImageUri = data.getData();
+            // Set the selected image to the receipt ImageView
+            Glide.with(getContext())
+                    .load(selectedImageUri)
+                    .into(receipt);
+        }
+    }
+
+    private void requestBooking(String imageUrl){
+        String url = "http://"+ipAddress+"/VillaFilomena/guest_dir/insert/guest_requestBooking.php";
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
+            if (response.equals("success")){
+                getManagerToken();
+                loading_dialog.dismiss();
+
                 if (!Guest_bookingPage1.selectedRoom_id.isEmpty()){
                     for (String roomId : Guest_bookingPage1.selectedRoom_id) {
                         reserveRoom(roomId);
@@ -249,23 +338,12 @@ public class Guest_bookingPage2 extends Fragment {
                     }
                 }
 
-                gcash.hide();
-            }
-        });
-        gcash.show();
-    }
-
-    private void requestBooking(){
-        String url = "http://"+ipAddress+"/VillaFilomena/guest_dir/insert/guest_requestBooking.php";
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
-            if (response.equals("success")){
-                getManagerToken();
-                loading_dialog.hide();
                 Guest_bookedListPage.fromBooking = true;
                 startActivity(new Intent(getContext(), Guest_bookedListPage.class));
                 Guest_fragmentsContainer guest = new Guest_fragmentsContainer();
                 guest.finish();
+
+
                 Toast toast = Toast.makeText(getContext(), "Booking Successful", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0); // Set the gravity and offset
                 toast.show();
@@ -292,8 +370,9 @@ public class Guest_bookingPage2 extends Fragment {
                 map.put("cottage_id", String.valueOf(Guest_bookingPage1.selectedCottage_id).replace("[", "").replace("]", "").trim());
                 map.put("total_payment", String.valueOf(Guest_bookingPage1.total));
                 map.put("payment_status",selectedPaymentOption);
-                map.put("GCash_number","GCash_number");
-                map.put("reference_num","reference_num");
+                map.put("GCash_number",GCashNum);
+                map.put("reference_num",RefNum);
+                map.put("proofPay_url",imageUrl);
                 return map;
             }
         };

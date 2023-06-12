@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -13,11 +13,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=" Reasons of Rejecting Online Booking:"
-            android:textSize="18sp"
-            android:textColor="@color/black"
             android:background="@drawable/cardview_bg"
-            android:fontFamily="@font/eb_garamond_regular"/>
+            android:fontFamily="@font/eb_garamond_regular"
+            android:text=" Reasons of Rejecting Online Booking:"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
 
     </androidx.cardview.widget.CardView>
 
