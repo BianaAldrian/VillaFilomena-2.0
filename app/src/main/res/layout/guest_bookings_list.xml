@@ -30,7 +30,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/eb_garamond_bold"
+                    android:fontFamily="@font/eb_garamond_regular"
                     android:text="CHECK-IN"
                     android:textColor="@color/black"
                     android:textSize="24sp"
@@ -40,7 +40,7 @@
                     android:id="@+id/guest_bookingList_checkIn_dateTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/eb_garamond_medium"
+                    android:fontFamily="@font/eb_garamond_regular"
                     android:text="check-in date \ncheck-in time"
                     android:textColor="@color/black"
                     android:textSize="20sp"
@@ -65,7 +65,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/eb_garamond_bold"
+                    android:fontFamily="@font/eb_garamond_regular"
                     android:text="CHECK-IN"
                     android:textColor="@color/black"
                     android:textSize="24sp"
@@ -75,7 +75,7 @@
                     android:id="@+id/guest_bookingList_checkOut_dateTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/eb_garamond_medium"
+                    android:fontFamily="@font/eb_garamond_regular"
                     android:text="check-in date \ncheck-in time"
                     android:textColor="@color/black"
                     android:textSize="20sp"
@@ -102,6 +102,7 @@
             android:layout_marginTop="5dp"
             android:background="@drawable/btn_bg"
             android:text="Click here to print your receipt"
+            android:fontFamily="@font/eb_garamond_medium"
             android:textAllCaps="false"
             tools:ignore="HardcodedText,TextSizeCheck,TouchTargetSizeCheck" />
 
@@ -111,6 +112,7 @@
             android:layout_height="40dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/btn_bg"
+            android:fontFamily="@font/eb_garamond_medium"
             android:text="See More"
             android:textAllCaps="false"
             tools:ignore="HardcodedText,TouchTargetSizeCheck" />
