@@ -17,9 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.CalendarView;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -57,17 +54,16 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Guest_bookingPage1 extends Fragment {
-    private static final int ITEM_COUNT_LIMIT = 100; // Maximum number of items to display
     public static String finalCheckIn_date;
     public static String finalCheckOut_date;
     public static String finalCheckIn_time;
     public static String finalCheckOut_time;
+
     public static ArrayList<String> selectedRoom_id;
     public static ArrayList<String> selectedCottage_id;
     public static boolean showBox = false;
     public static int finalAdultQty, finalKidQty;
     public static double total;
-    Guest_MonthYearAdapter calendar_adapter;
     String ipAddress;
     CardView sched, qty;
     TextView dayTourInfo, nightTourInfo, displaySched, displayQty;
@@ -78,8 +74,6 @@ public class Guest_bookingPage1 extends Fragment {
     double dayTour_kidFee, dayTour_adultFee, nightTour_kidFee, nightTour_adultFee;
     int dayDiff, nightDiff;
     private Guest_MonthYearAdapter calendarAdapter;
-    private LinearLayoutManager LayoutManager;
-    private List<String> calendarData;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -196,26 +190,81 @@ public class Guest_bookingPage1 extends Fragment {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.guest_btm_dialog_calendar);
 
+        ImageView close = dialog.findViewById(R.id.btmDialog_close);
         RecyclerView dateContainer = dialog.findViewById(R.id.btmDialog_dateContainer);
         TextView checkInTxt = dialog.findViewById(R.id.btmDialog_checkIn);
         TextView checkOutTxt = dialog.findViewById(R.id.btmDialog_checkOut);
         Button applyDatesBtn = dialog.findViewById(R.id.btmDialog_applyDates);
+        close.setOnClickListener(v -> dialog.dismiss());
 
-        LayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        dateContainer.setLayoutManager(LayoutManager);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        dateContainer.setLayoutManager(layoutManager);
 
         // Generate calendar data
-        calendarData = generateCalendarData();
+        List<String> calendarData = generateCalendarData();
 
         // Create the adapter and set it for the RecyclerView
         calendarAdapter = new Guest_MonthYearAdapter(getContext(), calendarData, checkInTxt, checkOutTxt, applyDatesBtn);
         dateContainer.setAdapter(calendarAdapter);
 
-        if (applyDatesBtn.isEnabled()){
-            applyDatesBtn.setOnClickListener(v -> {
-                Log.d("Date", "Check-in: "+ calendar_adapter.getFirstSelectedDate() +"\nCheck-out: " + calendar_adapter.getSecondSelectedDate());
-            });
-        }
+        applyDatesBtn.setOnClickListener(v -> {
+            /*String firstSelectedDate = calendarAdapter.getFirstSelectedDate();
+            String secondSelectedDate = calendarAdapter.getSecondSelectedDate();
+            String firstSelectedTime = calendarAdapter.getFirstSelectedTime();
+            String secondSelectedTime = calendarAdapter.getSecondSelectedTime();*/
+
+            finalCheckIn_date = calendarAdapter.getFirstSelectedDate();
+            finalCheckOut_date = calendarAdapter.getSecondSelectedDate();
+            finalCheckIn_time = calendarAdapter.getFirstSelectedTime();
+            finalCheckOut_time = calendarAdapter.getSecondSelectedTime();
+
+            if (finalCheckIn_date != null || finalCheckOut_date != null) {
+                Log.d("Date", "Check-in: " + finalCheckIn_date + "\nCheck-out: " + finalCheckOut_date);
+                Log.d("Time", "Check-in: " + finalCheckIn_time + "\nCheck-out: " + finalCheckOut_time);
+
+                getDateDifference(finalCheckIn_date, finalCheckOut_date, finalCheckIn_time, finalCheckOut_time);
+                displayAvailableRooms();
+                //displayAvailableCottage();
+
+                try {
+                    SimpleDateFormat inputFormat = new SimpleDateFormat("d/M/yyyy");
+
+                    //check-in date
+                    String inputCheckIn_Date = finalCheckIn_date;
+                    Date setCheckIn = inputFormat.parse(inputCheckIn_Date);
+                    Calendar setCheckIn_Date = Calendar.getInstance();
+                    setCheckIn_Date.setTime(setCheckIn);
+                    int checkIn_year = setCheckIn_Date.get(Calendar.YEAR);
+                    int checkIn_month = setCheckIn_Date.get(Calendar.MONTH);
+                    int checkIn_dayOfMonth = setCheckIn_Date.get(Calendar.DAY_OF_MONTH);
+                    // Convert the numeric month to its corresponding word representation
+                    String[] checkIn_months = new DateFormatSymbols().getMonths();
+                    String checkIn_monthName = checkIn_months[checkIn_month];
+                    String checkIn_formattedDate = checkIn_monthName + " " + checkIn_dayOfMonth + ", " + checkIn_year;
+
+                    //check-out date
+                    String inputCheckOut_Date = finalCheckOut_date;
+                    Date setCheckOut = inputFormat.parse(inputCheckOut_Date);
+                    Calendar setCheckOut_Date = Calendar.getInstance();
+                    setCheckOut_Date.setTime(setCheckOut);
+                    int checkOut_year = setCheckOut_Date.get(Calendar.YEAR);
+                    int checkOut_month = setCheckOut_Date.get(Calendar.MONTH);
+                    int checkOut_dayOfMonth = setCheckOut_Date.get(Calendar.DAY_OF_MONTH);
+                    // Convert the numeric month to its corresponding word representation
+                    String[] checkOut_months = new DateFormatSymbols().getMonths();
+                    String checkOut_monthName = checkOut_months[checkOut_month];
+                    String checkOut_formattedDate = checkOut_monthName + " " + checkOut_dayOfMonth + ", " + checkOut_year;
+
+                    //Toast.makeText(getContext(), formattedDate, Toast.LENGTH_SHORT).show();
+                    displaySched.setText("Check-In\n"+checkIn_formattedDate+" - "+finalCheckIn_time+"\nCheck-Out\n"+checkOut_formattedDate+" - "+finalCheckOut_time);
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                dialog.dismiss();
+            }
+        });
 
         dialog.show();
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -297,7 +346,7 @@ public class Guest_bookingPage1 extends Fragment {
         transaction.replace(R.id.guestFragmentContainer,fragment).commit();
     }
 
-    @SuppressLint({"SimpleDateFormat", "SetTextI18n"})
+   /* @SuppressLint({"SimpleDateFormat", "SetTextI18n"})
     private void pickSched() {
         Dialog calendar = new Dialog(getContext());
         calendar.setContentView(R.layout.popup_booking_calendar_dialog);
@@ -418,7 +467,6 @@ public class Guest_bookingPage1 extends Fragment {
 
                 } catch (ParseException e) {
                     e.printStackTrace();
-                    // Handle parsing exception if required
                 }
 
                 calendar.hide();
@@ -427,7 +475,7 @@ public class Guest_bookingPage1 extends Fragment {
         });
 
         calendar.show();
-    }
+    }*/
 
     private void getDateDifference(){
         @SuppressLint("SimpleDateFormat")
@@ -581,7 +629,7 @@ public class Guest_bookingPage1 extends Fragment {
         requestQueue.add(stringRequest);
     }
 
-    private void displayAvailableRooms(String finalCheckIn_date, String finalCheckIn_time, String finalCheckOut_date, String finalCheckOut_time) {
+    private void displayAvailableRooms() {
         showBox = true;
 
         detailsHolder = new ArrayList<>();
@@ -628,7 +676,7 @@ public class Guest_bookingPage1 extends Fragment {
         requestQueue.add(stringRequest);
     }
 
-    private void displayAvailableCottage(){
+    /*private void displayAvailableCottage(){
         showBox = true;
 
         cottageHolder = new ArrayList<>();
@@ -673,5 +721,5 @@ public class Guest_bookingPage1 extends Fragment {
             }
         };
         requestQueue.add(stringRequest);
-    }
+    }*/
 }

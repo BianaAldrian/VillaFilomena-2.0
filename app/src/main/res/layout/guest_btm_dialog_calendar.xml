@@ -22,6 +22,7 @@
             tools:ignore="HardcodedText" />
 
         <ImageView
+            android:id="@+id/btmDialog_close"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center"

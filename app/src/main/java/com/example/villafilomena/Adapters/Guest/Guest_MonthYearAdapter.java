@@ -8,7 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -35,7 +38,9 @@ public class Guest_MonthYearAdapter extends RecyclerView.Adapter<Guest_MonthYear
     private List<View> firstSelectedHolder;
     private List<View> secondSelectedHolder;
     private String firstSelectedDate;
+    private String firstSelectedTime;
     private String secondSelectedDate;
+    private String secondSelectedTime;
 
     public Guest_MonthYearAdapter(Context context, List<String> calendarData, TextView checkInTxt, TextView checkOutTxt, Button applyDatesBtn) {
         this.context = context;
@@ -84,17 +89,9 @@ public class Guest_MonthYearAdapter extends RecyclerView.Adapter<Guest_MonthYear
                 firstSelectedDate = selectedDate;
                 firstSelectedHolder.add(dayTxt);
 
-                Dialog dialog = new Dialog(context);
-                dialog.setContentView(R.layout.dialog_calendar_time_sched);
-
-                dialog.show();
+                showDialog("Check-in");
 
             } else if (clickCounter == 1) {
-                Dialog dialog = new Dialog(context);
-                dialog.setContentView(R.layout.dialog_calendar_time_sched);
-
-                dialog.show();
-
                 if (selectedDate != null && compareDates(firstSelectedDate, selectedDate) < 0) {
                     // First selected date is earlier than the second selected date
                     // Handle the logic accordingly
@@ -103,10 +100,14 @@ public class Guest_MonthYearAdapter extends RecyclerView.Adapter<Guest_MonthYear
                     dayTxt.setBackgroundResource(R.color.teal_700);
                     secondSelectedDate = selectedDate;
                     secondSelectedHolder.add(dayTxt);
+
+                    showDialog("Check-out");
                 } else if (selectedDate != null && compareDates(firstSelectedDate, selectedDate) > 0) {
                     // First selected date is later than the second selected date
                     // Handle the logic accordingly
                     Log.d("Context", "First date is later than the second date");
+
+                    showDialog("Check-in");
 
                     // Reset the click counter back to 0
                     clickCounter = 0;
@@ -136,11 +137,7 @@ public class Guest_MonthYearAdapter extends RecyclerView.Adapter<Guest_MonthYear
                     Log.d("Context", "Selected date is null or the same as the first date");
                 }
             } else if (clickCounter == 2) {
-                Dialog dialog = new Dialog(context);
-                dialog.setContentView(R.layout.dialog_calendar_time_sched);
-
-                dialog.show();
-
+                showDialog("Check-in");
                 if (compareDates(secondSelectedDate, selectedDate) == 0) {
                     // First selected date is earlier than the second selected date
                     // Handle the logic accordingly
@@ -192,12 +189,56 @@ public class Guest_MonthYearAdapter extends RecyclerView.Adapter<Guest_MonthYear
         };
     }
 
+    public void showDialog(String text){
+        Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.dialog_calendar_time_sched);
+
+        TextView check = dialog.findViewById(R.id.btmDialogDialog_Check);
+        CheckBox dayTour = dialog.findViewById(R.id.btmDialogDialog_dayTour);
+        CheckBox nightTour = dialog.findViewById(R.id.btmDialogDialog_nightTour);
+        Button done = dialog.findViewById(R.id.btmDialogDialog_done);
+
+        check.setText(text);
+
+        CompoundButton.OnCheckedChangeListener listener = (buttonView, isChecked) -> {
+            if (isChecked) {
+                if (buttonView.getId() == R.id.btmDialogDialog_dayTour) {
+                    firstSelectedTime = "dayTour";
+                    nightTour.setChecked(false);
+                } else if (buttonView.getId() == R.id.btmDialogDialog_nightTour) {
+                    secondSelectedTime = "nighTour";
+                    dayTour.setChecked(false);
+                }
+            }
+        };
+        dayTour.setOnCheckedChangeListener(listener);
+        nightTour.setOnCheckedChangeListener(listener);
+
+        done.setOnClickListener(v1 -> {
+            if (!dayTour.isChecked() && !nightTour.isChecked()) {
+                Toast.makeText(context, "Please select an option", Toast.LENGTH_SHORT).show();
+            } else {
+                dialog.dismiss();
+                // Perform other actions if at least one checkbox is selected
+            }
+        });
+        dialog.show();
+    }
+
     public String getFirstSelectedDate() {
         return firstSelectedDate;
     }
 
     public String getSecondSelectedDate() {
         return secondSelectedDate;
+    }
+
+    public String getFirstSelectedTime() {
+        return firstSelectedTime;
+    }
+
+    public String getSecondSelectedTime() {
+        return secondSelectedTime;
     }
 
     private int compareDates(String date1, String date2) {
