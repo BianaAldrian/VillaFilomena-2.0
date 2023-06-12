@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -68,7 +69,9 @@ public class Guest_Login extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
             if (response.equals("not_exist")){
-                Toast.makeText(this, "Email doesn't exist", Toast.LENGTH_LONG).show();
+                Toast toast = Toast.makeText(this, "Email doesn't exist", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0); // Set the gravity and offset
+                toast.show();
 
             } else if(response.equals("true")){
                 updateToken();
@@ -83,7 +86,9 @@ public class Guest_Login extends AppCompatActivity {
                 finish();
 
             } else if (response.equals("false")) {
-                Toast.makeText(this, "Password Incorrect", Toast.LENGTH_LONG).show();
+                Toast toast = Toast.makeText(this, "Password Incorrect", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0); // Set the gravity and offset
+                toast.show();
             }
         },
                 error -> Toast.makeText(this, error.getMessage().toString(), Toast.LENGTH_LONG).show())
@@ -105,9 +110,9 @@ public class Guest_Login extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
             if (response.equals("success")){
-                Toast.makeText(this, "Token Updated", Toast.LENGTH_LONG).show();
+                Log.d("Token Update", "Token Updated");
             } else if(response.equals("failed")){
-                Toast.makeText(this, "Token Update Failed", Toast.LENGTH_LONG).show();
+                Log.d("Token Update", "Token Update Failed");
             }
         },
                 error -> Toast.makeText(this, error.getMessage().toString(), Toast.LENGTH_LONG).show())

@@ -21,7 +21,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.villafilomena.Models.RoomCottageDetails_Model;
 import com.example.villafilomena.R;
 import com.google.android.material.card.MaterialCardView;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -85,9 +84,16 @@ public class Room_Adapter extends RecyclerView.Adapter<Room_Adapter.ViewHolder> 
             window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
             ImageView infoImage = DetailedInfo.findViewById(R.id.RoomCottageDetailInfo_image);
-            TextView infos = DetailedInfo.findViewById(R.id.RoomCottageDetailInfo_infos);
+            TextView title = DetailedInfo.findViewById(R.id.RoomCottageDetailInfo_title);
+            TextView details = DetailedInfo.findViewById(R.id.RoomCottageDetailInfo_details);
 
-            Picasso.get().load(model.getImageUrl()).into(infoImage);
+            Glide.with(context)
+                    .load(model.getImageUrl())
+                    .apply(requestOptions)
+                    .into(infoImage);
+
+            title.setText(""+model.getName() +"\n"+ model.getCapacity() +"\n"+ model.getRate());
+            details.setText(""+model.getDescription());
 
             DetailedInfo.show();
         });
@@ -100,7 +106,6 @@ public class Room_Adapter extends RecyclerView.Adapter<Room_Adapter.ViewHolder> 
             }
         });
     }
-
     @Override
     public int getItemCount() {
         return detailsHolder.size();

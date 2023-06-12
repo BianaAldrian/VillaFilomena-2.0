@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -206,31 +208,26 @@ public class Manager_Calendar extends AppCompatActivity {
                     ImageView next = calendar.findViewById(R.id.manager_calendarSchedule_next);
                     TextView date = calendar.findViewById(R.id.manager_calendarSchedule_date);
                     RecyclerView daysContainer = calendar.findViewById(R.id.manager_calendarSchedule_daysContainer);
+                    Button disable = calendar.findViewById(R.id.manager_calendarSchedule_disable);
 
                     Calendar schedCalendar = Calendar.getInstance();
                     schedCurrentMonth = schedCalendar.get(Calendar.MONTH);
                     schedCurrentYear = schedCalendar.get(Calendar.YEAR);
 
+                    prev.setOnClickListener(v -> updateCalendar(-1, date));
+
+                    next.setOnClickListener(v -> updateCalendar(1, date));
+
                     daysContainer.setLayoutManager(new GridLayoutManager(this, 7)); // Assuming 7 columns for each week
                     List<Date> datesList = generateDatesForMonth(schedCurrentMonth, schedCurrentYear); // Generate your list of dates for the initial month and year
-                    manager_adapter = new Manager_DateAdapter(datesList, schedCurrentMonth);
+                    manager_adapter = new Manager_DateAdapter(datesList, schedCurrentMonth, schedCurrentYear);
                     daysContainer.setAdapter(manager_adapter);
-                    daysContainer.setHasFixedSize(true);
 
-                    prev.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            updateCalendar(-1, date);
-                        }
+                    disable.setOnClickListener(v -> {
+                        List<String> dateHolder = manager_adapter.getDateHolder();
+                        String dateHolderString = TextUtils.join(", ", dateHolder);
+                        Log.d("Selected Date", dateHolderString);
                     });
-
-                    next.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            updateCalendar(1, date);
-                        }
-                    });
-
 
                     calendar.show();
 

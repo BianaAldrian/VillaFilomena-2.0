@@ -72,8 +72,6 @@ public class Guest_rates_feedbacksPage extends AppCompatActivity {
 
         if (email.equals("")){
             sendFeedback.setVisibility(View.GONE);
-        }else {
-            checkBookingsAndRates();
         }
 
         displayFeedbacks();
@@ -125,7 +123,7 @@ public class Guest_rates_feedbacksPage extends AppCompatActivity {
     }
 
     // Create a method to retrieve the response from the server
-    private void checkBookingsAndRates() {
+   /* private void checkBookingsAndRates() {
         String url = "http://"+ipAddress+"/VillaFilomena/guest_dir/retrieve/guest_checkEmailforFeedback.php";
 
         // Create a StringRequest for the HTTP GET request
@@ -174,7 +172,7 @@ public class Guest_rates_feedbacksPage extends AppCompatActivity {
 
         // Add the request to the Volley request queue
         Volley.newRequestQueue(this).add(request);
-    }
+    }*/
 
     private void showFeedbackDialog(){
         Dialog feedback = new Dialog(this);

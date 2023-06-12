@@ -7,11 +7,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +27,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.example.villafilomena.Models.BookingInfo_Model;
 import com.example.villafilomena.R;
 import com.example.villafilomena.subclass.Generate_PDFReceipt;
@@ -121,11 +125,31 @@ public class Manager_bookingConfirmation_Adapter extends RecyclerView.Adapter<Ma
 
         getRoomInfo(holder.room, model.getRoom_id());
 
-        holder.total.setText(model.getTotal_payment());
+        holder.total.setText("₱"+model.getTotal_payment());
         holder.GCashNumber.setText(model.getGCash_number());
+        holder.refNum.setText(model.getReference_num());
+        Glide.with(activity)
+                .load(model.getProofPay_url())
+                .into(holder.proofImage);
+
+        holder.proofImage.setOnClickListener(v -> {
+            Dialog dialog = new Dialog(activity);
+            dialog.setContentView(R.layout.dialog_feedback_images);
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            Window window = dialog.getWindow();
+            window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+
+            ImageView imageHolder = dialog.findViewById(R.id.dialog_feedbackImages_imageHolder);
+
+            Glide.with(holder.itemView.getContext())
+                    .load(model.getProofPay_url())
+                    .into(imageHolder);
+
+            dialog.show();
+        });
 
         holder.reject.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            /*AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             builder.setTitle("Reject");
             builder.setMessage("Are you sure?");
             builder.setPositiveButton("YES", (dialog, which) -> {
@@ -149,7 +173,38 @@ public class Manager_bookingConfirmation_Adapter extends RecyclerView.Adapter<Ma
                 dialog.dismiss(); // Close the dialog
             });
             AlertDialog dialog = builder.create();
-            dialog.show();
+            dialog.show();*/
+
+            Dialog reject = new Dialog(activity);
+            reject.setContentView(R.layout.dialog_manager_reject_reason);
+
+            EditText reason = reject.findViewById(R.id.manager_reject_reason);
+            Button confirm = reject.findViewById(R.id.manager_reject_confirm);
+
+            confirm.setOnClickListener(v1 -> {
+                String reasonText = reason.getText().toString().trim();
+                if (TextUtils.isEmpty(reasonText)) {
+                    // EditText is empty
+                    Toast.makeText(activity, "Reason is empty", Toast.LENGTH_SHORT).show();
+                } else {
+                    loading_dialog = new Dialog(activity);
+                    loading_dialog.setContentView(R.layout.loading_dialog);
+                    loading_dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                    Window loadingWidow = loading_dialog.getWindow();
+                    loadingWidow.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+
+                    //ProgressBar progressBar = loading_dialog.findViewById(R.id.loading_dialog);
+
+                    loading_dialog.show();
+
+                    deleteRoomSched(position);
+                    rejectGuestBooking(position, model.getId(), reasonText);
+                    reject.dismiss();
+                }
+
+            });
+
+            reject.show();
         });
 
         holder.accept.setOnClickListener(v -> {
@@ -223,7 +278,7 @@ public class Manager_bookingConfirmation_Adapter extends RecyclerView.Adapter<Ma
 
     private void getRoomInfo(TextView room, String roomID){
 
-        StringJoiner str = new StringJoiner("\n");
+        StringJoiner str = new StringJoiner(", ");
 
         String[] res = roomID.split(",");
         for(String number: res) {
@@ -312,7 +367,7 @@ public class Manager_bookingConfirmation_Adapter extends RecyclerView.Adapter<Ma
         pdfReceipt.generatePDF();
     }
 
-    private void rejectGuestBooking(int position, String id){
+    private void rejectGuestBooking(int position, String id, String reasonText){
         final BookingInfo_Model model = bookingHolder.get(position);
 
         String url = "http://"+ipAddress+"/VillaFilomena/manager_dir/update/manager_rejectGuestBooking.php";
@@ -334,6 +389,7 @@ public class Manager_bookingConfirmation_Adapter extends RecyclerView.Adapter<Ma
             protected HashMap<String,String> getParams() {
                 HashMap<String,String> map = new HashMap<>();
                 map.put("id", id);
+                map.put("reason", reasonText);
                 return map;
             }
         };
@@ -442,7 +498,8 @@ public class Manager_bookingConfirmation_Adapter extends RecyclerView.Adapter<Ma
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public Button accept, reject;
-        TextView name, email, contact, checkIn_checkOut, room, cottage, total, balance, GCashNumber;
+        TextView name, email, contact, checkIn_checkOut, room, cottage, total, balance, GCashNumber, refNum;
+        ImageView proofImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -456,6 +513,8 @@ public class Manager_bookingConfirmation_Adapter extends RecyclerView.Adapter<Ma
             total = itemView.findViewById(R.id.manager_pendingBooking_guestTotal);
             balance = itemView.findViewById(R.id.manager_pendingBooking_guestBalance);
             GCashNumber = itemView.findViewById(R.id.manager_pendingBooking_guestGcashNumber);
+            refNum = itemView.findViewById(R.id.manager_pendingBooking_guestRefNum);
+            proofImage = itemView.findViewById(R.id.manager_pendingBooking_proofImage);
 
             accept = itemView.findViewById(R.id.manager_pendingBooking_acceptBtn);
             reject = itemView.findViewById(R.id.manager_pendingBooking_rejectBtn);

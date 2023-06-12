@@ -64,6 +64,8 @@ public class Guest_bookingPage1 extends Fragment {
     public static boolean showBox = false;
     public static int finalAdultQty, finalKidQty;
     public static double total;
+    public static int dayDiff, nightDiff;
+    public static double dayTour_kidFee, dayTour_adultFee, nightTour_kidFee, nightTour_adultFee, kidFee, adultFee, roomRate, cottageRate;
     String ipAddress;
     CardView sched, qty;
     TextView dayTourInfo, nightTourInfo, displaySched, displayQty;
@@ -71,8 +73,6 @@ public class Guest_bookingPage1 extends Fragment {
     Button continueBtn;
     ArrayList<RoomCottageDetails_Model> detailsHolder;
     ArrayList<RoomCottageDetails_Model> cottageHolder;
-    double dayTour_kidFee, dayTour_adultFee, nightTour_kidFee, nightTour_adultFee;
-    int dayDiff, nightDiff;
     private Guest_MonthYearAdapter calendarAdapter;
 
     @Override
@@ -166,14 +166,20 @@ public class Guest_bookingPage1 extends Fragment {
                     dayTour_cottageRate = cottageTotalPrice * dayDiff;
                     nightTour_cottageRate = cottageTotalPrice * nightDiff;
 
+                    roomRate = dayTour_roomRate + nightTour_roomRate;
+                    cottageRate = dayTour_cottageRate + nightTour_cottageRate;
+
                     dayTour_kidFee = (finalKidQty * dayTour_kidFee) * dayDiff;
                     dayTour_adultFee = (finalAdultQty * dayTour_adultFee) * dayDiff;
                     nightTour_kidFee = (finalKidQty * nightTour_kidFee) * nightDiff;
                     nightTour_adultFee = (finalAdultQty * nightTour_adultFee) * nightDiff;
 
+                    adultFee = dayTour_adultFee + nightTour_adultFee;
+                    kidFee = dayTour_kidFee + nightTour_kidFee;
+
                     total = dayTour_kidFee + dayTour_adultFee + nightTour_kidFee + nightTour_adultFee + dayTour_roomRate + nightTour_roomRate + dayTour_cottageRate + nightTour_cottageRate;
 
-                    Toast.makeText(getContext(), dayDiff + "\n" + nightDiff, Toast.LENGTH_SHORT).show();
+                    Log.d("Day Diff", dayDiff + "\n" + nightDiff);
                     replace_bookingPage1(new Guest_bookingPage2());
                 }
             }

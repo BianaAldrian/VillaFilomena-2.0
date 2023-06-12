@@ -64,7 +64,6 @@ public class Manager_frontdeskClerk_Adapter extends RecyclerView.Adapter<Manager
             clerkImage = itemView.findViewById(R.id.manager_clerkList_image);
             delete = itemView.findViewById(R.id.manager_clerkList_delete);
             delete.setVisibility(View.GONE);
-            clerkStatus = itemView.findViewById(R.id.manager_clerkList_status);
             clerkName = itemView.findViewById(R.id.manager_clerkList_name);
             clerkUsername = itemView.findViewById(R.id.manager_clerkList_username);
             clerkContact = itemView.findViewById(R.id.manager_clerkList_contact);

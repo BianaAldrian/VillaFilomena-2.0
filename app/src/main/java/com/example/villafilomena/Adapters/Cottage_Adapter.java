@@ -84,7 +84,7 @@ public class Cottage_Adapter extends RecyclerView.Adapter<Cottage_Adapter.ViewHo
             window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
             ImageView infoImage = DetailedInfo.findViewById(R.id.RoomCottageDetailInfo_image);
-            TextView infos = DetailedInfo.findViewById(R.id.RoomCottageDetailInfo_infos);
+            TextView infos = DetailedInfo.findViewById(R.id.RoomCottageDetail_infos);
 
             Picasso.get().load(model.getImageUrl()).into(infoImage);
 

@@ -108,6 +108,7 @@ public class Manager_OnlineBooking extends AppCompatActivity implements Manager_
                             object.getString("payment_status"),
                             object.getString("GCash_number"),
                             object.getString("reference_num"),
+                            object.getString("proofPay_url"),
                             object.getString("receipt_url"),
                             object.getString("bookings_status")
                     );
