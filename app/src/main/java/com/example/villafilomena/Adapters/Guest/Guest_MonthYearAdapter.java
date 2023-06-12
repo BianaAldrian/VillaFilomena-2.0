@@ -1,5 +1,6 @@
 package com.example.villafilomena.Adapters.Guest;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -38,9 +39,9 @@ public class Guest_MonthYearAdapter extends RecyclerView.Adapter<Guest_MonthYear
     private List<View> firstSelectedHolder;
     private List<View> secondSelectedHolder;
     private String firstSelectedDate;
-    private String firstSelectedTime;
     private String secondSelectedDate;
-    private String secondSelectedTime;
+    private String firstSelectedTime = "";
+    private String secondSelectedTime = "";
 
     public Guest_MonthYearAdapter(Context context, List<String> calendarData, TextView checkInTxt, TextView checkOutTxt, Button applyDatesBtn) {
         this.context = context;
@@ -134,15 +135,20 @@ public class Guest_MonthYearAdapter extends RecyclerView.Adapter<Guest_MonthYear
                 } else {
                     // The selected date is null or the same as the first selected date
                     // Handle the logic accordingly
-                    Log.d("Context", "Selected date is null or the same as the first date");
+                    //Log.d("Context", "Selected date is null or the same as the first date");
+
+                    showDialog("Check-out");
+                    clickCounter++;
+                    secondSelectedDate = selectedDate;
+                    secondSelectedHolder.add(dayTxt);
                 }
             } else if (clickCounter == 2) {
-                showDialog("Check-in");
                 if (compareDates(secondSelectedDate, selectedDate) == 0) {
                     // First selected date is earlier than the second selected date
                     // Handle the logic accordingly
                     Log.d("Context", "Selected dates are the same");
                 } else {
+                    showDialog("Check-in");
                     // Reset the click counter back to 0
                     clickCounter = 0;
                     // Reset the background color for all selected dates
@@ -169,7 +175,7 @@ public class Guest_MonthYearAdapter extends RecyclerView.Adapter<Guest_MonthYear
 
             }
 
-            if (firstSelectedDate != null && !firstSelectedDate.isEmpty()) {
+            /*if (firstSelectedDate != null && !firstSelectedDate.isEmpty()) {
                 checkInTxt.setText(firstSelectedDate);
             }
 
@@ -185,10 +191,11 @@ public class Guest_MonthYearAdapter extends RecyclerView.Adapter<Guest_MonthYear
             } else {
                 applyDatesBtn.setBackgroundResource(R.drawable.btn_bg);
                 applyDatesBtn.setClickable(true);
-            }
+            }*/
         };
     }
 
+    @SuppressLint("SetTextI18n")
     public void showDialog(String text){
         Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_calendar_time_sched);
@@ -202,23 +209,51 @@ public class Guest_MonthYearAdapter extends RecyclerView.Adapter<Guest_MonthYear
 
         CompoundButton.OnCheckedChangeListener listener = (buttonView, isChecked) -> {
             if (isChecked) {
-                if (buttonView.getId() == R.id.btmDialogDialog_dayTour) {
-                    firstSelectedTime = "dayTour";
-                    nightTour.setChecked(false);
-                } else if (buttonView.getId() == R.id.btmDialogDialog_nightTour) {
-                    secondSelectedTime = "nighTour";
-                    dayTour.setChecked(false);
+                if (text.equals("Check-in")){
+                    if (buttonView.getId() == R.id.btmDialogDialog_dayTour) {
+                        nightTour.setChecked(false);
+                        firstSelectedTime = "dayTour";
+                    } else if (buttonView.getId() == R.id.btmDialogDialog_nightTour) {
+                        dayTour.setChecked(false);
+                        firstSelectedTime = "nightTour";
+                    }
+                } else {
+                    if (buttonView.getId() == R.id.btmDialogDialog_dayTour) {
+                        nightTour.setChecked(false);
+                        secondSelectedTime = "dayTour";
+                    } else if (buttonView.getId() == R.id.btmDialogDialog_nightTour) {
+                        dayTour.setChecked(false);
+                        secondSelectedTime = "nightTour";
+                    }
                 }
             }
         };
+
         dayTour.setOnCheckedChangeListener(listener);
         nightTour.setOnCheckedChangeListener(listener);
+
 
         done.setOnClickListener(v1 -> {
             if (!dayTour.isChecked() && !nightTour.isChecked()) {
                 Toast.makeText(context, "Please select an option", Toast.LENGTH_SHORT).show();
             } else {
-                firstSelectedTime = firstSelectedTime;
+                if (text.equals("Check-in")) {
+                    checkInTxt.setText(firstSelectedDate + "\n" + firstSelectedTime);
+                } else {
+                    checkOutTxt.setText(secondSelectedDate + "\n" + secondSelectedTime);
+                }
+
+                if (secondSelectedDate == null || secondSelectedDate.isEmpty()) {
+                    checkOutTxt.setText("Select Check-out date");
+                }
+                if (firstSelectedDate == null || secondSelectedDate == null){
+                    applyDatesBtn.setBackgroundResource(R.color.grey);
+                    applyDatesBtn.setClickable(false);
+                } else {
+                    applyDatesBtn.setBackgroundResource(R.drawable.btn_bg);
+                    applyDatesBtn.setClickable(true);
+                }
+
                 dialog.dismiss();
                 // Perform other actions if at least one checkbox is selected
             }

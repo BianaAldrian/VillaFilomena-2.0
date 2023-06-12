@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.villafilomena.R;
+import com.example.villafilomena.TermsPrivacy;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.navigation.NavigationView;
 
@@ -36,7 +37,7 @@ public class  Guest_fragmentsContainer extends AppCompatActivity {
     NestedScrollView nestedScrllView;
 
     //Navigation View Layout
-    CardView navView_account, navView_booking, navView_ratings;
+    CardView navView_account, navView_booking, navView_ratings, navTerm_privacy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class  Guest_fragmentsContainer extends AppCompatActivity {
         navView_account = findViewById(R.id.guest_navView_account);
         navView_booking = findViewById(R.id.guest_navView_bookings);
         navView_ratings = findViewById(R.id.guest_navView_ratings);
+        navTerm_privacy = findViewById(R.id.guest_navView_termsPrivacy);
 
         drawerLayout = findViewById(R.id.guest_drawerLayout);
         navigationView = findViewById(R.id.guest_navView);
@@ -140,6 +142,9 @@ public class  Guest_fragmentsContainer extends AppCompatActivity {
         });
         navView_ratings.setOnClickListener(v -> {
             startActivity(new Intent(this, Guest_rates_feedbacksPage.class));
+        });
+        navTerm_privacy.setOnClickListener(v -> {
+            startActivity(new Intent(this, TermsPrivacy.class));
         });
 
         logIn.setOnClickListener(v -> {

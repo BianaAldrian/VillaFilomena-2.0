@@ -96,6 +96,7 @@ public class Manager_DateAdapter extends RecyclerView.Adapter<Manager_DateAdapte
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
             day = itemView.findViewById(R.id.dateScheduler_day);
         }
     }

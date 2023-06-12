@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +49,7 @@ import java.util.StringJoiner;
 public class Guest_bookingPage2 extends Fragment {
     String ipAddress;
     RecyclerView roomList;
-    TextView total;
+    TextView total, qty, day_night, tally;
     Button backBtn, continueBtn;
     ArrayList<RoomCottageDetails_Model> detailsHolder;
     String postUrl = "https://fcm.googleapis.com/fcm/send";
@@ -67,13 +68,19 @@ public class Guest_bookingPage2 extends Fragment {
         ipAddress = sharedPreferences.getString("IP", "");
 
         roomList = view.findViewById(R.id.Guest_booking2_selectedRoomList);
-        //total = view.findViewById(R.id.Guest_booking2_total);
+        qty = view.findViewById(R.id.Guest_booking2_qty);
+        day_night = view.findViewById(R.id.Guest_booking2_days_nights);
+        tally = view.findViewById(R.id.Guest_booking2_tally);
+        total = view.findViewById(R.id.Guest_booking2_total);
         backBtn = view.findViewById(R.id.Guest_booking2_back);
         continueBtn = view.findViewById(R.id.Guest_booking2_continue);
 
         detailsHolder = new ArrayList<>();
 
-        total.setText(""+Guest_bookingPage1.total);
+        qty.setText(""+ Guest_bookingPage1.finalAdultQty +"\n"+ Guest_bookingPage1.finalKidQty +"\n"+ Guest_bookingPage1.selectedRoom_id.size() +"\n"+ Guest_bookingPage1.selectedCottage_id.size());
+        day_night.setText(""+ Guest_bookingPage1.dayDiff +" day/s\n"+ Guest_bookingPage1.nightDiff+" night/s\n");
+        tally.setText("₱"+ Guest_bookingPage1.adultFee +"\n₱"+ Guest_bookingPage1.kidFee +"\n₱"+ Guest_bookingPage1.roomRate +"\n₱"+ Guest_bookingPage1.cottageRate);
+        total.setText("Total Payment: ₱"+Guest_bookingPage1.total);
 
         for (String roomId : Guest_bookingPage1.selectedRoom_id) {
             displaySelectedRoom(roomId);
@@ -259,7 +266,9 @@ public class Guest_bookingPage2 extends Fragment {
                 startActivity(new Intent(getContext(), Guest_bookedListPage.class));
                 Guest_fragmentsContainer guest = new Guest_fragmentsContainer();
                 guest.finish();
-                Toast.makeText(getContext(), "Booking Successful", Toast.LENGTH_SHORT).show();
+                Toast toast = Toast.makeText(getContext(), "Booking Successful", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0); // Set the gravity and offset
+                toast.show();
             }
             else if(response.equals("failed")){
                 Toast.makeText(getContext(), "Booking Failed", Toast.LENGTH_SHORT).show();
@@ -296,7 +305,9 @@ public class Guest_bookingPage2 extends Fragment {
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
             if (response.equals("success")){
-                Toast.makeText(getContext(), "Room Reservation Successful", Toast.LENGTH_SHORT).show();
+                Toast toast =Toast.makeText(getContext(), "Room Reservation Successful", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0); // Set the gravity and offset
+                toast.show();
             }
             else if(response.equals("failed")){
                 Toast.makeText(getContext(), "Room Reservation Failed", Toast.LENGTH_SHORT).show();
