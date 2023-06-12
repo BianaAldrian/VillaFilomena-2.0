@@ -11,8 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:elevation="20dp"
-        app:cardBackgroundColor="#B1D6D9"
-        app:cardCornerRadius="5dp">
+        app:cardBackgroundColor="#B1D6D9">
 
         <ImageView
             android:id="@+id/imageList"

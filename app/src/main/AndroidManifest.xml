@@ -93,7 +93,7 @@
             android:name=".ContinueAs"
             android:exported="false" />
         <activity
-            android:name=".TermsCondition"
+            android:name=".TermsPrivacy"
             android:exported="false" />
         <activity
             android:name=".SplashScreen"

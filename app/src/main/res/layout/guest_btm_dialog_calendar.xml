@@ -13,12 +13,12 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:fontFamily="@font/balsamiqsans_regular"
+            android:fontFamily="@font/eb_garamond_medium"
             android:text="Select Dates"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="20sp"
             tools:ignore="HardcodedText" />
 
         <ImageView
@@ -43,7 +43,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:fontFamily="@font/balsamiqsans_regular"
+            android:fontFamily="@font/eb_garamond_medium"
             android:gravity="center"
             android:text="S"
             android:textColor="@color/black"
@@ -53,16 +53,17 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:fontFamily="@font/balsamiqsans_regular"
+            android:fontFamily="@font/eb_garamond_medium"
             android:gravity="center"
             android:text="M"
             android:textColor="@color/black"
             tools:ignore="HardcodedText" />
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:fontFamily="@font/balsamiqsans_regular"
+            android:fontFamily="@font/eb_garamond_medium"
             android:gravity="center"
             android:text="T"
             android:textColor="@color/black"
@@ -71,7 +72,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:fontFamily="@font/balsamiqsans_regular"
+            android:fontFamily="@font/eb_garamond_medium"
             android:gravity="center"
             android:text="W"
             android:textColor="@color/black"
@@ -80,7 +81,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:fontFamily="@font/balsamiqsans_regular"
+            android:fontFamily="@font/eb_garamond_medium"
             android:gravity="center"
             android:text="T"
             android:textColor="@color/black"
@@ -89,7 +90,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:fontFamily="@font/balsamiqsans_regular"
+            android:fontFamily="@font/eb_garamond_medium"
             android:gravity="center"
             android:text="F"
             android:textColor="@color/black"
@@ -98,7 +99,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:fontFamily="@font/balsamiqsans_regular"
+            android:fontFamily="@font/eb_garamond_medium"
             android:gravity="center"
             android:text="S"
             android:textColor="@color/black"
@@ -135,17 +136,19 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/balsamiqsans_regular"
+                    android:fontFamily="@font/eb_garamond_medium"
                     android:text="Check-in"
                     android:textColor="#808080"
+                    android:textSize="18sp"
                     tools:ignore="HardcodedText,TextContrastCheck" />
 
                 <TextView
                     android:id="@+id/btmDialog_checkIn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/balsamiqsans_regular"
+                    android:fontFamily="@font/eb_garamond_medium"
                     android:text="Select Dates"
+                    android:textSize="18sp"
                     android:textColor="@color/black"
                     tools:ignore="HardcodedText" />
 
@@ -160,8 +163,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/balsamiqsans_regular"
-                    android:text="Check-in"
+                    android:fontFamily="@font/eb_garamond_medium"
+                    android:text="Check-out"
+                    android:textSize="18sp"
                     android:textColor="#808080"
                     tools:ignore="HardcodedText,TextContrastCheck" />
 
@@ -169,8 +173,9 @@
                     android:id="@+id/btmDialog_checkOut"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/balsamiqsans_regular"
+                    android:fontFamily="@font/eb_garamond_medium"
                     android:text="Select Dates"
+                    android:textSize="18sp"
                     android:textColor="@color/black"
                     tools:ignore="HardcodedText" />
 
@@ -189,6 +194,8 @@
             android:clickable="false"
             android:text="Apply Dates"
             android:textAllCaps="false"
+            android:textSize="20sp"
+            android:fontFamily="@font/eb_garamond_medium"
             tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
     </LinearLayout>

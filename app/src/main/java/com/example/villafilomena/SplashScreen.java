@@ -31,7 +31,8 @@ public class SplashScreen extends AppCompatActivity {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
                 if(response.equals("success")){
                     //Toast.makeText(getApplicationContext(), "IP is correct", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(SplashScreen.this, ContinueAs.class));
+                    /*startActivity(new Intent(SplashScreen.this, ContinueAs.class));*/
+                    startActivity(new Intent(SplashScreen.this, TermsPrivacy.class));
                     finish();
                 }
                 else if(response.equals("failed")){

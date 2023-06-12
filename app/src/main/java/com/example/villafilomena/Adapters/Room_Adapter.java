@@ -81,6 +81,7 @@ public class Room_Adapter extends RecyclerView.Adapter<Room_Adapter.ViewHolder> 
             Dialog DetailedInfo = new Dialog(context);
             DetailedInfo.setContentView(R.layout.popup_room_cottage_detailed_information_dialog);
             Window window = DetailedInfo.getWindow();
+            DetailedInfo.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
             ImageView infoImage = DetailedInfo.findViewById(R.id.RoomCottageDetailInfo_image);

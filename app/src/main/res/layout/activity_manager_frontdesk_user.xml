@@ -7,6 +7,30 @@
     android:background="@drawable/background1"
     tools:context=".Manager.Manager_FrontdeskUser">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:background="@drawable/header"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:src="@drawable/btn_back"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fontFamily="@font/beaurivage_regular"
+            android:gravity="center"
+            android:text="Front Desk Clerk"
+            android:textColor="#ffffff"
+            android:textSize="32sp"/>
+
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/manager_frontdeskClerk_container"
         android:layout_width="match_parent"
@@ -24,6 +48,8 @@
             android:layout_height="50dp"
             android:background="@drawable/btn_bg"
             android:fontFamily="@font/eb_garamond_medium"
+            android:textAllCaps="false"
+            android:textSize="18sp"
             android:text="Add Clerk"/>
 
         <Space
@@ -36,6 +62,8 @@
             android:layout_height="50dp"
             android:background="@drawable/btn_bg"
             android:fontFamily="@font/eb_garamond_medium"
+            android:textAllCaps="false"
+            android:textSize="18sp"
             android:text="Delete Clerk"/>
 
         <Space
@@ -48,6 +76,8 @@
             android:layout_height="50dp"
             android:background="@drawable/btn_bg"
             android:fontFamily="@font/eb_garamond_medium"
+            android:textAllCaps="false"
+            android:textSize="18sp"
             android:text="Done"/>
     </LinearLayout>
 
