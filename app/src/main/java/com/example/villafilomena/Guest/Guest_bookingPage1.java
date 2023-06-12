@@ -218,12 +218,12 @@ public class Guest_bookingPage1 extends Fragment {
             finalCheckIn_time = calendarAdapter.getFirstSelectedTime();
             finalCheckOut_time = calendarAdapter.getSecondSelectedTime();
 
-            if (finalCheckIn_date != null || finalCheckOut_date != null) {
+            if ((finalCheckIn_date != null || finalCheckOut_date != null) && (finalCheckIn_time != null || finalCheckOut_time != null)) {
                 Log.d("Date", "Check-in: " + finalCheckIn_date + "\nCheck-out: " + finalCheckOut_date);
                 Log.d("Time", "Check-in: " + finalCheckIn_time + "\nCheck-out: " + finalCheckOut_time);
 
                 getDateDifference(finalCheckIn_date, finalCheckOut_date, finalCheckIn_time, finalCheckOut_time);
-                displayAvailableRooms();
+                displayAvailableRooms(finalCheckIn_date, finalCheckIn_time, finalCheckOut_date, finalCheckOut_time);
                 //displayAvailableCottage();
 
                 try {
@@ -477,27 +477,27 @@ public class Guest_bookingPage1 extends Fragment {
         calendar.show();
     }*/
 
-    private void getDateDifference(){
+    private void getDateDifference(String firstSelectedDate, String secondSelectedDate, String firstSelectedTime, String secondSelectedTime) {
         @SuppressLint("SimpleDateFormat")
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
         try {
-            Date dateCheckIn = sdf.parse(finalCheckIn_date);
-            Date dateCheckOut = sdf.parse(finalCheckOut_date);
+            Date dateCheckIn = sdf.parse(firstSelectedDate);
+            Date dateCheckOut = sdf.parse(secondSelectedDate);
 
             long differenceInMillis = Math.abs(dateCheckOut.getTime() - dateCheckIn.getTime());
             dayDiff = (int) (differenceInMillis / (24 * 60 * 60 * 1000));
             nightDiff = (int) (differenceInMillis / (24 * 60 * 60 * 1000));
 
-            if(finalCheckIn_time.equals("dayTour") && finalCheckOut_time.equals("dayTour")){
-                dayDiff += 1;
-
-            } else if (finalCheckIn_time.equals("nightTour") && finalCheckOut_time.equals("nightTour")) {
-                nightDiff += 1;
-
-            } else if (finalCheckIn_time.equals("dayTour") && finalCheckOut_time.equals("nightTour")) {
-                dayDiff += 1;
-                nightDiff += 1;
+            if (firstSelectedTime != null && secondSelectedTime != null) {
+                if (firstSelectedTime.equals("dayTour") && secondSelectedTime.equals("dayTour")) {
+                    dayDiff += 1;
+                } else if (firstSelectedTime.equals("nightTour") && secondSelectedTime.equals("nightTour")) {
+                    nightDiff += 1;
+                } else if (firstSelectedTime.equals("dayTour") && secondSelectedTime.equals("nightTour")) {
+                    dayDiff += 1;
+                    nightDiff += 1;
+                }
             }
 
             //Toast.makeText(getContext(), String.valueOf(dayDiff), Toast.LENGTH_LONG).show();
@@ -629,7 +629,7 @@ public class Guest_bookingPage1 extends Fragment {
         requestQueue.add(stringRequest);
     }
 
-    private void displayAvailableRooms() {
+    private void displayAvailableRooms(String firstSelectedDate, String firstSelectedTime, String secondSelectedDate, String secondSelectedTime) {
         showBox = true;
 
         detailsHolder = new ArrayList<>();
@@ -666,10 +666,10 @@ public class Guest_bookingPage1 extends Fragment {
             @Override
             protected HashMap<String,String> getParams() {
                 HashMap<String,String> map = new HashMap<>();
-                map.put("checkIn_date", finalCheckIn_date);
-                map.put("checkIn_time", finalCheckIn_time);
-                map.put("checkOut_date", finalCheckOut_date);
-                map.put("checkOut_time", finalCheckOut_time);
+                map.put("checkIn_date", firstSelectedDate);
+                map.put("checkIn_time", firstSelectedTime);
+                map.put("checkOut_date", secondSelectedDate);
+                map.put("checkOut_time", secondSelectedTime);
                 return map;
             }
         };

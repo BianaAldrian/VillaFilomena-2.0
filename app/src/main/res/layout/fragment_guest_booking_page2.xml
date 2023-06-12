@@ -29,122 +29,123 @@
                 android:layout_margin="10dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/btn_bg"
-                android:orientation="vertical"
                 android:gravity="center"
+                android:orientation="vertical"
                 tools:ignore="TextSizeCheck">
 
                 <GridLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:columnCount="4"
-                    android:layout_margin="10dp">
+                    android:layout_margin="10dp"
+                    android:columnCount="4">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
                         android:layout_columnWeight="1"
                         android:background="@drawable/border"
+                        android:fontFamily="@font/eb_garamond_regular"
+                        android:gravity="center"
                         android:text="Details"
-                        android:textSize="15sp"
                         android:textColor="@color/black"
-                        android:fontFamily="@font/eb_garamond_regular"/>
+                        android:textSize="15sp"/>
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
                         android:layout_columnWeight="1"
                         android:background="@drawable/border"
+                        android:fontFamily="@font/eb_garamond_regular"
+                        android:gravity="center"
                         android:text="Quantity"
-                        android:textSize="15sp"
                         android:textColor="@color/black"
-                        android:fontFamily="@font/eb_garamond_regular"/>
+                        android:textSize="15sp"/>
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
                         android:layout_columnWeight="1"
                         android:background="@drawable/border"
+                        android:fontFamily="@font/eb_garamond_regular"
+                        android:gravity="center"
                         android:text="Days &amp; Nights"
-                        android:textSize="15sp"
                         android:textColor="@color/black"
-                        android:fontFamily="@font/eb_garamond_regular"/>
+                        android:textSize="15sp"/>
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
                         android:layout_columnWeight="1"
                         android:background="@drawable/border"
+                        android:fontFamily="@font/eb_garamond_regular"
+                        android:gravity="center"
                         android:text="Total"
-                        android:textSize="15sp"
                         android:textColor="@color/black"
-                        android:fontFamily="@font/eb_garamond_regular"/>
+                        android:textSize="15sp"/>
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:gravity="center"
                         android:layout_columnWeight="1"
                         android:background="@drawable/border"
+                        android:fontFamily="@font/eb_garamond_regular"
+                        android:gravity="center"
                         android:text="Adult/s
 \nKid/s
 \nRooms
 \nCottages"
-                        android:textSize="16sp"
                         android:textColor="@color/black"
-                        android:fontFamily="@font/eb_garamond_regular"/>
+                        android:textSize="16sp"/>
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:gravity="center"
                         android:layout_columnWeight="1"
                         android:background="@drawable/border"
+                        android:fontFamily="@font/eb_garamond_regular"
+                        android:gravity="center"
                         android:text="2\n2\n1\n0"
-                        android:textSize="16sp"
                         android:textColor="@color/black"
-                        android:fontFamily="@font/eb_garamond_regular"/>
+                        android:textSize="16sp"/>
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:gravity="center"
                         android:layout_columnWeight="1"
                         android:background="@drawable/border"
+                        android:fontFamily="@font/eb_garamond_regular"
+                        android:gravity="center"
                         android:text="\n2 Days &amp; \n2 Nights\n"
-                        android:textSize="16sp"
                         android:textColor="@color/black"
-                        android:fontFamily="@font/eb_garamond_regular"/>
+                        android:textSize="16sp"/>
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:gravity="center"
                         android:layout_columnWeight="1"
                         android:background="@drawable/border"
+                        android:fontFamily="@font/eb_garamond_regular"
+                        android:gravity="center"
                         android:text="₱360\n₱500\n₱2,500\n₱0"
-                        android:textSize="16sp"
                         android:textColor="@color/black"
-                        android:fontFamily="@font/eb_garamond_regular"/>
+                        android:textSize="16sp"/>
 
                 </GridLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/eb_garamond_medium"
                         android:gravity="center"
                         android:text="Total Payment: ₱3,190\n"
-                        android:textSize="18sp"
                         android:textColor="@color/black"
-                        android:fontFamily="@font/eb_garamond_medium"/>
+                        android:textSize="18sp"/>
 
                 </LinearLayout>
 
@@ -164,9 +165,9 @@
                     android:layout_height="40dp"
                     android:background="@drawable/btn_bg"
                     android:fontFamily="@font/eb_garamond_medium"
-                    android:textSize="18sp"
-                    android:textAllCaps="false"
                     android:text="Back"
+                    android:textAllCaps="false"
+                    android:textSize="18sp"
                     tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
                 <Space
@@ -179,9 +180,9 @@
                     android:layout_height="40dp"
                     android:background="@drawable/btn_bg"
                     android:fontFamily="@font/eb_garamond_medium"
-                    android:textSize="18sp"
-                    android:textAllCaps="false"
                     android:text="Continue"
+                    android:textAllCaps="false"
+                    android:textSize="18sp"
                     tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
             </LinearLayout>

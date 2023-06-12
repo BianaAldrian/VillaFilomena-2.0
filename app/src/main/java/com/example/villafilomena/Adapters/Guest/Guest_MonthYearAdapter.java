@@ -218,6 +218,7 @@ public class Guest_MonthYearAdapter extends RecyclerView.Adapter<Guest_MonthYear
             if (!dayTour.isChecked() && !nightTour.isChecked()) {
                 Toast.makeText(context, "Please select an option", Toast.LENGTH_SHORT).show();
             } else {
+                firstSelectedTime = firstSelectedTime;
                 dialog.dismiss();
                 // Perform other actions if at least one checkbox is selected
             }

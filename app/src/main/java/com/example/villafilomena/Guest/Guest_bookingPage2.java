@@ -67,7 +67,7 @@ public class Guest_bookingPage2 extends Fragment {
         ipAddress = sharedPreferences.getString("IP", "");
 
         roomList = view.findViewById(R.id.Guest_booking2_selectedRoomList);
-        /*total = view.findViewById(R.id.Guest_booking2_total);*/
+        //total = view.findViewById(R.id.Guest_booking2_total);
         backBtn = view.findViewById(R.id.Guest_booking2_back);
         continueBtn = view.findViewById(R.id.Guest_booking2_continue);
 
