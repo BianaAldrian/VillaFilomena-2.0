@@ -1,6 +1,8 @@
 package com.example.villafilomena.Adapters.Manager;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.villafilomena.R;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -27,11 +30,15 @@ public class Manager_DateAdapter extends RecyclerView.Adapter<Manager_DateAdapte
     }*/
 
     private List<Date> datesList;
-    private int currentMonth;
+    private int currentMonth, currentYear;
 
-    public Manager_DateAdapter(List<Date> datesList, int currentMonth) {
+    private List<View> SelectedHolder = new ArrayList<>();
+    private List<String> dateHolder = new ArrayList<>();
+
+    public Manager_DateAdapter(List<Date> datesList, int currentMonth, int currentYear) {
         this.datesList = datesList;
         this.currentMonth = currentMonth;
+        this.currentYear = currentYear;
     }
     @SuppressLint("NotifyDataSetChanged")
     public void updateDatesList(List<Date> updatedDatesList, int currentMonth) {
@@ -67,6 +74,20 @@ public class Manager_DateAdapter extends RecyclerView.Adapter<Manager_DateAdapte
             SimpleDateFormat dateFormat = new SimpleDateFormat("d/M/yyyy", Locale.getDefault());
             String formattedDate = dateFormat.format(date);
 
+            holder.day.setOnClickListener(v -> {
+                Log.d("Date", formattedDate);
+                // Check if the day is already selected
+                if (SelectedHolder.contains(holder.day)) {
+                    holder.day.setBackgroundColor(Color.TRANSPARENT); // Reset the background color
+                    SelectedHolder.remove(holder.day); // Remove from the selected list
+                    dateHolder.remove(formattedDate);
+                } else {
+                    holder.day.setBackgroundResource(R.color.teal_700);
+                    SelectedHolder.add(holder.day);
+                    dateHolder.add(formattedDate);
+                }
+            });
+
             // Adjust the starting day of the week
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);
@@ -84,6 +105,10 @@ public class Manager_DateAdapter extends RecyclerView.Adapter<Manager_DateAdapte
             }
 
         }
+    }
+
+    public List<String> getDateHolder() {
+        return dateHolder;
     }
 
     @Override
