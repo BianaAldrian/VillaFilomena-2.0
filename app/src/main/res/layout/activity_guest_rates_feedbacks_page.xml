@@ -6,16 +6,30 @@
     android:background="@drawable/background1"
     tools:context=".Guest.Guest_rates_feedbacksPage">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/eb_garamond_bold"
-        android:gravity="center"
-        android:text="Rates and Feedbacks"
-        android:textColor="@color/black"
-        android:textSize="28sp"
-        tools:ignore="HardcodedText" />
+        android:layout_height="42dp"
+        android:background="@drawable/header"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:src="@drawable/btn_back"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fontFamily="@font/beaurivage_regular"
+            android:gravity="center"
+            android:text="Rates and Feedbacks"
+            android:textColor="#ffffff"
+            android:textSize="32sp"/>
+
+    </LinearLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/guest_feedbackContainer"
