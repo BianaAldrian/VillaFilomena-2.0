@@ -5,9 +5,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,11 +24,11 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.villafilomena.R;
 import com.example.villafilomena.Adapters.Feedbacks_Adapter;
 import com.example.villafilomena.Adapters.Image_Adapter;
 import com.example.villafilomena.Models.Feedbacks_Model;
 import com.example.villafilomena.Models.Image_Model;
-import com.example.villafilomena.R;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -46,6 +50,7 @@ public class Guest_rates_feedbacksPage extends AppCompatActivity {
     String ipAddress, email;
     RecyclerView feedbackContainer, imageContainer;
     Button sendFeedback;
+    Spinner starRate;
     ArrayList<Image_Model> newImageList;
     String FeedBack;
     float Rating;
@@ -69,6 +74,34 @@ public class Guest_rates_feedbacksPage extends AppCompatActivity {
 
         feedbackContainer = findViewById(R.id.guest_feedbackContainer);
         sendFeedback = findViewById(R.id.guest_sendFeedback);
+        starRate = findViewById(R.id.guest_starRate);
+
+        String[] starOptions = new String[] {"All", "1.0", "2.0", "3.0", "4.0", "5.0"};
+
+        ArrayAdapter<String> starSpinnerAdapter = new ArrayAdapter<>(this, R.layout.spinner_layout_list, starOptions);
+        starRate.setAdapter(starSpinnerAdapter);
+
+        starRate.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Get the selected item from the Spinner
+                String selectedItem = parent.getItemAtPosition(position).toString();
+
+                // Do something with the selected item
+                Log.d("Selected Item", selectedItem);
+
+                if (selectedItem.equals("All")){
+                    displayFeedbacks();
+                } else {
+                    displaySortedFeedback(selectedItem);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         if (email.equals("")){
             sendFeedback.setVisibility(View.GONE);
@@ -81,7 +114,6 @@ public class Guest_rates_feedbacksPage extends AppCompatActivity {
 
     private void displayFeedbacks(){
         feedbacksHolder = new ArrayList<>();
-
         String url = "http://"+ipAddress+"/VillaFilomena/guest_dir/retrieve/guest_getFeedbacks.php";
         StringRequest request = new StringRequest(Request.Method.POST, url,
                 response -> {
@@ -114,6 +146,48 @@ public class Guest_rates_feedbacksPage extends AppCompatActivity {
                 // Set the POST parameters
                 Map<String, String> params = new HashMap<>();
                 params.put("email", email);
+                return params;
+            }
+        };
+
+        // Add the request to the Volley request queue
+        Volley.newRequestQueue(this).add(request);
+    }
+
+    private void displaySortedFeedback(String selectedItem){
+        feedbacksHolder = new ArrayList<>();
+        String url = "http://"+ipAddress+"/VillaFilomena/guest_dir/retrieve/guest_sortFeedback.php";
+        StringRequest request = new StringRequest(Request.Method.POST, url,
+                response -> {
+                    try {
+                        JSONArray jsonArray = new JSONArray(response);
+
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                            Feedbacks_Model model = new Feedbacks_Model(
+                                    jsonObject.getString("id"),
+                                    jsonObject.getString("guest_email"),
+                                    jsonObject.getString("ratings"),
+                                    jsonObject.getString("feedback"),
+                                    jsonObject.getString("image_urls"),
+                                    jsonObject.getString("date"));
+                            feedbacksHolder.add(model);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    feedbackContainer.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+                    Feedbacks_Adapter adapter = new Feedbacks_Adapter(this, feedbacksHolder, true);
+                    feedbackContainer.setAdapter(adapter);
+                },
+                Throwable::printStackTrace) {
+            @Override
+            protected Map<String, String> getParams() {
+                // Set the POST parameters
+                Map<String, String> params = new HashMap<>();
+                params.put("ratings", selectedItem);
                 return params;
             }
         };
@@ -305,16 +379,13 @@ public class Guest_rates_feedbacksPage extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 response -> {
                     if (response.equals("success")){
-                        Toast.makeText(this, "Feedback insert successfully", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, "Feedback successfully", Toast.LENGTH_LONG).show();
                         displayFeedbacks();
                     } else if(response.equals("failed")){
-                        Toast.makeText(this, "Feedback insert failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Feedback failed", Toast.LENGTH_SHORT).show();
                     }
                 },
-                error -> {
-                    Toast.makeText(this, "Failed to insert feedback", Toast.LENGTH_SHORT).show();
-                    error.printStackTrace();
-                })
+                Throwable::printStackTrace)
         {
             @Override
             protected Map<String, String> getParams() {

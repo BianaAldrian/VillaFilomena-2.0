@@ -11,8 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.villafilomena.Models.Manager.Manager_frondeskClerk_Model;
 import com.example.villafilomena.R;
+import com.example.villafilomena.Models.Manager.Manager_frondeskClerk_Model;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class Manager_frontdeskClerk_Adapter extends RecyclerView.Adapter<Manager
     ArrayList<Manager_frondeskClerk_Model> clerkHolder;
 
     public Manager_frontdeskClerk_Adapter(Activity activity, ArrayList<Manager_frondeskClerk_Model> clerkHolder) {
-        activity = activity;
+        this.activity = activity;
         this.clerkHolder = clerkHolder;
     }
 

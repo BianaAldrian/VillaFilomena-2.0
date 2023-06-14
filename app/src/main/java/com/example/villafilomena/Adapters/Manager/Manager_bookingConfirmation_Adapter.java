@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.StringJoiner;
 @SuppressLint("SetTextI18n")
@@ -53,7 +54,7 @@ public class Manager_bookingConfirmation_Adapter extends RecyclerView.Adapter<Ma
     String ipAddress;
     ArrayList<BookingInfo_Model> bookingHolder;
     String postUrl = "https://fcm.googleapis.com/fcm/send";
-    String fcmServerKey = "AAAAN__YSUs:APA91bGogQWxZZ5Y-10ZD4FEWfJ0j8kBRPZ06oDn5zDSw5Fc_lmzWZgFbyW50Rw0k9hWOz7ZOoeACOaiBNX3nbJJGCpj8KSRDMQBiFo5MAE0AFJqgHGNE7tzW83E1nY8l6zBIgAaiQa_";
+    String fcmServerKey = "AAAAI4TgXbw:APA91bE2zEO0mZ5SAiJMRN1l7IzpMsTnmGuVaaayK4CjNhNZl8_13wDpR0ciw4uNPrIQhHD0NaMWj-U0K3Lc97_CStmBq1bn7LXct-jwTEW2GfwqyLXmxlIOytd76qskBgu0VW9HxVY7";
     StorageReference InvoiceReference;
     Dialog loading_dialog;
 
@@ -149,32 +150,6 @@ public class Manager_bookingConfirmation_Adapter extends RecyclerView.Adapter<Ma
         });
 
         holder.reject.setOnClickListener(v -> {
-            /*AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-            builder.setTitle("Reject");
-            builder.setMessage("Are you sure?");
-            builder.setPositiveButton("YES", (dialog, which) -> {
-                // Handle the OK button click
-                loading_dialog = new Dialog(activity);
-                loading_dialog.setContentView(R.layout.loading_dialog);
-                loading_dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                Window loadingWidow = loading_dialog.getWindow();
-                loadingWidow.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-
-                //ProgressBar progressBar = loading_dialog.findViewById(R.id.loading_dialog);
-
-                loading_dialog.show();
-
-                deleteRoomSched(position);
-                rejectGuestBooking(position, model.getId());
-
-                });
-            builder.setNegativeButton("NO", (dialog, which) -> {
-                // Handle the Cancel button click
-                dialog.dismiss(); // Close the dialog
-            });
-            AlertDialog dialog = builder.create();
-            dialog.show();*/
-
             Dialog reject = new Dialog(activity);
             reject.setContentView(R.layout.dialog_manager_reject_reason);
 
@@ -315,6 +290,9 @@ public class Manager_bookingConfirmation_Adapter extends RecyclerView.Adapter<Ma
     }
 
     private void confirmGuestBooking(int position, String id){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        String currentDate = dateFormat.format(new Date());
+
         final BookingInfo_Model model = bookingHolder.get(position);
 
         Generate_PDFReceipt pdfReceipt = new Generate_PDFReceipt(activity,
@@ -358,6 +336,7 @@ public class Manager_bookingConfirmation_Adapter extends RecyclerView.Adapter<Ma
                     HashMap<String,String> map = new HashMap<>();
                     map.put("id", id);
                     map.put("invoiceUrl", invoiceUrl);
+                    map.put("date", currentDate);
                     return map;
                 }
             };

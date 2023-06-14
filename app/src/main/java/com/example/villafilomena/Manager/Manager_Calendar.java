@@ -3,6 +3,7 @@ package com.example.villafilomena.Manager;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -23,23 +24,35 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.villafilomena.R;
 import com.example.villafilomena.Adapters.CalendarAdapter;
 import com.example.villafilomena.Adapters.Manager.Manager_DateAdapter;
-import com.example.villafilomena.R;
+import com.example.villafilomena.Models.Schedule_Model;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
 public class Manager_Calendar extends AppCompatActivity {
+    String ipAddress;
     RecyclerView dateContainer;
     ImageView exit, menu;
     int schedCurrentMonth;
     int schedCurrentYear;
     Manager_DateAdapter manager_adapter;
+    ArrayList<Schedule_Model> schedDatesList;
     private CalendarAdapter adapter;
     private int currentMonth;
     private int currentYear;
@@ -49,6 +62,9 @@ public class Manager_Calendar extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manager_calendar);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        ipAddress = sharedPreferences.getString("IP", "");
 
         dateContainer = findViewById(R.id.manager_calendar_dateContainer);
         exit = findViewById(R.id.manager_calendar_exit);
@@ -186,6 +202,38 @@ public class Manager_Calendar extends AppCompatActivity {
         adapter.setCurrentMonth(newDatesList, currentMonth);
     }
 
+    private void schedules() {
+        // Your code to retrieve the dates from the server or any other data source
+        schedDatesList = new ArrayList<>();
+        // Add retrieved dates to the list
+        String url = "http://"+ipAddress+"/VillaFilomena/manager_dir/retrieve/manager_getSched.php";
+        StringRequest request = new StringRequest(Request.Method.POST, url,
+                response -> {
+                    try {
+                        JSONArray jsonArray = new JSONArray(response);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                            Schedule_Model model = new Schedule_Model(jsonObject.getString("id"), jsonObject.getString("disable_date"), jsonObject.getString("reason"));
+                            schedDatesList.add(model);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    List<String> highlightedDates = new ArrayList<>();
+                    for (Schedule_Model model : schedDatesList) {
+                        // Assuming the date is stored in the "disable_date" field of the Schedule_Model object
+                        highlightedDates.add(model.getDisable_date());
+                    }
+                    manager_adapter.setHighlightedDates(highlightedDates);
+
+                }, Throwable::printStackTrace);
+
+        // Add the request to the Volley request queue
+        Volley.newRequestQueue(this).add(request);
+
+    }
+
     @SuppressLint("SetTextI18n")
     private void menu(){
         PopupMenu popupMenu = new PopupMenu(this, menu);
@@ -197,6 +245,7 @@ public class Manager_Calendar extends AppCompatActivity {
 
             switch (item.getItemId()) {
                 case R.id.menu_item1:
+                    schedules();
                     // Handle menu item 1 click
                     Dialog calendar = new Dialog(this);
                     calendar.setContentView(R.layout.manager_calendar_scheduler_dialog);
@@ -223,10 +272,37 @@ public class Manager_Calendar extends AppCompatActivity {
                     manager_adapter = new Manager_DateAdapter(datesList, schedCurrentMonth, schedCurrentYear);
                     daysContainer.setAdapter(manager_adapter);
 
+
                     disable.setOnClickListener(v -> {
                         List<String> dateHolder = manager_adapter.getDateHolder();
-                        String dateHolderString = TextUtils.join(", ", dateHolder);
-                        Log.d("Selected Date", dateHolderString);
+                        if (dateHolder.isEmpty()) {
+                            Log.d("Selected Date", "dateHolder is empty");
+                        } else {
+                            String dateHolderString = TextUtils.join(", ", dateHolder);
+                            Log.d("Selected Date", dateHolderString);
+
+                            Dialog reason = new Dialog(this);
+                            reason.setContentView(R.layout.dialog_manager_reject_reason);
+
+                            EditText reasonTxt = reason.findViewById(R.id.manager_reject_reason);
+                            Button confirm = reason.findViewById(R.id.manager_reject_confirm);
+
+                            confirm.setOnClickListener(v1 -> {
+                                String reasonText = reasonTxt.getText().toString().trim();
+                                if (TextUtils.isEmpty(reasonText)) {
+                                    // EditText is empty
+                                    Toast.makeText(this, "Reason is empty", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    for (String str : dateHolder){
+                                        uploadDisableDates(str, reasonText);
+                                    }
+                                    calendar.dismiss();
+                                    reason.dismiss();
+                                }
+                            });
+
+                            reason.show();
+                        }
                     });
 
                     calendar.show();
@@ -277,6 +353,35 @@ public class Manager_Calendar extends AppCompatActivity {
         popupMenu.show();
     }
 
+    public void uploadDisableDates(String dates, String reason){
+        if (!TextUtils.isEmpty(reason)){
+            String url = "http://"+ipAddress+"/VillaFilomena/manager_dir/insert/manager_insertCalendarSched.php";
+
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
+                if (response.equals("success")){
+                    Log.d("Upload", "Upload Successful");
+                }
+                else if(response.equals("failed")){
+                    Log.d("Upload", "Upload Failed");
+                }
+            },
+                    error -> Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show())
+            {
+                @Override
+                protected HashMap<String,String> getParams() {
+                    HashMap<String,String> map = new HashMap<>();
+                    map.put("disable_date", dates);
+                    map.put("reason", reason);
+                    return map;
+                }
+            };
+            requestQueue.add(stringRequest);
+        }else {
+            Toast.makeText(this, "reason is empty", Toast.LENGTH_LONG).show();
+        }
+    }
+
     private void updateCalendar(int offset, TextView date) {
         // Adjust the month and year based on the offset
         schedCurrentMonth += offset;
@@ -306,6 +411,5 @@ public class Manager_Calendar extends AppCompatActivity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
         return dateFormat.format(calendar.getTime());
     }
-
 
 }

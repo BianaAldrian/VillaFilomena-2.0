@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,7 +63,7 @@ public class Guest_bookingPage2 extends Fragment {
     Button backBtn, continueBtn;
     ArrayList<RoomCottageDetails_Model> detailsHolder;
     String postUrl = "https://fcm.googleapis.com/fcm/send";
-    String fcmServerKey = "AAAAN__YSUs:APA91bGogQWxZZ5Y-10ZD4FEWfJ0j8kBRPZ06oDn5zDSw5Fc_lmzWZgFbyW50Rw0k9hWOz7ZOoeACOaiBNX3nbJJGCpj8KSRDMQBiFo5MAE0AFJqgHGNE7tzW83E1nY8l6zBIgAaiQa_";
+    String fcmServerKey = "AAAAI4TgXbw:APA91bE2zEO0mZ5SAiJMRN1l7IzpMsTnmGuVaaayK4CjNhNZl8_13wDpR0ciw4uNPrIQhHD0NaMWj-U0K3Lc97_CStmBq1bn7LXct-jwTEW2GfwqyLXmxlIOytd76qskBgu0VW9HxVY7";
     Dialog loading_dialog;
     String selectedPaymentOption;
     ImageView receipt;
@@ -344,12 +345,12 @@ public class Guest_bookingPage2 extends Fragment {
                 guest.finish();
 
 
-                Toast toast = Toast.makeText(getContext(), "Booking Successful", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getContext(), "Booking Request Successful", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0); // Set the gravity and offset
                 toast.show();
             }
             else if(response.equals("failed")){
-                Toast.makeText(getContext(), "Booking Failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Booking Request Failed", Toast.LENGTH_SHORT).show();
                 loading_dialog.hide();
             }
         },
@@ -384,12 +385,10 @@ public class Guest_bookingPage2 extends Fragment {
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
             if (response.equals("success")){
-                Toast toast =Toast.makeText(getContext(), "Room Reservation Successful", Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0); // Set the gravity and offset
-                toast.show();
+                Log.d("Room", "Room Reservation Successful");
             }
             else if(response.equals("failed")){
-                Toast.makeText(getContext(), "Room Reservation Failed", Toast.LENGTH_SHORT).show();
+                Log.d("Room", "Room Reservation Failed");
             }
         },
                 Throwable::printStackTrace)
@@ -414,10 +413,10 @@ public class Guest_bookingPage2 extends Fragment {
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
             if (response.equals("success")){
-                Toast.makeText(getContext(), "Room Reservation Successful", Toast.LENGTH_SHORT).show();
+                Log.d("Cottage", "Cottage Reservation Successful");
             }
             else if(response.equals("failed")){
-                Toast.makeText(getContext(), "Room Reservation Failed", Toast.LENGTH_SHORT).show();
+                Log.d("Cottage", "Cottage Reservation Failed");
             }
         },
                 Throwable::printStackTrace)
@@ -452,7 +451,7 @@ public class Guest_bookingPage2 extends Fragment {
 
                 }
             } catch (JSONException e) {
-                Toast.makeText(getContext(), e.toString(), Toast.LENGTH_LONG).show();
+                e.printStackTrace();
             }
         }, Throwable::printStackTrace);
 

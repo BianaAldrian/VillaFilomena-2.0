@@ -6,7 +6,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.villafilomena.FrontDesk.FrontDesk_Dashboard;
+import com.example.villafilomena.FrontDesk.FrontDesk_Login;
 import com.example.villafilomena.Guest.Guest_fragmentsContainer;
 import com.example.villafilomena.Manager.LoginRegister.Manager_Login;
 
@@ -27,8 +27,8 @@ public class ContinueAs extends AppCompatActivity {
         });
 
         frontdesk.setOnClickListener(view -> {
-            startActivity(new Intent(ContinueAs.this, FrontDesk_Dashboard.class));
-            //startActivity(new Intent(ContinueAs.this, FrontDesk_Login.class));
+            //startActivity(new Intent(ContinueAs.this, FrontDesk_Dashboard.class));
+            startActivity(new Intent(ContinueAs.this, FrontDesk_Login.class));
         });
 
         manager.setOnClickListener(view -> {

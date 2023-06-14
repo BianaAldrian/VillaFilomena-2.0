@@ -1,6 +1,5 @@
 package com.example.villafilomena.Adapters.Manager;
 
-import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,47 +22,48 @@ import java.util.Locale;
 
 public class Manager_DateAdapter extends RecyclerView.Adapter<Manager_DateAdapter.ViewHolder> {
 
-    //private final List<Manager_DateItem_Model> dateItems;
-
-    /*public Manager_DateAdapter(List<Manager_DateItem_Model> dateItems) {
-        this.dateItems = dateItems;
-    }*/
-
     private List<Date> datesList;
     private int currentMonth, currentYear;
 
-    private List<View> SelectedHolder = new ArrayList<>();
+    private List<View> selectedHolder = new ArrayList<>();
     private List<String> dateHolder = new ArrayList<>();
+
+    private List<String> highlightedDates;
 
     public Manager_DateAdapter(List<Date> datesList, int currentMonth, int currentYear) {
         this.datesList = datesList;
         this.currentMonth = currentMonth;
         this.currentYear = currentYear;
+        this.highlightedDates = new ArrayList<>();
     }
-    @SuppressLint("NotifyDataSetChanged")
+
     public void updateDatesList(List<Date> updatedDatesList, int currentMonth) {
         this.datesList = updatedDatesList;
         this.currentMonth = currentMonth;
         notifyDataSetChanged();
     }
 
+    public void setHighlightedDates(List<String> dates) {
+        this.highlightedDates.clear();
+        this.highlightedDates.addAll(dates);
+        notifyDataSetChanged();
+    }
 
     @NonNull
     @Override
-    public Manager_DateAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.manager_calendar_date_scheduler_day_list, parent, false);
         return new ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Manager_DateAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Date date = datesList.get(position);
 
-        if (date == null){
-            //Handle empty cells or other scenarios
+        if (date == null) {
+            // Handle empty cells or other scenarios
             holder.day.setText("");
-        }
-        else {
+        } else {
             // Format the date as desired
             SimpleDateFormat dayFormat = new SimpleDateFormat("d", Locale.getDefault());
             String formattedDay = dayFormat.format(date);
@@ -74,19 +74,32 @@ public class Manager_DateAdapter extends RecyclerView.Adapter<Manager_DateAdapte
             SimpleDateFormat dateFormat = new SimpleDateFormat("d/M/yyyy", Locale.getDefault());
             String formattedDate = dateFormat.format(date);
 
+            if (highlightedDates.contains(formattedDate)) {
+                holder.day.setBackgroundResource(R.color.teal_200);
+                holder.day.setClickable(false);
+            } else {
+                holder.itemView.setBackgroundColor(Color.TRANSPARENT); // Reset the background color
+                holder.day.setClickable(true);
+            }
+
             holder.day.setOnClickListener(v -> {
                 Log.d("Date", formattedDate);
+
                 // Check if the day is already selected
-                if (SelectedHolder.contains(holder.day)) {
-                    holder.day.setBackgroundColor(Color.TRANSPARENT); // Reset the background color
-                    SelectedHolder.remove(holder.day); // Remove from the selected list
+                if (selectedHolder.contains(holder.itemView)) {
+                    holder.itemView.setBackgroundColor(Color.TRANSPARENT);
+                    selectedHolder.remove(holder.itemView);
                     dateHolder.remove(formattedDate);
                 } else {
-                    holder.day.setBackgroundResource(R.color.teal_700);
-                    SelectedHolder.add(holder.day);
-                    dateHolder.add(formattedDate);
+                    // Check if the day is already highlighted
+                    if (!highlightedDates.contains(formattedDate)) {
+                        holder.itemView.setBackgroundResource(R.color.teal_700);
+                        selectedHolder.add(holder.itemView);
+                        dateHolder.add(formattedDate);
+                    }
                 }
             });
+
 
             // Adjust the starting day of the week
             Calendar calendar = Calendar.getInstance();
@@ -121,7 +134,6 @@ public class Manager_DateAdapter extends RecyclerView.Adapter<Manager_DateAdapte
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             day = itemView.findViewById(R.id.dateScheduler_day);
         }
     }

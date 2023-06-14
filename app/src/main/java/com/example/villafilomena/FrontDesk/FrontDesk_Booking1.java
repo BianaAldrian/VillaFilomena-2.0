@@ -4,14 +4,15 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.CalendarView;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,10 +27,11 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.villafilomena.R;
 import com.example.villafilomena.Adapters.Cottage_Adapter;
+import com.example.villafilomena.Adapters.Guest.Guest_MonthYearAdapter;
 import com.example.villafilomena.Adapters.Room_Adapter;
 import com.example.villafilomena.Models.RoomCottageDetails_Model;
-import com.example.villafilomena.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,6 +45,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 public class FrontDesk_Booking1 extends AppCompatActivity {
     public static String finalCheckIn_date;
@@ -54,16 +57,16 @@ public class FrontDesk_Booking1 extends AppCompatActivity {
     public static boolean showBox = false;
     public static int finalAdultQty, finalKidQty;
     public static double total;
+    public static int dayDiff, nightDiff;
+    public static double dayTour_kidFee, dayTour_adultFee, nightTour_kidFee, nightTour_adultFee, kidFee, adultFee, roomRate, cottageRate;
     String ipAddress;
     CardView sched, qty;
     TextView dayTourInfo, nightTourInfo, displaySched, displayQty;
     RecyclerView roomList, cottageList;
     Button continueBtn;
-    ArrayList<RoomCottageDetails_Model> detailsHolder;
+    ArrayList<RoomCottageDetails_Model> roomHolder;
     ArrayList<RoomCottageDetails_Model> cottageHolder;
-    double dayTour_kidFee, dayTour_adultFee, nightTour_kidFee, nightTour_adultFee;
-    int dayDiff, nightDiff;
-
+    private Guest_MonthYearAdapter calendarAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,35 +87,13 @@ public class FrontDesk_Booking1 extends AppCompatActivity {
 
         getEntranceFee_Details();
 
-        sched.setOnClickListener(v -> pickSched());
+        sched.setOnClickListener(v -> showBottomDialog());
         qty.setOnClickListener(v -> pickQty());
 
         selectedRoom_id = new ArrayList<>();
         selectedCottage_id = new ArrayList<>();
 
         continueBtn.setOnClickListener(v -> {
-            /*if (Guest_fragmentsContainer.email.equals("")){
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Log In?");
-                builder.setMessage("Please Log In first");
-                builder.setPositiveButton("OK", (dialog, which) -> {
-                    // Handle the OK button click
-                    startActivity(new Intent(this, Guest_Login.class));
-                    Guest_Login.originateFrom = "booking";
-                    Guest_fragmentsContainer guest = new Guest_fragmentsContainer();
-                    guest.finish();
-
-                });
-                builder.setNegativeButton("Cancel", (dialog, which) -> {
-                    // Handle the Cancel button click
-                    dialog.dismiss(); // Close the dialog
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            } else {
-
-            }*/
-
             if (finalCheckIn_date == null){
                 Toast.makeText(this, "Check-In and Check-Out not set", Toast.LENGTH_SHORT).show();
             } else if (finalAdultQty == 0) {
@@ -127,7 +108,7 @@ public class FrontDesk_Booking1 extends AppCompatActivity {
                     View childView = roomList.getLayoutManager().findViewByPosition(i);
                     ImageView check = childView.findViewById(R.id.RoomCottageDetail_check);
                     if (check.getVisibility() == View.VISIBLE){
-                        final RoomCottageDetails_Model model = detailsHolder.get(i);
+                        final RoomCottageDetails_Model model = roomHolder.get(i);
                         selectedRoom_id.add(model.getId());
 
                         roomTotalPrice += Double.parseDouble(model.getRate());
@@ -156,14 +137,20 @@ public class FrontDesk_Booking1 extends AppCompatActivity {
                 dayTour_cottageRate = cottageTotalPrice * dayDiff;
                 nightTour_cottageRate = cottageTotalPrice * nightDiff;
 
+                roomRate = dayTour_roomRate + nightTour_roomRate;
+                cottageRate = dayTour_cottageRate + nightTour_cottageRate;
+
                 dayTour_kidFee = (finalKidQty * dayTour_kidFee) * dayDiff;
                 dayTour_adultFee = (finalAdultQty * dayTour_adultFee) * dayDiff;
                 nightTour_kidFee = (finalKidQty * nightTour_kidFee) * nightDiff;
                 nightTour_adultFee = (finalAdultQty * nightTour_adultFee) * nightDiff;
 
+                adultFee = dayTour_adultFee + nightTour_adultFee;
+                kidFee = dayTour_kidFee + nightTour_kidFee;
+
                 total = dayTour_kidFee + dayTour_adultFee + nightTour_kidFee + nightTour_adultFee + dayTour_roomRate + nightTour_roomRate + dayTour_cottageRate + nightTour_cottageRate;
 
-                Toast.makeText(this, dayDiff + "\n" + nightDiff, Toast.LENGTH_SHORT).show();
+                Log.d("Day Diff", dayDiff + "\n" + nightDiff);
                 startActivity(new Intent(this, FrontDesk_Booking2.class));
             }
         });
@@ -200,11 +187,12 @@ public class FrontDesk_Booking1 extends AppCompatActivity {
                 e.printStackTrace();
             }
         },
-                error -> Toast.makeText(this, error.getMessage(), Toast.LENGTH_LONG).show());
+                error -> Log.d("getEntranceFee_Details", error.getMessage()));
+
         requestQueue.add(stringRequest);
     }
 
-    @SuppressLint({"SimpleDateFormat", "SetTextI18n"})
+   /* @SuppressLint({"SimpleDateFormat", "SetTextI18n"})
     private void pickSched() {
         Dialog calendar = new Dialog(this);
         calendar.setContentView(R.layout.popup_booking_calendar_dialog);
@@ -334,34 +322,149 @@ public class FrontDesk_Booking1 extends AppCompatActivity {
         });
 
         calendar.show();
+    }*/
+
+    private void showBottomDialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.guest_btm_dialog_calendar);
+
+        ImageView close = dialog.findViewById(R.id.btmDialog_close);
+        RecyclerView dateContainer = dialog.findViewById(R.id.btmDialog_dateContainer);
+        TextView checkInTxt = dialog.findViewById(R.id.btmDialog_checkIn);
+        TextView checkOutTxt = dialog.findViewById(R.id.btmDialog_checkOut);
+        Button applyDatesBtn = dialog.findViewById(R.id.btmDialog_applyDates);
+        close.setOnClickListener(v -> dialog.dismiss());
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        dateContainer.setLayoutManager(layoutManager);
+
+        // Generate calendar data
+        List<String> calendarData = generateCalendarData();
+
+        // Create the adapter and set it for the RecyclerView
+        calendarAdapter = new Guest_MonthYearAdapter(this, calendarData, checkInTxt, checkOutTxt, applyDatesBtn);
+        dateContainer.setAdapter(calendarAdapter);
+
+        applyDatesBtn.setOnClickListener(v -> {
+            finalCheckIn_date = calendarAdapter.getFirstSelectedDate();
+            finalCheckOut_date = calendarAdapter.getSecondSelectedDate();
+            finalCheckIn_time = calendarAdapter.getFirstSelectedTime();
+            finalCheckOut_time = calendarAdapter.getSecondSelectedTime();
+
+            if ((finalCheckIn_date != null || finalCheckOut_date != null) && (finalCheckIn_time != null || finalCheckOut_time != null)) {
+                Log.d("Date", "Check-in: " + finalCheckIn_date + "\nCheck-out: " + finalCheckOut_date);
+                Log.d("Time", "Check-in: " + finalCheckIn_time + "\nCheck-out: " + finalCheckOut_time);
+
+                getDateDifference(finalCheckIn_date, finalCheckOut_date, finalCheckIn_time, finalCheckOut_time);
+                displayAvailableRooms(finalCheckIn_date, finalCheckIn_time, finalCheckOut_date, finalCheckOut_time);
+                displayAvailableCottage(finalCheckIn_date, finalCheckIn_time, finalCheckOut_date, finalCheckOut_time);
+
+                try {
+                    SimpleDateFormat inputFormat = new SimpleDateFormat("d/M/yyyy");
+
+                    //check-in date
+                    String inputCheckIn_Date = finalCheckIn_date;
+                    Date setCheckIn = inputFormat.parse(inputCheckIn_Date);
+                    Calendar setCheckIn_Date = Calendar.getInstance();
+                    setCheckIn_Date.setTime(setCheckIn);
+                    int checkIn_year = setCheckIn_Date.get(Calendar.YEAR);
+                    int checkIn_month = setCheckIn_Date.get(Calendar.MONTH);
+                    int checkIn_dayOfMonth = setCheckIn_Date.get(Calendar.DAY_OF_MONTH);
+                    // Convert the numeric month to its corresponding word representation
+                    String[] checkIn_months = new DateFormatSymbols().getMonths();
+                    String checkIn_monthName = checkIn_months[checkIn_month];
+                    String checkIn_formattedDate = checkIn_monthName + " " + checkIn_dayOfMonth + ", " + checkIn_year;
+
+                    //check-out date
+                    String inputCheckOut_Date = finalCheckOut_date;
+                    Date setCheckOut = inputFormat.parse(inputCheckOut_Date);
+                    Calendar setCheckOut_Date = Calendar.getInstance();
+                    setCheckOut_Date.setTime(setCheckOut);
+                    int checkOut_year = setCheckOut_Date.get(Calendar.YEAR);
+                    int checkOut_month = setCheckOut_Date.get(Calendar.MONTH);
+                    int checkOut_dayOfMonth = setCheckOut_Date.get(Calendar.DAY_OF_MONTH);
+                    // Convert the numeric month to its corresponding word representation
+                    String[] checkOut_months = new DateFormatSymbols().getMonths();
+                    String checkOut_monthName = checkOut_months[checkOut_month];
+                    String checkOut_formattedDate = checkOut_monthName + " " + checkOut_dayOfMonth + ", " + checkOut_year;
+
+                    //Toast.makeText(getContext(), formattedDate, Toast.LENGTH_SHORT).show();
+                    displaySched.setText("Check-In\n"+checkIn_formattedDate+" - "+finalCheckIn_time+"\nCheck-Out\n"+checkOut_formattedDate+" - "+finalCheckOut_time);
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
 
-    private void getDateDifference(){
-        @SuppressLint("SimpleDateFormat")
+    private List<String> generateCalendarData() {
+        List<String> data = new ArrayList<>();
+
+        // Get the current month and year
+        Calendar calendar = Calendar.getInstance();
+        int currentMonth = calendar.get(Calendar.MONTH);
+        int currentYear = calendar.get(Calendar.YEAR);
+
+        // Generate data for 12 months from now
+        for (int i = 0; i < 12; i++) {
+            int month = (currentMonth + i) % 12;
+            int year = currentYear + (currentMonth + i) / 12;
+
+            if (month == 0) {
+                // Increment year if the month is January
+                currentYear++;
+                year++;
+            }
+
+            // Add month and year to the data list
+            String monthYear = getMonthName(month) + " " + year;
+            data.add(monthYear);
+        }
+
+        return data;
+    }
+
+    private String getMonthName(int month) {
+        DateFormatSymbols dfs = new DateFormatSymbols();
+        String[] months = dfs.getMonths();
+        return months[month];
+    }
+
+    private void getDateDifference(String firstSelectedDate, String secondSelectedDate, String firstSelectedTime, String secondSelectedTime) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
         try {
-            Date dateCheckIn = sdf.parse(finalCheckIn_date);
-            Date dateCheckOut = sdf.parse(finalCheckOut_date);
+            Date dateCheckIn = sdf.parse(firstSelectedDate);
+            Date dateCheckOut = sdf.parse(secondSelectedDate);
 
             long differenceInMillis = Math.abs(dateCheckOut.getTime() - dateCheckIn.getTime());
             dayDiff = (int) (differenceInMillis / (24 * 60 * 60 * 1000));
             nightDiff = (int) (differenceInMillis / (24 * 60 * 60 * 1000));
 
-            if(finalCheckIn_time.equals("dayTour") && finalCheckOut_time.equals("dayTour")){
-                dayDiff += 1;
-
-            } else if (finalCheckIn_time.equals("nightTour") && finalCheckOut_time.equals("nightTour")) {
-                nightDiff += 1;
-
-            } else if (finalCheckIn_time.equals("dayTour") && finalCheckOut_time.equals("nightTour")) {
-                dayDiff += 1;
-                nightDiff += 1;
+            if (firstSelectedTime != null && secondSelectedTime != null) {
+                if (firstSelectedTime.equals("dayTour") && secondSelectedTime.equals("dayTour")) {
+                    dayDiff += 1;
+                } else if (firstSelectedTime.equals("nightTour") && secondSelectedTime.equals("nightTour")) {
+                    nightDiff += 1;
+                } else if (firstSelectedTime.equals("dayTour") && secondSelectedTime.equals("nightTour")) {
+                    dayDiff += 1;
+                    nightDiff += 1;
+                }
             }
 
             //Toast.makeText(getContext(), String.valueOf(dayDiff), Toast.LENGTH_LONG).show();
         } catch (ParseException e) {
-            Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
+            Log.e("getDateDifference", e.toString());
         }
     }
 
@@ -420,7 +523,7 @@ public class FrontDesk_Booking1 extends AppCompatActivity {
 
     private void displayRooms() {
         showBox = false;
-        detailsHolder = new ArrayList<>();
+        roomHolder = new ArrayList<>();
 
         String url = "http://"+ipAddress+"/VillaFilomena/guest_dir/retrieve/guest_getRoomDetails.php";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -438,18 +541,20 @@ public class FrontDesk_Booking1 extends AppCompatActivity {
                             object.getString("roomRate"),
                             object.getString("roomDescription"));
 
-                    detailsHolder.add(model);
+                    roomHolder.add(model);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            Room_Adapter adapter = new Room_Adapter(this,detailsHolder, false);
+            Room_Adapter adapter = new Room_Adapter(this,roomHolder, false);
             LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
             roomList.setLayoutManager(layoutManager);
             roomList.setAdapter(adapter);
 
-        }, error -> Toast.makeText(this, error.getMessage(), Toast.LENGTH_LONG).show());
+        }, error -> {
+            Log.e("displayRooms",  error.getMessage());
+        });
         requestQueue.add(stringRequest);
 
     }
@@ -479,19 +584,21 @@ public class FrontDesk_Booking1 extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            Cottage_Adapter adapter = new Cottage_Adapter(this,cottageHolder);
+            Cottage_Adapter adapter = new Cottage_Adapter(this,cottageHolder, false);
             LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
             cottageList.setLayoutManager(layoutManager);
             cottageList.setAdapter(adapter);
 
-        }, error -> Toast.makeText(this, error.getMessage(), Toast.LENGTH_LONG).show());
+        }, error -> {
+            Log.e("displayCottages", error.getMessage());
+        });
         requestQueue.add(stringRequest);
     }
 
     private void displayAvailableRooms(String finalCheckIn_date, String finalCheckIn_time, String finalCheckOut_date, String finalCheckOut_time) {
         showBox = true;
 
-        detailsHolder = new ArrayList<>();
+        roomHolder = new ArrayList<>();
 
         String url = "http://"+ipAddress+"/VillaFilomena/guest_dir/retrieve/guest_getAvailableRoom.php";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -509,14 +616,14 @@ public class FrontDesk_Booking1 extends AppCompatActivity {
                             object.getString("roomRate"),
                             object.getString("roomDescription"));
 
-                    detailsHolder.add(model);
+                    roomHolder.add(model);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
             roomList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-            Room_Adapter adapter = new Room_Adapter(this,detailsHolder, true);
+            Room_Adapter adapter = new Room_Adapter(this, roomHolder, true);
             roomList.setAdapter(adapter);
 
         },
@@ -535,7 +642,7 @@ public class FrontDesk_Booking1 extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    private void displayAvailableCottage(){
+    private void displayAvailableCottage(String finalCheckIn_date, String finalCheckIn_time, String finalCheckOut_date, String finalCheckOut_time){
         showBox = true;
 
         cottageHolder = new ArrayList<>();
@@ -551,10 +658,10 @@ public class FrontDesk_Booking1 extends AppCompatActivity {
                     RoomCottageDetails_Model model = new RoomCottageDetails_Model(
                             object.getString("id"),
                             object.getString("imageUrl"),
-                            object.getString("roomName"),
-                            object.getString("roomCapacity"),
-                            object.getString("roomRate"),
-                            object.getString("roomDescription"));
+                            object.getString("cottageName"),
+                            object.getString("cottageCapacity"),
+                            object.getString("cottageRate"),
+                            object.getString("cottageDescription"));
 
                     cottageHolder.add(model);
                 }
@@ -567,15 +674,15 @@ public class FrontDesk_Booking1 extends AppCompatActivity {
             cottageList.setLayoutManager(layoutManager);
             cottageList.setAdapter(adapter);
         },
-                error -> Toast.makeText(this, error.getMessage(), Toast.LENGTH_LONG).show())
+                error -> Log.e("displayAvailableCottage", error.getMessage()))
         {
             @Override
             protected HashMap<String,String> getParams() {
                 HashMap<String,String> map = new HashMap<>();
-                map.put("checkIn_date",finalCheckIn_date);
-                map.put("checkIn_time",finalCheckIn_time);
-                map.put("checkOut_date",finalCheckOut_date);
-                map.put("checkOut_time",finalCheckOut_time);
+                map.put("checkIn_date", finalCheckIn_date);
+                map.put("checkIn_time", finalCheckIn_time);
+                map.put("checkOut_date", finalCheckOut_date);
+                map.put("checkOut_time", finalCheckOut_time);
                 return map;
             }
         };

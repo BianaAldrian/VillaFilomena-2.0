@@ -40,13 +40,21 @@ public class Manager_Login extends AppCompatActivity {
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(task -> {
                     if (!task.isSuccessful()) {
+                        // If token retrieval failed, log the error and return
                         Log.w(TAG, "Fetching FCM registration token failed", task.getException());
                         return;
                     }
 
-                    // Get new FCM registration token
+                    // Token retrieval was successful, get the token from the task result
                     token = task.getResult();
+
+                    // Log the token for debugging or further processing
+                    Log.d("Token", token);
+
+                    // You can use the token as needed, such as sending it to your server or storing it locally
+                    // Remember to handle token updates and any necessary error handling
                 });
+
 
         /*signUp = findViewById(R.id.manager_login_signUp);*/
         email = findViewById(R.id.manager_login_Email);
@@ -70,6 +78,7 @@ public class Manager_Login extends AppCompatActivity {
                 case "match":
                     updateToken();
                     startActivity(new Intent(this, Manager_Dashboard.class));
+                    Manager_Dashboard.email = email.getText().toString();
                     finish();
                     break;
             }
@@ -92,9 +101,9 @@ public class Manager_Login extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
             if (response.equals("success")){
-                Toast.makeText(this, "Token Updated", Toast.LENGTH_LONG).show();
+                Log.d("Token", "Token Updated");
             } else if(response.equals("failed")){
-                Toast.makeText(this, "Token Update Failed", Toast.LENGTH_LONG).show();
+                Log.d("Token", "Token Update Failed");
             }
         },
                 Throwable::printStackTrace)

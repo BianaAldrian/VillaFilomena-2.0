@@ -25,9 +25,10 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.villafilomena.R;
+import com.example.villafilomena.Adapters.Cottage_Adapter;
 import com.example.villafilomena.Adapters.Room_Adapter;
 import com.example.villafilomena.Models.RoomCottageDetails_Model;
-import com.example.villafilomena.R;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -48,6 +49,10 @@ public class Manager_room_cottage_details extends AppCompatActivity {
     Dialog addRoom_details, addCottage_details;
     //Image for Room details
     ImageView chosenImage;
+    Room_Adapter roomAdapter;
+    Cottage_Adapter cottageAdapter;
+    ArrayList<RoomCottageDetails_Model> room_detailsHolder;
+    ArrayList<RoomCottageDetails_Model> cottage_detailsHolder;
     Uri imageUri;
 
     @SuppressLint("SetTextI18n")
@@ -72,6 +77,7 @@ public class Manager_room_cottage_details extends AppCompatActivity {
         addRoom.setVisibility(View.GONE);
         addCottage.setVisibility(View.GONE);
         displayRoomDetails();
+        displayCottageDetails();
 
         Edit.setOnClickListener(v -> {
             Save.setVisibility(View.VISIBLE);
@@ -79,6 +85,7 @@ public class Manager_room_cottage_details extends AppCompatActivity {
             addRoom.setVisibility(View.VISIBLE);
             addCottage.setVisibility(View.VISIBLE);
 
+            roomAdapter.setNewData(true, room_detailsHolder);
         });
 
         Save.setOnClickListener(v -> {
@@ -86,6 +93,8 @@ public class Manager_room_cottage_details extends AppCompatActivity {
             Edit.setVisibility(View.VISIBLE);
             addRoom.setVisibility(View.GONE);
             addCottage.setVisibility(View.GONE);
+
+            roomAdapter.setNewData(false, room_detailsHolder);
         });
 
         addRoom.setOnClickListener(v -> {
@@ -157,7 +166,7 @@ public class Manager_room_cottage_details extends AppCompatActivity {
     }
 
     public void displayRoomDetails(){
-        ArrayList<RoomCottageDetails_Model> detailsHolder = new ArrayList<>();
+        room_detailsHolder = new ArrayList<>();
         String url = "http://"+ipAddress+"/VillaFilomena/manager_dir/retrieve/manager_getRoomDetails.php";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
@@ -174,20 +183,49 @@ public class Manager_room_cottage_details extends AppCompatActivity {
                             object.getString("roomRate"),
                             object.getString("roomDescription"));
 
-                    detailsHolder.add(model);
+                    room_detailsHolder.add(model);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            Room_Adapter adapter = new Room_Adapter(this,detailsHolder, false);
+            roomAdapter = new Room_Adapter(this,room_detailsHolder, false);
             LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
             roomDetails_Container.setLayoutManager(layoutManager);
-            roomDetails_Container.setAdapter(adapter);
+            roomDetails_Container.setAdapter(roomAdapter);
         }, error -> Toast.makeText(this, error.getMessage(), Toast.LENGTH_LONG).show());
         requestQueue.add(stringRequest);
     }
 
     public void displayCottageDetails(){
+        cottage_detailsHolder = new ArrayList<>();
+
+        String url = "http://"+ipAddress+"/VillaFilomena/manager_dir/retrieve/manager_getCottageDetails.php";
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
+            try {
+                JSONArray jsonArray = new JSONArray(response);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject object = jsonArray.getJSONObject(i);
+
+                    RoomCottageDetails_Model model = new RoomCottageDetails_Model(
+                            object.getString("id"),
+                            object.getString("imageUrl"),
+                            object.getString("cottageName"),
+                            object.getString("cottageCapacity"),
+                            object.getString("cottageRate"),
+                            object.getString("cottageDescription"));
+
+                    cottage_detailsHolder.add(model);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            cottageAdapter = new Cottage_Adapter(this,room_detailsHolder, false);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+            roomDetails_Container.setLayoutManager(layoutManager);
+            roomDetails_Container.setAdapter(cottageAdapter);
+        }, error -> Toast.makeText(this, error.getMessage(), Toast.LENGTH_LONG).show());
+        requestQueue.add(stringRequest);
 
     }
 
@@ -285,10 +323,10 @@ public class Manager_room_cottage_details extends AppCompatActivity {
                                 protected HashMap<String,String> getParams() {
                                     HashMap<String,String> map = new HashMap<String,String>();
                                     map.put("imageUrl",cottageUrl);
-                                    map.put("roomName",cottageName.getText().toString());
-                                    map.put("roomCapacity",cottageCapacity.getText().toString());
-                                    map.put("roomRate",cottageRate.getText().toString());
-                                    map.put("roomDescription",cottageDescription.getText().toString());
+                                    map.put("cottageName",cottageName.getText().toString());
+                                    map.put("cottageCapacity",cottageCapacity.getText().toString());
+                                    map.put("cottageRate",cottageRate.getText().toString());
+                                    map.put("cottageDescription",cottageDescription.getText().toString());
                                     return map;
                                 }
                             };

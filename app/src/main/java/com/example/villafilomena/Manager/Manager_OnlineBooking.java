@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,9 +21,9 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.villafilomena.R;
 import com.example.villafilomena.Adapters.Manager.Manager_bookingConfirmation_Adapter;
 import com.example.villafilomena.Models.BookingInfo_Model;
-import com.example.villafilomena.R;
 import com.example.villafilomena.subclass.Generate_PDFReceipt;
 import com.example.villafilomena.subclass.MyFirebaseMessagingService;
 
@@ -43,6 +44,8 @@ public class Manager_OnlineBooking extends AppCompatActivity implements Manager_
         }
     };
 
+    ImageView back;
+
     @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,11 @@ public class Manager_OnlineBooking extends AppCompatActivity implements Manager_
         ipAddress = sharedPreferences.getString("IP", "");
 
         bookingList_container = findViewById(R.id.Manager_bookingList_container);
+        back = findViewById(R.id.manager_onlineBooking_back);
+        back.setOnClickListener(v -> {
+
+            finish();
+        });
 
         listBookingRequest();
 

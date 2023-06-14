@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "240515565899",
-    "project_id": "villafilomena-2-0",
-    "storage_bucket": "villafilomena-2-0.appspot.com"
+    "project_number": "152553151932",
+    "project_id": "villa-filomena-2-0-bf1bd",
+    "storage_bucket": "villa-filomena-2-0-bf1bd.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:240515565899:android:f456cf9ea125f89cb700ce",
+        "mobilesdk_app_id": "1:152553151932:android:bdc779fe8c4fddca82dfb9",
         "android_client_info": {
           "package_name": "com.example.villafilomena"
         }
       },
       "oauth_client": [
         {
-          "client_id": "240515565899-dj22jm7f7cuvs88dndt25m2lkekhfb1g.apps.googleusercontent.com",
+          "client_id": "152553151932-nsvc2fue9ca8g5f8fqdeqls66th93242.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.villafilomena",
-            "certificate_hash": "386f9dddfd351562c07a42ba76a7c95ac37a0661"
+            "certificate_hash": "6370fad588cfde532bcc11074381edc78dcdfd19"
           }
         },
         {
-          "client_id": "240515565899-92c9vdm22pafqbmjclbetlnjt7g2pt4q.apps.googleusercontent.com",
+          "client_id": "152553151932-eoor5upcobos3f5te9gl9lvh3b256kh4.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCqk-7ry2cDM_bNWDpnEimNM3ROMbua0bQ"
+          "current_key": "AIzaSyBO5scO0T6pvx0UbkOB4O9hKLXR9d3t0Mo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "240515565899-92c9vdm22pafqbmjclbetlnjt7g2pt4q.apps.googleusercontent.com",
+              "client_id": "152553151932-eoor5upcobos3f5te9gl9lvh3b256kh4.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

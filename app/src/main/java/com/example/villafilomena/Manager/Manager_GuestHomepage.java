@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.webkit.MimeTypeMap;
@@ -26,11 +27,11 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.villafilomena.R;
 import com.example.villafilomena.Adapters.Image_Adapter;
 import com.example.villafilomena.Adapters.Manager.Manager_GuestHomepageViews_Adapter;
 import com.example.villafilomena.Models.Image_Model;
 import com.example.villafilomena.Models.Manager.Manager_GuestHomepageViews_Model;
-import com.example.villafilomena.R;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -51,7 +52,7 @@ import java.util.UUID;
 public class Manager_GuestHomepage extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int PICK_MULTI_IMAGE_REQUEST = 2;
-    public static ImageView edit, save, image_banner;
+    public static ImageView back, edit, save, image_banner;
     TextView introView;
     TextView editBanner, editIntro, editVideo, editImage;
     Dialog edit_banner, edit_Intro, edit_Image, upload_banner;
@@ -84,6 +85,7 @@ public class Manager_GuestHomepage extends AppCompatActivity {
         BannerImageReference = FirebaseStorage.getInstance().getReference("BannerImages");
         ImagesReference = FirebaseStorage.getInstance().getReference("Images");
 
+        back = findViewById(R.id.manager_guestHomepage_back);
         edit = findViewById(R.id.guestHomepage_edit);
         save = findViewById(R.id.guestHomepage_save);
         editBanner = findViewById(R.id.guestHomepage_editBanner);
@@ -106,6 +108,10 @@ public class Manager_GuestHomepage extends AppCompatActivity {
         editIntro.setVisibility(View.GONE);
         editVideo.setVisibility(View.GONE);
         editImage.setVisibility(View.GONE);
+
+        back.setOnClickListener(v -> {
+            finish();
+        });
 
         //function when the edit icon is tap
         edit.setOnClickListener(v -> {
@@ -468,13 +474,14 @@ public class Manager_GuestHomepage extends AppCompatActivity {
 
     private void uploadImageToFirebaseStorage(Image_Model image) {
         String filename = UUID.randomUUID().toString();
-        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-        StorageReference imageRef = storageRef.child("Images/" + filename);
+
+        StorageReference reference = ImagesReference.child(filename);
+
         Uri imageUri = Uri.parse(image.getImage_url());
 
-        imageRef.putFile(imageUri)
+        reference.putFile(imageUri)
                 .addOnSuccessListener(taskSnapshot ->
-                        imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                        reference.getDownloadUrl().addOnSuccessListener(uri -> {
                             downloadUrls.add(uri.toString());
                             uploadedCount++;
 
@@ -489,8 +496,6 @@ public class Manager_GuestHomepage extends AppCompatActivity {
         String url = "http://" + ipAddress + "/VillaFilomena/manager_dir/insert/manager_uploadImage.php";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-
-
         for (String imageUrl : downloadUrls) {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
                 if (response.equals("success")) {
@@ -502,7 +507,9 @@ public class Manager_GuestHomepage extends AppCompatActivity {
                 } else if (response.equals("failed")) {
                     Toast.makeText(getApplicationContext(), "Upload Failed", Toast.LENGTH_SHORT).show();
                 }
-            }, error -> Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show()) {
+            }, error -> {
+                Log.e("insertImages", error.getMessage());
+            }) {
                 @Override
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<>();

@@ -9,8 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.villafilomena.Models.RoomCottageDetails_Model;
 import com.example.villafilomena.R;
+import com.example.villafilomena.Models.RoomCottageDetails_Model;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

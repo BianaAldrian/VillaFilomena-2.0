@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,7 +19,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.villafilomena.R;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
@@ -27,7 +27,7 @@ public class Guest_Login extends AppCompatActivity {
     public static String originateFrom = "";
     String token;
     String ipAddress;
-    TextInputEditText email, password;
+    EditText email, password;
     Button login;
     TextView register;
 
@@ -115,7 +115,7 @@ public class Guest_Login extends AppCompatActivity {
                 Log.d("Token Update", "Token Update Failed");
             }
         },
-                error -> Toast.makeText(this, error.getMessage().toString(), Toast.LENGTH_LONG).show())
+                Throwable::printStackTrace)
         {
             @Override
             protected HashMap<String,String> getParams() {
